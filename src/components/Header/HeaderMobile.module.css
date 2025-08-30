@@ -1,0 +1,215 @@
+/* Header container */
+.headerMobile {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.6);
+  height: 60px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 0 15px;
+}
+
+.logoContainer {
+  width: 120px;
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 100%;
+  height: auto;
+}
+
+/* Search */
+.searchContainer {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.searchBox {
+  width: 90%;
+  max-width: 300px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.searchBox input {
+  width: 100%;
+  padding: 8px 12px 8px 40px;
+  font-size: 12px;
+  border: 1px solid #023047;
+  border-radius: 25px;
+  outline: none;
+  height: 36px;
+  box-sizing: border-box;
+}
+
+.searchButton {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  height: 20px;
+  width: 20px;
+}
+
+.searchIcon {
+  font-size: 18px;
+  color: #002147;
+  pointer-events: none;
+}
+
+/* Suggestions dropdown */
+.suggestionsList {
+  direction: rtl;
+  position: absolute;
+  top: 110%;
+  right: 5%;
+  width: 90%;
+  max-width: 300px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  z-index: 1100;
+}
+
+.suggestionItem {
+  padding: 8px 12px;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+}
+
+.suggestionItem:last-child {
+  border-bottom: none;
+}
+
+.suggestionItem:hover {
+  background: #f7f7f7;
+}
+
+.suggestionTitle {
+  font-size: 14px;
+  color: #333;
+}
+
+.suggestionMeta {
+  font-size: 12px;
+  color: #666;
+  margin-top: 2px;
+}
+
+/* Hamburger */
+.hamburgerContainer {
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hamburgerButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  width: 44px;
+}
+
+.hamburgerButton:hover {
+  transform: scale(1.1);
+}
+
+/* Menu overlay & panel */
+.menuOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(5px);
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 1050;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.menuPanel {
+  width: 60%;
+  max-width: 300px;
+  height: 100%;
+  background: #fff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  animation: slideIn 0.3s ease-out;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  align-self: flex-end;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 10px;
+  transition: transform 0.2s ease;
+}
+
+.closeButton:hover {
+  transform: scale(1.1);
+}
+
+.menuList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+}
+
+.menuItem {
+  padding: 12px 0;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+  font-size: 18px;
+  color: var(--primary-color);
+}
+
+.menuItem:last-child {
+  border-bottom: none;
+}
+
+.menuItem a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Slide-in animation */
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}

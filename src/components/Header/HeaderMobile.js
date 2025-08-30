@@ -1,0 +1,210 @@
+"use client";
+
+import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { IoMenu, IoSearch, IoClose } from "react-icons/io5";
+import axiosInstance from "@/utils/axiosInstance";
+import { toPersianDigits } from "@/utils/faDigits";
+import { formatPrice } from "@/utils/formatPrice";
+import styles from "./HeaderMobile.module.css";
+import Image from "next/image";
+
+export default function HeaderMobile() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+
+  const router = useRouter();
+  const menuRef = useRef(null);
+  const suggestionsRef = useRef(null);
+  const debounceRef = useRef();
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    if (!isMenuOpen) return;
+    const handleClick = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [isMenuOpen]);
+
+  // Close suggestions when clicking outside
+  useEffect(() => {
+    if (!showSuggestions) return;
+    const handleClick = (e) => {
+      if (
+        suggestionsRef.current &&
+        !suggestionsRef.current.contains(e.target)
+      ) {
+        setShowSuggestions(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [showSuggestions]);
+
+  // Debounced search
+  useEffect(() => {
+    if (searchTerm.trim().length < 3) {
+      setSuggestions([]);
+      setShowSuggestions(false);
+      return;
+    }
+
+    clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(async () => {
+      try {
+        const { data } = await axiosInstance.get(
+          `/api/store/products/?title=${encodeURIComponent(searchTerm)}`
+        );
+        const items = data.results || data;
+        setSuggestions(items.slice(0, 8));
+        setShowSuggestions(true);
+      } catch {
+        setSuggestions([]);
+        setShowSuggestions(false);
+      }
+    }, 300);
+
+    return () => clearTimeout(debounceRef.current);
+  }, [searchTerm]);
+
+  // Handlers
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    const q = searchTerm.trim();
+    if (q) {
+      router.push(`/shop?search=${encodeURIComponent(q)}`);
+      setShowSuggestions(false);
+    }
+  };
+
+  const handleSuggestionClick = (prod) => {
+    router.push(`/product/${prod.url_title}-${prod.id}`);
+    setShowSuggestions(false);
+  };
+
+  return (
+    <header className={styles.headerMobile}>
+      {/* Logo */}
+      <Link href="/" className={styles.logoContainer}>
+        <Image
+          src="/logo.png"
+          alt="کیمیاترنج"
+          className={styles.logo}
+          width={120} // ✅ required in next/image
+          height={40} // adjust to your actual logo ratio
+          priority // optional: preload for faster LCP
+        />
+      </Link>
+
+      {/* Search box */}
+      <form
+        className={styles.searchContainer}
+        onSubmit={handleSearchSubmit}
+        ref={suggestionsRef}
+      >
+        <div className={styles.searchBox} dir="rtl">
+          <input
+            type="text"
+            placeholder="در کیمیاترنج جستجو کنید ..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onFocus={() => {
+              if (suggestions.length) setShowSuggestions(true);
+            }}
+          />
+          <button type="submit" className={styles.searchButton}>
+            <IoSearch className={styles.searchIcon} />
+          </button>
+        </div>
+
+        {showSuggestions && suggestions.length > 0 && (
+          <ul className={styles.suggestionsList}>
+            {suggestions.map((prod) => (
+              <li
+                key={prod.id}
+                className={styles.suggestionItem}
+                onClick={() => handleSuggestionClick(prod)}
+              >
+                <div className={styles.suggestionTitle}>{prod.title}</div>
+                <div className={styles.suggestionMeta}>
+                  {prod.collection?.title} •{" "}
+                  {formatPrice(prod.variants?.[0]?.price)} تومان
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </form>
+
+      {/* Hamburger toggle */}
+      {!isMenuOpen && (
+        <div className={styles.hamburgerContainer}>
+          <button
+            className={styles.hamburgerButton}
+            onClick={() => setIsMenuOpen(true)}
+            aria-label="Navigation menu"
+          >
+            <IoMenu size={44} color="#002147" />
+          </button>
+        </div>
+      )}
+
+      {/* Sliding menu panel */}
+      {isMenuOpen && (
+        <div className={styles.menuOverlay}>
+          <div className={styles.menuPanel} ref={menuRef}>
+            <button
+              className={styles.closeButton}
+              onClick={() => setIsMenuOpen(false)}
+              aria-label="Close menu"
+            >
+              <IoClose size={28} color="#023047" />
+            </button>
+            <ul className={styles.menuList}>
+              <li className={styles.menuItem}>
+                <Link href="/" onClick={() => setIsMenuOpen(false)}>
+                  صفحه اصلی
+                </Link>
+              </li>
+              <li className={styles.menuItem}>
+                <Link href="/about" onClick={() => setIsMenuOpen(false)}>
+                  درباره ما
+                </Link>
+              </li>
+              <li className={styles.menuItem}>
+                <Link href="/agent" onClick={() => setIsMenuOpen(false)}>
+                  اخذ نمایندگی
+                </Link>
+              </li>
+              <li className={styles.menuItem}>
+                <Link href="/blog" onClick={() => setIsMenuOpen(false)}>
+                  مقالات
+                </Link>
+              </li>
+              <li className={styles.menuItem}>
+                <Link
+                  href="/gift-selector"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  کادو چی بخرم؟
+                </Link>
+              </li>
+              <li className={styles.menuItem}>
+                <Link href="/faq" onClick={() => setIsMenuOpen(false)}>
+                  سوالات متداول
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+      )}
+    </header>
+  );
+}

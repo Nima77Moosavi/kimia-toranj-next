@@ -1,0 +1,58 @@
+:root {
+  --pattern-width: 28.5%; /* 365 / 1280 ≈ 0.285 */
+}
+
+.bannerWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1280 / 284; /* Locks banner height to width */
+}
+
+.patternContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--pattern-width);
+  height: 100%; /* exactly matches banner height */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.sliderWindow {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.trackContainer {
+  width: 100%;
+  height: 100%;
+}
+
+.track {
+  display: flex;
+  height: 100%;
+  will-change: transform;
+}
+
+.slide {
+  min-width: 100%;
+  height: 100%;
+}
+
+.slideImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Optional nav styling omitted for brevity */
+@media (max-width:768px) {
+  .bannerWrapper {
+    margin-top: 60px;
+  }
+}
