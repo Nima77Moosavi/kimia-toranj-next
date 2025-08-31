@@ -1,3 +1,4 @@
+// src/components/Collections/CollectionCard.jsx
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./CollectionCard.module.css";
@@ -12,10 +13,10 @@ export default function CollectionCard({ collection }) {
       <div className={styles.card}>
         <div className={styles.imageContainer}>
           <Image
-            src={collection.image || "/placeholder.jpg"} // put placeholder.jpg in /public
+            src={collection.image || "/placeholder.jpg"}
             alt={collection.title}
             className={styles.image}
-            width={300} // adjust to your design
+            width={300}
             height={200}
             loading="lazy"
           />
