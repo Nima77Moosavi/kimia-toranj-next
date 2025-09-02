@@ -1,0 +1,108 @@
+/* Container as a card */
+.seo-content {
+  direction: rtl;
+  background: #fff;
+  border-radius: 16px;
+  padding: 2.5rem;
+  margin-top: 2.5rem;
+  box-shadow:
+    0 2px 4px rgba(0,0,0,0.05),
+    0 8px 24px rgba(0,0,0,0.08);
+  border: 1px solid rgba(0,0,0,0.06);
+  line-height: 1.9;
+  color: #2c2c2c;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.seo-content:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 4px 8px rgba(0,0,0,0.06),
+    0 12px 28px rgba(0,0,0,0.12);
+}
+
+/* Main title */
+.seo-title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  color: #1a1a1a;
+  border-bottom: 3px solid var(--primary-color);
+  display: inline-block;
+  padding-bottom: 0.3rem;
+}
+
+/* Section headings */
+.seo-heading {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 0.8rem;
+  color: #444;
+  position: relative;
+  padding-right: 0.6rem;
+}
+
+.seo-heading::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 70%;
+  background-color: var(--primary-color);
+  border-radius: 2px;
+}
+
+/* Subheadings */
+.seo-subheading {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-top: 1.2rem;
+  margin-bottom: 0.4rem;
+  color: #555;
+}
+
+/* Paragraphs */
+.seo-paragraph {
+  margin-bottom: 1rem;
+  color: #333;
+  font-size: 1rem;
+}
+
+/* Lists */
+.seo-list,
+.seo-list-ordered {
+  padding-right: 1.5rem;
+  margin-bottom: 1.2rem;
+}
+
+.seo-list li,
+.seo-list-ordered li {
+  margin-bottom: 0.5rem;
+  padding-right: 0.3rem;
+}
+
+.seo-list li::marker,
+.seo-list-ordered li::marker {
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+/* Ordered list numbers */
+.seo-list-ordered {
+  list-style-type: decimal;
+}
+
+/* Links inside content */
+.seo-content a {
+  color: var(--primary-color);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: all 0.2s ease;
+}
+
+.seo-content a:hover {
+  border-bottom-color: var(--primary-color);
+}

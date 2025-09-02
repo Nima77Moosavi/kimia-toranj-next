@@ -1,35 +1,29 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import DOMPurify from "dompurify";
-import styles from "./ProductDetails.module.css";
-import "./ProductDetailSeo.css";
 
-import Bestsellers from "@/components/Bestsellers/Bestsellers";
-import MoonLoader from "react-spinners/MoonLoader";
+import styles from "./ProductDetails.module.css";
+import "./ProductDetailsSeo.css";
 
 import axiosInstanceNoRedirect from "@/utils/axiosInstanceNoRedirect";
-import axios from "axios";
-import { API_URL } from "@/config";
+import { API_URL } from "@/config/config";
 
-import ImageSlider from "./ImageSlider/ImageSlider";
-import ProductTabs from "./ProductTabs/ProductTabs";
-import ProductRating from "./ProductRating/ProductRating";
-import PriceBox from "./PriceBox/PriceBox";
-import IconsBox from "./IconsBox/IconsBox";
-import ReviewForm from "./ReviewForm/ReviewForm";
-import { useCartStore } from "@/cartStore";
-import SimilarProducts from "@/components/SimilarProducts/SimilarProducts";
+import ImageSlider from "@/components/ProductDetails/ImageSlider/ImageSlider";
+import ProductTabs from "@/components/ProductDetails/ProductTabs/ProductTabs";
+import ProductRating from "@/components/ProductDetails/ProductRating/ProductRating";
+import PriceBox from "@/components/ProductDetails/PriceBox/PriceBox";
+import IconsBox from "@/components/ProductDetails/IconsBox/IconsBox";
+import ReviewForm from "@/components/ProductDetails/ReviewForm/ReviewForm";
+import SimilarProducts from "@/components/ProductDetails/SimilarProducts/SimilarProducts";
+import { useCartStore } from "@/store/cartStore";
 import { useRouter } from "next/navigation";
 
 export default function ProductDetailsClient({ initialProduct }) {
   const router = useRouter();
 
-  const [product, setProduct] = useState(initialProduct);
+  const product = initialProduct; // no setProduct needed
   const [likedItems, setLikedItems] = useState([]);
   const [like, setLike] = useState(false);
-
-  const [loading, setLoading] = useState(false); // no initial loading, SSR gave us data
   const [error, setError] = useState(null);
   const [showAllReviews, setShowAllReviews] = useState(false);
   const [activeTab, setActiveTab] = useState("specs");
@@ -49,7 +43,9 @@ export default function ProductDetailsClient({ initialProduct }) {
   // Set like state
   useEffect(() => {
     const variantId = product.variants?.[0]?.id;
-    setLike(Boolean(likedItems.find((li) => li.product_variant.id === variantId)));
+    setLike(
+      Boolean(likedItems.find((li) => li.product_variant.id === variantId))
+    );
   }, [likedItems, product.variants]);
 
   const handleAddToCart = async () => {
@@ -69,7 +65,9 @@ export default function ProductDetailsClient({ initialProduct }) {
     } catch (err) {
       if (err?.response?.status === 401) {
         router.push(
-          `/login?next=${encodeURIComponent(window.location.pathname + window.location.search)}`
+          `/login?next=${encodeURIComponent(
+            window.location.pathname + window.location.search
+          )}`
         );
         return;
       }
@@ -110,30 +108,6 @@ export default function ProductDetailsClient({ initialProduct }) {
 
   const variant = product.variants?.[0] || {};
 
-  // Sanitize admin HTML content (if you still want to render it here for client updates)
-  const sanitizedHtml = product.seo?.content_html
-    ? DOMPurify.sanitize(product.seo.content_html, {
-        USE_PROFILES: { html: true },
-        ALLOWED_ATTR: [
-          "class",
-          "dir",
-          "lang",
-          "href",
-          "target",
-          "rel",
-          "title",
-          "id",
-        ],
-      })
-    : "";
-
-  if (loading) {
-    return (
-      <div className={styles.loaderContainer}>
-        <MoonLoader color="#023047" />
-      </div>
-    );
-  }
   if (error) {
     return <div className={styles.errorContainer}>خطا: {error}</div>;
   }
@@ -178,16 +152,6 @@ export default function ProductDetailsClient({ initialProduct }) {
         <ProductRating rating={product.average_rating || 0} />
         <ReviewForm productId={id} />
         <SimilarProducts productId={id} />
-
-        {/* Optional: render sanitizedHtml here if you want it to update client-side */}
-        {sanitizedHtml && (
-          <div className={styles.richContentWrapper}>
-            <div
-              className={styles.richContent}
-              dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
-            />
-          </div>
-        )}
       </div>
     </div>
   );

@@ -1,0 +1,164 @@
+.priceContainer {
+  background-color: white;
+  width: 95%;
+  border-radius: 20px;
+  margin: 10px auto;
+  padding: 1rem;
+  text-align: center;
+  direction: rtl;
+  max-width: 500px;
+}
+
+.priceContainer p {
+  color: #023047;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 8px 0;
+  font-size: clamp(14px, 3.5vw, 16px);
+  gap: 6px;
+}
+
+.icon {
+  color: #023047;
+  font-size: clamp(1rem, 3.5vw, 1.2rem);
+  margin: 0 5px;
+}
+
+.inventory {
+  border-radius: 10px;
+  color: #fff !important;
+  background-color: rgb(220, 38, 38);
+}
+
+.inventory .icon {
+  color: #fff;
+}
+
+/* Price wrapper for promotions */
+.priceWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.oldPrice {
+  text-decoration: line-through;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.discountBadge {
+  background-color: #e53935;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+}
+
+/* price label */
+.price {
+  width: auto;
+  background-color: #ffffff;
+  color: #023047;
+  border: 0.5px solid rgb(109, 224, 240);
+  padding: 0.5rem 1.5rem;
+  font-size: clamp(18px, 4.5vw, 22px);
+  border-radius: 10px;
+  margin: 10px 0;
+  cursor: default;
+}
+
+/* add to cart button */
+.addToCart {
+  background-color: #ffd700;
+  color: #023047;
+  border: none;
+  padding: 1rem 1.5rem;
+  font-size: clamp(16px, 4.5vw, 20px);
+  font-weight: 500;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin: 10px 0;
+  min-width: 150px;
+}
+
+.addToCart:hover {
+  background-color: #023047;
+  color: #ffd700;
+}
+
+/* تماس بگیرید button */
+.callButton {
+  background-color: #40e0d0;
+  color: #fff;
+  border: none;
+  padding: 1rem 1.5rem;
+  font-size: clamp(16px, 4.5vw, 20px);
+  font-weight: 500;
+  border-radius: 10px;
+  cursor: not-allowed;
+  margin: 10px 0;
+  min-width: 150px;
+  transition: opacity 0.3s;
+}
+
+.callButton a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.callButton:disabled {
+  opacity: 0.6;
+}
+
+/* اقساطی پرداخت کنید button */
+.installmentPayment {
+  width: 100%;
+  margin-top: 12px;
+  background: #e0f7fa;
+  border: none;
+  border-radius: 8px;
+  padding: 0;
+  transition: background 0.2s;
+}
+
+.installmentPayment:hover {
+  background: #b2ebf2;
+}
+
+/* تماس با ما یا گزینه های دیگر */
+.contactOption {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background-color: #2852e4;
+  font-size: 18px;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 12px 0;
+  width: 100%;
+  border-radius: 10px;
+}
+
+.installmentPaymentIcon {
+  margin-right: 8px;
+  font-size: 22px;
+  vertical-align: middle;
+}
+
+/* Mobile tweaks */
+@media (max-width: 480px) {
+  .priceContainer {
+    padding: 0.8rem;
+  }
+  .price,
+  .addToCart,
+  .callButton {
+    padding: 0.7rem 1.2rem;
+  }
+}

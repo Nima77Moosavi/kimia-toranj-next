@@ -1,6 +1,7 @@
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import ProductDetailsClient from "./ProductDetailsClient";
+import "./ProductDetailsSeo.css";
 
 const API_URL = "https://api.kimiatoranj.com/";
 
