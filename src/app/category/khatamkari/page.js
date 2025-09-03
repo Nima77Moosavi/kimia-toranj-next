@@ -1,51 +1,39 @@
-import { API_URL } from "@/config/config";
-import next from "next";
+import Header from "@/components/Header/Header";
+import Footer from "@/components/Footer/Footer";
+import CategoryClient from "@/components/CategoryClient/CategoryClient";
+import styles from "./Khatamkari.module.css";
 
-export default async function BrassSamovarPage() {
-  const collectionRes = await fetch(`${API_URL}api/store/collection/7`, {
-    next: { revalidate: 300 },
-  });
-  const collection = collectionRes.ok ? await collectionRes.ok : {};
+const API_URL = "https://api.kimiatoranj.com/";
 
-  const productRes = await fetch(
-    `${API_URL}api/store/products/?collection=سماور برنجی&page=1`,
+export const metadata = {
+  title: "خاتم کاری | خرید محصولات خاتم کاری اصفهان",
+  description:
+    "مجموعه‌ای فاخر از محصولات خاتم کاری اصفهان شامل جعبه، میز، قاب و هدایای نفیس. خرید مستقیم از فروشگاه صنایع دستی کیمیا ترنج.",
+};
+
+export default async function KhatamkariPage() {
+  const productsRes = await fetch(
+    `${API_URL}api/store/products/?collection=خاتم کاری&page=1`,
     { next: { revalidate: 60 } }
   );
-  const productsData = productRes.ok
-    ? await productRes.json()
-    : { results: [] };
+
+  const productsData = productsRes.ok
+    ? await productsRes.json()
+    : { results: [], next: null };
 
   return (
     <>
       <Header />
-      <QalamzaniClient
-        initialCollection={collection}
-        initialProducts={productsData.results}
-        initialHasMore={!!productsData.next}
-      />
-    </>
-    <div className={styles.pageContent}>
-        <section className={styles.heroSection}>
-          <div className={styles.heroContent}>
-            <h2 className={styles.heroTitle}>
-              اصالت هنر فلزکاری اصفهان در نقش و طرحی ماندگار
-            </h2>
-            <p className={styles.heroSubtitle}>
-              قلمزنی یکی از اصیل ترین شاخه های هنر فلزکاری ایران است که با حکاکی
-              طرح های اسلیمی، گل و مرغ یا نقوش هندسی روی فلز، اثری ماندگار و
-              هنرمندانه خلق می کند. محصولات قلمزنی کیمیا ترنج، نه فقط یک وسیله
-              کاربردی، بلکه بخشی از فرهنگ و هنر ایرانی اند که حضورشان، فضایی
-              باشکوه و اصیل به خانه و محل کار شما می بخشد.
-            </p>
-          </div>
-          <div className={styles.heroImage}>
-            <img
-              src={collection.image || "/images/handmade-samovar-brass.jpg"}
-              alt={collection.title || "خاتم کاری"}
-              className={styles.heroImg}
-            />
-          </div>
-        </section>
 
+      <div className={styles.pageContainer}>
+        <CategoryClient
+          categoryName="خاتم کاری"
+          initialProducts={productsData.results}
+          initialHasMore={!!productsData.next}
+        />
+      </div>
+
+      <Footer />
+    </>
   );
 }
