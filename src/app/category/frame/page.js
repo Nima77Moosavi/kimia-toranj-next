@@ -1,51 +1,39 @@
-import { API_URL } from "@/config/config";
-import next from "next";
+import Header from "@/components/Header/Header";
+import Footer from "@/components/Footer/Footer";
+import CategoryClient from "@/components/CategoryClient/CategoryClient";
+import styles from "./Frame.module.css";
 
-export default async function BrassSamovarPage() {
-  const collectionRes = await fetch(`${API_URL}api/store/collection/7`, {
-    next: { revalidate: 300 },
-  });
-  const collection = collectionRes.ok ? await collectionRes.ok : {};
+const API_URL = "https://api.kimiatoranj.com/";
 
-  const productRes = await fetch(
-    `${API_URL}api/store/products/?collection=سماور برنجی&page=1`,
+export const metadata = {
+  title: "قاب | خرید قاب‌های تزئینی و هنری",
+  description:
+    "مجموعه‌ای از قاب‌های تزئینی و هنری، مناسب برای دکوراسیون منزل و محل کار. خرید مستقیم از فروشگاه صنایع دستی کیمیا ترنج.",
+};
+
+export default async function FramePage() {
+  const productsRes = await fetch(
+    `${API_URL}api/store/products/?collection=قاب&page=1`,
     { next: { revalidate: 60 } }
   );
-  const productsData = productRes.ok
-    ? await productRes.json()
-    : { results: [] };
+
+  const productsData = productsRes.ok
+    ? await productsRes.json()
+    : { results: [], next: null };
 
   return (
     <>
       <Header />
-      <QalamzaniClient
-        initialCollection={collection}
-        initialProducts={productsData.results}
-        initialHasMore={!!productsData.next}
-      />
-    </>
-    <div className={styles.pageContent}>
-        <section className={styles.heroSection}>
-          <div className={styles.heroContent}>
-            <h2 className={styles.heroTitle}>
-              اصالت هنر فلزکاری اصفهان در نقش و طرحی ماندگار
-            </h2>
-            <p className={styles.heroSubtitle}>
-              قلمزنی یکی از اصیل ترین شاخه های هنر فلزکاری ایران است که با حکاکی
-              طرح های اسلیمی، گل و مرغ یا نقوش هندسی روی فلز، اثری ماندگار و
-              هنرمندانه خلق می کند. محصولات قلمزنی کیمیا ترنج، نه فقط یک وسیله
-              کاربردی، بلکه بخشی از فرهنگ و هنر ایرانی اند که حضورشان، فضایی
-              باشکوه و اصیل به خانه و محل کار شما می بخشد.
-            </p>
-          </div>
-          <div className={styles.heroImage}>
-            <img
-              src={collection.image || "/images/handmade-samovar-brass.jpg"}
-              alt={collection.title || "خاتم کاری"}
-              className={styles.heroImg}
-            />
-          </div>
-        </section>
 
+      <div className={styles.pageContainer}>
+        <CategoryClient
+          categoryName="قاب"
+          initialProducts={productsData.results}
+          initialHasMore={!!productsData.next}
+        />
+      </div>
+
+      <Footer />
+    </>
   );
 }
