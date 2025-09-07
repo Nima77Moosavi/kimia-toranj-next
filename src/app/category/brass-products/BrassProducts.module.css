@@ -3,16 +3,20 @@
   text-align: right;
   background-color: var(--bg-color);
   color: var(--text-color);
-  padding: 1rem;
+  padding: 2rem 1rem;
+  line-height: 1.7;
 }
 
-/* ===== Hero Section ===== */
+/* Hero */
 .heroSection {
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
-  margin: 2rem 0 3rem;
+  margin: 3rem 0;
   align-items: center;
+  background: linear-gradient(135deg, var(--primary-color-light), transparent);
+  border-radius: 12px;
+  padding: 2rem;
 }
 
 .heroContent {
@@ -20,18 +24,15 @@
 }
 
 .heroTitle {
-  font-size: 2rem;
-  font-weight: bold;
+  font-size: 2.4rem;
+  font-weight: 800;
   margin-bottom: 1rem;
-  line-height: 1.4;
   color: var(--primary-color);
 }
 
-.heroIntro {
-  font-size: 1rem;
-  line-height: 1.8;
-  white-space: pre-line; /* preserve line breaks from template literal */
-  color: var(--text-color);
+.heroDesc {
+  font-size: 1.1rem;
+  opacity: 0.9;
 }
 
 .heroImage {
@@ -40,106 +41,100 @@
   justify-content: center;
 }
 
-.heroImg {
+.heroImage img {
   max-width: 100%;
-  height: auto;
-  border-radius: 8px;
-  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease;
 }
 
-/* ===== Sections ===== */
-.section {
-  margin-bottom: 3rem;
-  padding-bottom: 2rem;
-  border-bottom: 1px solid #eee;
+.heroImage img:hover {
+  transform: scale(1.03);
 }
 
+/* Sections */
 .sectionTitle {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-top: 3rem;
+  margin-bottom: 0.75rem;
   color: var(--primary-color);
+  position: relative;
 }
 
-.sectionIntro {
-  font-size: 1rem;
-  line-height: 1.8;
+.sectionTitle::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  right: 0;
+  width: 50px;
+  height: 3px;
+  background-color: var(--secondary-color);
+  border-radius: 2px;
+}
+
+.sectionDesc {
   margin-bottom: 1.5rem;
-  color: var(--text-color);
+  opacity: 0.85;
 }
 
-/* ===== Item Lists ===== */
+/* Items */
 .itemList {
-  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
   padding: 0;
   margin: 0;
 }
 
-.item {
-  margin-bottom: 1rem;
-  padding-right: 1.2rem; /* RTL adjustment */
-  position: relative;
+.itemList li {
+  list-style: none;
+  background: var(--card-bg, #fff);
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.item::before {
-  content: "•";
-  position: absolute;
-  right: 0; /* RTL bullet position */
-  color: var(--secondary-color); /* gold bullet */
-  font-size: 1.2rem;
-  line-height: 1;
+.itemList li:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
 .itemTitle {
-  font-size: 1.1rem;
-  font-weight: bold;
-  margin-bottom: 0.3rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
   color: var(--primary-color);
 }
 
-/* ===== FAQ Styles ===== */
+/* FAQ */
 .faqList {
-  margin-top: 1rem;
+  margin-top: 1.5rem;
 }
 
-.faqItem {
+.faqList li {
+  background: var(--card-bg, #fff);
+  border-radius: 8px;
+  padding: 1rem;
   margin-bottom: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
-.faqQuestion {
-  font-weight: bold;
-  padding: 0.8rem 1rem;
-  background-color: var(--primary-color-light);
-  color: var(--primary-color);
-  cursor: pointer;
-}
-
-.faqAnswer {
-  padding: 0.8rem 1rem;
-  background-color: var(--bg-color);
-  line-height: 1.6;
-  color: var(--text-color);
-}
-
-/* ===== Responsive ===== */
+/* Responsive */
 @media (max-width: 768px) {
   .heroSection {
     flex-direction: column;
+    padding: 1.5rem;
   }
-
   .heroContent,
   .heroImage {
     flex: 1 1 100%;
   }
-
   .heroTitle {
-    font-size: 1.6rem;
+    font-size: 2rem;
   }
-
-  .sectionTitle {
-    font-size: 1.3rem;
+  .itemList {
+    grid-template-columns: 1fr;
   }
 }
