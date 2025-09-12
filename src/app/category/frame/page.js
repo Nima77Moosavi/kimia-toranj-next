@@ -180,10 +180,9 @@ export default async function FramePage() {
     ? await productsRes.json()
     : { results: [], next: null };
 
-  return <></>;
-}
-
-`<Header />
+  return (
+    <>
+      <Header />
 
       <div className={styles.pageContainer}>
         <h1>محصولات قاب خاتم کیمیا ترنج</h1>
@@ -295,4 +294,7 @@ export default async function FramePage() {
         )}
       </div>
 
-      <Footer />`;
+      <Footer />
+    </>
+  );
+}
