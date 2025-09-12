@@ -40,6 +40,7 @@ export default function ProductCard({ product }) {
           loading="lazy"
           width={200}
           height={190}
+          unoptimized // ✅ bypass Next.js optimizer to avoid timeouts/null
         />
 
         <h2 className={styles.title}>{toPersianDigits(product.title)}</h2>
