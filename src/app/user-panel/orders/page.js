@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import styles from "./UserOrders.module.css";
 import axiosInstance from "@/utils/axiosInstance";
 
+import Image from "next/image";
+
 const statusMap = {
   pending: "در انتظار",
   processing: "در حال پردازش",
@@ -50,7 +52,9 @@ export default function UserOrdersPage() {
                 <div>
                   <strong>سفارش #{order.order_id || order.id}</strong>
                   <span
-                    className={`${styles.status} ${styles[`status-${order.status}`]}`}
+                    className={`${styles.status} ${
+                      styles[`status-${order.status}`]
+                    }`}
                   >
                     {statusMap[order.status] || order.status}
                   </span>
@@ -60,9 +64,7 @@ export default function UserOrdersPage() {
                     تاریخ:{" "}
                     {new Date(order.created_at).toLocaleDateString("fa-IR")}
                   </span>
-                  <span>
-                    مجموع: {order.total?.toLocaleString()} تومان
-                  </span>
+                  <span>مجموع: {order.total?.toLocaleString()} تومان</span>
                 </div>
               </div>
 
@@ -82,7 +84,7 @@ export default function UserOrdersPage() {
                         order.items.map((item) => (
                           <li key={item.id} className={styles.productItem}>
                             {item.product_variant?.product?.image && (
-                              <img
+                              <Image
                                 src={item.product_variant.product.image}
                                 alt={item.product_variant?.product?.title}
                                 className={styles.productThumb}

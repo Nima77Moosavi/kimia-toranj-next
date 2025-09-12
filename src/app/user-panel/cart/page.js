@@ -7,6 +7,7 @@ import { API_URL } from "@/config/config";
 import styles from "./ShoppingCart.module.css";
 import { MdDeleteOutline } from "react-icons/md";
 import { FiPlus, FiMinus } from "react-icons/fi";
+import Image from "next/image";
 
 export default function ShoppingCartPage() {
   const [cartData, setCartData] = useState(null);
@@ -159,7 +160,7 @@ export default function ShoppingCartPage() {
                             {discountPercent}٪ تخفیف
                           </span>
                         )}
-                        <img
+                        <Image
                           src={imageUrl}
                           alt={
                             item.product_variant?.product?.title ||
