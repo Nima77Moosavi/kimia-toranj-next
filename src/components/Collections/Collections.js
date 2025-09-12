@@ -44,6 +44,7 @@ export default async function Collections() {
                 width={400}
                 height={300}
                 loading="lazy"
+                unoptimized
               />
               <div className={styles.overlay}>
                 <div className={styles.description}>

@@ -19,6 +19,7 @@ export default function HighlightCard({ highlight }) {
               width={300} // adjust to your design
               height={200}
               loading="lazy"
+              unoptimized
             />
           </div>
         </div>
