@@ -84,7 +84,7 @@ export default function UserOrdersPage() {
                         order.items.map((item) => (
                           <li key={item.id} className={styles.productItem}>
                             {item.product_variant?.product?.image && (
-                              <Image
+                              <img
                                 src={item.product_variant.product.image}
                                 alt={item.product_variant?.product?.title}
                                 className={styles.productThumb}

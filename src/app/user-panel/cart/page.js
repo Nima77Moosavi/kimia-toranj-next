@@ -160,7 +160,7 @@ export default function ShoppingCartPage() {
                             {discountPercent}٪ تخفیف
                           </span>
                         )}
-                        <Image
+                        <img
                           src={imageUrl}
                           alt={
                             item.product_variant?.product?.title ||

@@ -33,11 +33,7 @@ export default async function QalamzaniPage() {
   return (
     <>
       <Header />
-      <QalamzaniClient
-        initialCollection={collection}
-        initialProducts={productsData.results}
-        initialHasMore={!!productsData.next}
-      />
+      
       {/* Hero Section */}
       <div className={styles.pageContent}>
         <section className={styles.heroSection}>

@@ -19,7 +19,7 @@ export default function Home() {
         {/* Hero / Banner */}
         <BannerSlider />
 
-        <Highlights />
+        {/* <Highlights /> */}
 
         <Collections />
 
