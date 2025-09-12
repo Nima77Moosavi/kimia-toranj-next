@@ -21,6 +21,7 @@ export default async function QalamzaniPage() {
   const collection = collectionRes.ok ? await collectionRes.json() : {};
 
   // Fetch first page of products
+  
   const productsRes = await fetch(
     `${API_URL}api/store/products/?collection=قلمزنی&page=1`,
     { next: { revalidate: 60 } }
