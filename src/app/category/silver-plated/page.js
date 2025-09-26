@@ -6,9 +6,9 @@ import styles from "./SilverPlated.module.css";
 const API_URL = "https://api.kimiatoranj.com/";
 
 export const metadata = {
-  title: "شبه نقره | خرید ظروف و محصولات شبه نقره",
+  title: "محصولات شبه نقره قلمزنی اصفهان | شیرینی خوری، شکلات خوری، گلدان و کشکول | کیمیا ترنج",
   description:
-    "مجموعه‌ای از ظروف و محصولات شبه نقره شیک و باکیفیت، مناسب برای پذیرایی و دکوراسیون. خرید مستقیم از فروشگاه صنایع دستی کیمیا ترنج.",
+    "کلکسیونی از محصولات شبه نقره قلمزنی اصفهان، شامل شیرینی خوری، کشکول، گلدان و ظروف تزئینی وکاربردی. مناسب هدیه، جهیزیه و دکوراسیون اصیل. خرید مستقیم از فروشگاه کیمیا ترنج.",
 };
 
 export default async function SilverPlatedPage() {
@@ -26,7 +26,7 @@ export default async function SilverPlatedPage() {
       <Header />
 
       <div className={styles.pageContainer}>
-        <h1>محصولات شبه نقره قلمزنی اصفهان | شیرینی‌خوری، شکلات‌خوری، گلدان و کشکول</h1>
+        <h1 className={styles.title}>محصولات شبه نقره قلمزنی کیمیاترنج</h1>
         <CategoryClient
           categoryName="شبه نقره"
           initialProducts={productsData.results}
