@@ -1,6 +1,6 @@
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
-import QalamzaniClient from "./QalamzaniClient";
+import CategoryClient from "@/components/CategoryClient/CategoryClient";
 
 import styles from "./Qalamzani.module.css";
 
@@ -21,7 +21,7 @@ export default async function QalamzaniPage() {
   const collection = collectionRes.ok ? await collectionRes.json() : {};
 
   // Fetch first page of products
-  
+
   const productsRes = await fetch(
     `${API_URL}api/store/products/?collection=قلمزنی&page=1`,
     { next: { revalidate: 60 } }
@@ -33,33 +33,42 @@ export default async function QalamzaniPage() {
   return (
     <>
       <Header />
-      
-      {/* Hero Section */}
-      <div className={styles.pageContent}>
-        <section className={styles.heroSection}>
-          <div className={styles.heroContent}>
-            <h2 className={styles.heroTitle}>
-              اصالت هنر فلزکاری اصفهان در نقش و طرحی ماندگار
-            </h2>
-            <p className={styles.heroSubtitle}>
-              قلمزنی یکی از اصیل ترین شاخه های هنر فلزکاری ایران است که با حکاکی
-              طرح های اسلیمی، گل و مرغ یا نقوش هندسی روی فلز، اثری ماندگار و
-              هنرمندانه خلق می کند. محصولات قلمزنی کیمیا ترنج، نه فقط یک وسیله
-              کاربردی، بلکه بخشی از فرهنگ و هنر ایرانی اند که حضورشان، فضایی
-              باشکوه و اصیل به خانه و محل کار شما می بخشد.
-            </p>
-          </div>
-          <div className={styles.heroImage}>
-            <img
-              src={collection.image || "/images/handmade-samovar-brass.jpg"}
-              alt={collection.title || "خاتم کاری"}
-              className={styles.heroImg}
-            />
-          </div>
-        </section>
 
-        {/* Introduction Section */}
-        {/* <section className={styles.introSection}>
+      <div className={styles.pageContainer}>
+        {/* Product Grid */}
+        <h1>محصولات قلمزنی</h1>
+        <CategoryClient
+          categoryName="قلمزنی"
+          initialProducts={productsData.results}
+          initialHasMore={!!productsData.next}
+        />
+
+        {/* Hero Section */}
+        <div className={styles.pageContent}>
+          <section className={styles.heroSection}>
+            <div className={styles.heroContent}>
+              <h2 className={styles.heroTitle}>
+                اصالت هنر فلزکاری اصفهان در نقش و طرحی ماندگار
+              </h2>
+              <p className={styles.heroSubtitle}>
+                قلمزنی یکی از اصیل ترین شاخه های هنر فلزکاری ایران است که با
+                حکاکی طرح های اسلیمی، گل و مرغ یا نقوش هندسی روی فلز، اثری
+                ماندگار و هنرمندانه خلق می کند. محصولات قلمزنی کیمیا ترنج، نه
+                فقط یک وسیله کاربردی، بلکه بخشی از فرهنگ و هنر ایرانی اند که
+                حضورشان، فضایی باشکوه و اصیل به خانه و محل کار شما می بخشد.
+              </p>
+            </div>
+            <div className={styles.heroImage}>
+              <img
+                src={collection.image || "/images/handmade-samovar-brass.jpg"}
+                alt={collection.title || "خاتم کاری"}
+                className={styles.heroImg}
+              />
+            </div>
+          </section>
+
+          {/* Introduction Section */}
+          {/* <section className={styles.introSection}>
         <div className={styles.container}>
           <div className={styles.introContent}>
             <p>
@@ -78,296 +87,298 @@ export default async function QalamzaniPage() {
         </div>
       </section> */}
 
-        {/* Product Types Section */}
-        <section className={styles.productTypesSection}>
-          <div className={styles.container}>
-            <h2 className={styles.sectionTitle}>
-              تنوع محصولات قلمزنی در کیمیا ترنج
-            </h2>
-            {/* <p className={styles.sectionSubtitle}>
+          {/* Product Types Section */}
+          <section className={styles.productTypesSection}>
+            <div className={styles.container}>
+              <h2 className={styles.sectionTitle}>
+                تنوع محصولات قلمزنی در کیمیا ترنج
+              </h2>
+              {/* <p className={styles.sectionSubtitle}>
             ما در فروشگاه کیمیا ترنج تنوع کاملی از محصولات خاتمکاری را با سلیقه
             های مختلف آماده کردهایم:
           </p> */}
 
-            <div className={styles.productTypesGrid}>
-              <div className={styles.productTypeCard}>
-                {/* <div className={styles.productTypeIcon}>
+              <div className={styles.productTypesGrid}>
+                <div className={styles.productTypeCard}>
+                  {/* <div className={styles.productTypeIcon}>
                 <span className={styles.iconText}>سنتی</span>
               </div> */}
-                <h3>گلدان گل و مرغ</h3>
-                <p>
-                  با نقش های ظریف گل و پرنده، مناسب برای دکوراسیون ایرانی اصیل
-                  یا تلفیق با فضای مدرن.
-                </p>
-              </div>
+                  <h3>گلدان گل و مرغ</h3>
+                  <p>
+                    با نقش های ظریف گل و پرنده، مناسب برای دکوراسیون ایرانی اصیل
+                    یا تلفیق با فضای مدرن.
+                  </p>
+                </div>
 
-              <div className={styles.productTypeCard}>
-                {/* <div className={styles.productTypeIcon}>
+                <div className={styles.productTypeCard}>
+                  {/* <div className={styles.productTypeIcon}>
                 <span className={styles.iconText}>برقی</span>
               </div> */}
-                <h3>گلدان قلمزنی</h3>
-                <p>
-                  مدل های بدون نقش گل و مرغ، با نقوش اسلیمی یا هندسی که جلوه ای
-                  رسمی و سنگین دارند.
-                </p>
-              </div>
+                  <h3>گلدان قلمزنی</h3>
+                  <p>
+                    مدل های بدون نقش گل و مرغ، با نقوش اسلیمی یا هندسی که جلوه
+                    ای رسمی و سنگین دارند.
+                  </p>
+                </div>
 
-              <div className={styles.productTypeCard}>
-                {/* <div className={styles.productTypeIcon}>
+                <div className={styles.productTypeCard}>
+                  {/* <div className={styles.productTypeIcon}>
                 <span className={styles.iconText}>قلمزنی</span>
               </div> */}
-                <h3>شکلات خوری موشکی</h3>
-                <p>
-                  فرمی کشیده با درب گنبدی، مناسب برای پذیرایی رسمی و هدیه های
-                  لوکس.
-                </p>
-              </div>
+                  <h3>شکلات خوری موشکی</h3>
+                  <p>
+                    فرمی کشیده با درب گنبدی، مناسب برای پذیرایی رسمی و هدیه های
+                    لوکس.
+                  </p>
+                </div>
 
-              <div className={styles.productTypeCard}>
-                {/* <div className={styles.productTypeIcon}>
+                <div className={styles.productTypeCard}>
+                  {/* <div className={styles.productTypeIcon}>
                 <span className={styles.iconText}>ست کامل</span>
               </div> */}
-                <h3>شکلات خوری دو پایه</h3>
-                <p>
-                  پایه های ظریف قلمزنی شده که علاوه بر ثبات، به ظرف جلوه ای خاص
-                  می بخشند.
-                </p>
-              </div>
-              <div className={styles.productTypeCard}>
-                {/* <div className={styles.productTypeIcon}>
+                  <h3>شکلات خوری دو پایه</h3>
+                  <p>
+                    پایه های ظریف قلمزنی شده که علاوه بر ثبات، به ظرف جلوه ای
+                    خاص می بخشند.
+                  </p>
+                </div>
+                <div className={styles.productTypeCard}>
+                  {/* <div className={styles.productTypeIcon}>
                 <span className={styles.iconText}>ست کامل</span>
               </div> */}
-                <h3>شکلات خوری تک پایه</h3>
-                <p>مدلی کلاسیک و پرطرفدار برای میز مهمانی یا ویترین</p>
-              </div>
-              <div className={styles.productTypeCard}>
-                {/* <div className={styles.productTypeIcon}>
+                  <h3>شکلات خوری تک پایه</h3>
+                  <p>مدلی کلاسیک و پرطرفدار برای میز مهمانی یا ویترین</p>
+                </div>
+                <div className={styles.productTypeCard}>
+                  {/* <div className={styles.productTypeIcon}>
                 <span className={styles.iconText}>ست کامل</span>
               </div> */}
-                <h3>شکلات خوری سیبی</h3>
-                <p>
-                  با طراحی فانتزی شبیه سیب، مناسب برای فضاهای صمیمی تر یا هدیه
-                  های خاص.
-                </p>
-              </div>
-              <div className={styles.productTypeCard}>
-                {/* <div className={styles.productTypeIcon}>
+                  <h3>شکلات خوری سیبی</h3>
+                  <p>
+                    با طراحی فانتزی شبیه سیب، مناسب برای فضاهای صمیمی تر یا هدیه
+                    های خاص.
+                  </p>
+                </div>
+                <div className={styles.productTypeCard}>
+                  {/* <div className={styles.productTypeIcon}>
                 <span className={styles.iconText}>ست کامل</span>
               </div> */}
-                <h3>چایدان قلمزنی</h3>
-                <p>
-                  برای نگهداری چای به شکلی هنری، مناسب ست های کامل پذیرایی سنتی.{" "}
-                </p>
-              </div>
-              <div className={styles.productTypeCard}>
-                {/* <div className={styles.productTypeIcon}>
+                  <h3>چایدان قلمزنی</h3>
+                  <p>
+                    برای نگهداری چای به شکلی هنری، مناسب ست های کامل پذیرایی
+                    سنتی.{" "}
+                  </p>
+                </div>
+                <div className={styles.productTypeCard}>
+                  {/* <div className={styles.productTypeIcon}>
                 <span className={styles.iconText}>ست کامل</span>
               </div> */}
-                <h3>تنگ قلمزنی</h3>
-                <p>
-                  از فرم های کشیده تا شکمی، برخی با کاربری گلدان نیز قابل
-                  استفاده اند
-                </p>
-              </div>
-              <div className={styles.productTypeCard}>
-                {/* <div className={styles.productTypeIcon}>
+                  <h3>تنگ قلمزنی</h3>
+                  <p>
+                    از فرم های کشیده تا شکمی، برخی با کاربری گلدان نیز قابل
+                    استفاده اند
+                  </p>
+                </div>
+                <div className={styles.productTypeCard}>
+                  {/* <div className={styles.productTypeIcon}>
                 <span className={styles.iconText}>ست کامل</span>
               </div> */}
-                <h3>مجمع قلمزنی</h3>
-                <p>
-                  ظرفی بزرگ برای سرو یا نمایش شیرینی، آجیل یا حتی استفاده صرفاً
-                  تزئینی.
-                </p>
-              </div>
-              <div className={styles.productTypeCard}>
-                {/* <div className={styles.productTypeIcon}>
+                  <h3>مجمع قلمزنی</h3>
+                  <p>
+                    ظرفی بزرگ برای سرو یا نمایش شیرینی، آجیل یا حتی استفاده
+                    صرفاً تزئینی.
+                  </p>
+                </div>
+                <div className={styles.productTypeCard}>
+                  {/* <div className={styles.productTypeIcon}>
                 <span className={styles.iconText}>ست کامل</span>
               </div> */}
-                <h3>گزخوری خاص</h3>
-                <p>
-                  به خصوص برای پذیرایی با گز یا شیرینی های سنتی طراحی شده است
-                </p>
-              </div>
-              <div className={styles.productTypeCard}>
-                {/* <div className={styles.productTypeIcon}>
+                  <h3>گزخوری خاص</h3>
+                  <p>
+                    به خصوص برای پذیرایی با گز یا شیرینی های سنتی طراحی شده است
+                  </p>
+                </div>
+                <div className={styles.productTypeCard}>
+                  {/* <div className={styles.productTypeIcon}>
                 <span className={styles.iconText}>ست کامل</span>
               </div> */}
-                <h3>کاسه و بشقاب لاله ای</h3>
-                <p>
-                  ست دو تکه مناسب سرو میوه، دسر یا استفاده به عنوان قطعه نمایشی
-                  در ویترین.
-                </p>
+                  <h3>کاسه و بشقاب لاله ای</h3>
+                  <p>
+                    ست دو تکه مناسب سرو میوه، دسر یا استفاده به عنوان قطعه
+                    نمایشی در ویترین.
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* Features Section */}
-        <section className={styles.featuresSection}>
-          <div className={styles.container}>
-            <h2 className={styles.sectionTitle}>
-              چرا محصولات قلمزنی کیمیا ترنج ارزش خرید دارند؟
-            </h2>
-            {/* <p className={styles.sectionSubtitle}>
+          {/* Features Section */}
+          <section className={styles.featuresSection}>
+            <div className={styles.container}>
+              <h2 className={styles.sectionTitle}>
+                چرا محصولات قلمزنی کیمیا ترنج ارزش خرید دارند؟
+              </h2>
+              {/* <p className={styles.sectionSubtitle}>
             انتخاب آینه و شمعدان صنایع دستی، فقط یک خرید تزئینی نیست؛ بلکه تجلی
             احترام به هنر ایرانی و زیبایی ماندگار است. ویژگیهای این محصوالت:
           </p> */}
 
-            <div className={styles.featuresGrid}>
-              <div className={styles.featureItem}>
-                {/* <div className={styles.featureIcon}>
+              <div className={styles.featuresGrid}>
+                <div className={styles.featureItem}>
+                  {/* <div className={styles.featureIcon}>
                 <span className={styles.iconText}>کیفیت</span>
               </div> */}
-                {/* <h3>ظرافت بی نظیر :</h3> */}
-                <p>ساخت دست هنرمندان اصفهانی با سال ها تجربه و مهارت.</p>
-              </div>
+                  {/* <h3>ظرافت بی نظیر :</h3> */}
+                  <p>ساخت دست هنرمندان اصفهانی با سال ها تجربه و مهارت.</p>
+                </div>
 
-              <div className={styles.featureItem}>
-                {/* <div className={styles.featureIcon}>
+                <div className={styles.featureItem}>
+                  {/* <div className={styles.featureIcon}>
                 <span className={styles.iconText}>گرما</span>
               </div> */}
-                {/* <h3>هنر دست :</h3> */}
-                <p>تنوع بالا در فرم و کاربرد برای دکوراسیون یا پذیرایی. </p>
-              </div>
+                  {/* <h3>هنر دست :</h3> */}
+                  <p>تنوع بالا در فرم و کاربرد برای دکوراسیون یا پذیرایی. </p>
+                </div>
 
-              <div className={styles.featureItem}>
-                {/* <div className={styles.featureIcon}>
+                <div className={styles.featureItem}>
+                  {/* <div className={styles.featureIcon}>
                 <span className={styles.iconText}>دوام</span>
               </div> */}
-                {/* <h3>دوام بالا :</h3> */}
-                <p>دوام رنگ و نقش در اثر کیفیت بالای فلز و حکاکی.</p>
-              </div>
+                  {/* <h3>دوام بالا :</h3> */}
+                  <p>دوام رنگ و نقش در اثر کیفیت بالای فلز و حکاکی.</p>
+                </div>
 
-              <div className={styles.featureItem}>
-                {/* <div className={styles.featureIcon}>
+                <div className={styles.featureItem}>
+                  {/* <div className={styles.featureIcon}>
                 <span className={styles.iconText}>کاربرد</span>
               </div> */}
-                {/* <h3>نماد فرهنگ ایرانی :</h3> */}
-                <p>مناسب برای هدیه های رسمی و یادگاری های ماندگار .</p>
-              </div>
-              <div className={styles.featureItem}>
-                {/* <div className={styles.featureIcon}>
+                  {/* <h3>نماد فرهنگ ایرانی :</h3> */}
+                  <p>مناسب برای هدیه های رسمی و یادگاری های ماندگار .</p>
+                </div>
+                <div className={styles.featureItem}>
+                  {/* <div className={styles.featureIcon}>
                 <span className={styles.iconText}>کاربرد</span>
               </div> */}
-                {/* <h3>نماد فرهنگ ایرانی :</h3> */}
-                <p>امکان تهیه ست کامل برای هماهنگی بیشتر در پذیرایی.</p>
+                  {/* <h3>نماد فرهنگ ایرانی :</h3> */}
+                  <p>امکان تهیه ست کامل برای هماهنگی بیشتر در پذیرایی.</p>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* Decoration Section */}
-        <section className={styles.decorationSection}>
-          <div className={styles.container}>
-            <h2 className={styles.sectionTitle}>
-              کاربرد محصولات قلمزنی در خانه و مراسم رسمی
-            </h2>
-            <div className={styles.decorationContent}>
-              <p>ایجاد جلوه ای فاخر در میز پذیرایی و ویترین</p>
-              <p>هدیه ای ارزشمند برای مراسم ازدواج، سالگرد یا افتتاحیه.</p>
-              <p>
-                استفاده به عنوان نقطه کانونی در فضاهای رسمی مانند هتل و تالار.
+          {/* Decoration Section */}
+          <section className={styles.decorationSection}>
+            <div className={styles.container}>
+              <h2 className={styles.sectionTitle}>
+                کاربرد محصولات قلمزنی در خانه و مراسم رسمی
+              </h2>
+              <div className={styles.decorationContent}>
+                <p>ایجاد جلوه ای فاخر در میز پذیرایی و ویترین</p>
+                <p>هدیه ای ارزشمند برای مراسم ازدواج، سالگرد یا افتتاحیه.</p>
+                <p>
+                  استفاده به عنوان نقطه کانونی در فضاهای رسمی مانند هتل و تالار.
+                </p>
+                <p>القای حس سنتی و اصیل در چیدمان های کالسیک.</p>
+              </div>
+            </div>
+          </section>
+
+          {/* Buying Guide Section */}
+          <section className={styles.buyingGuideSection}>
+            <div className={styles.container}>
+              <h2 className={styles.sectionTitle}>
+                راهنمای خرید محصولات قلمزنی – انتخاب آگاهانه
+              </h2>
+              <p className={styles.sectionSubtitle}>
+                برای خریدی مطمئن و آگاهانه، به نکات زیر توجه داشته باشید:
               </p>
-              <p>القای حس سنتی و اصیل در چیدمان های کالسیک.</p>
-            </div>
-          </div>
-        </section>
 
-        {/* Buying Guide Section */}
-        <section className={styles.buyingGuideSection}>
-          <div className={styles.container}>
-            <h2 className={styles.sectionTitle}>
-              راهنمای خرید محصولات قلمزنی – انتخاب آگاهانه
-            </h2>
-            <p className={styles.sectionSubtitle}>
-              برای خریدی مطمئن و آگاهانه، به نکات زیر توجه داشته باشید:
-            </p>
+              <div className={styles.buyingGuideGrid}>
+                <div className={styles.guideItem}>
+                  <h3>کاربری محصول را تعیین کنید</h3>
+                  <p>
+                    اگر برای پذیرایی می خرید، شکلاتخوری، مجمع یا گزخوری انتخاب
+                    کنید.
+                  </p>
+                  <p>برای تزئین، گلدان یا تنگ جلوه بیشتری ایجاد می کند.</p>
+                </div>
 
-            <div className={styles.buyingGuideGrid}>
-              <div className={styles.guideItem}>
-                <h3>کاربری محصول را تعیین کنید</h3>
-                <p>
-                  اگر برای پذیرایی می خرید، شکلاتخوری، مجمع یا گزخوری انتخاب
-                  کنید.
-                </p>
-                <p>برای تزئین، گلدان یا تنگ جلوه بیشتری ایجاد می کند.</p>
-              </div>
+                <div className={styles.guideItem}>
+                  <h3> طرح و نقش را با دکور هماهنگ کنید</h3>
+                  <p> نقش گل و مرغ: گرم و صمیمی.</p>
+                  <p> اسلیمی و هندسی: رسمی و سنگین.</p>
+                </div>
 
-              <div className={styles.guideItem}>
-                <h3> طرح و نقش را با دکور هماهنگ کنید</h3>
-                <p> نقش گل و مرغ: گرم و صمیمی.</p>
-                <p> اسلیمی و هندسی: رسمی و سنگین.</p>
-              </div>
+                <div className={styles.guideItem}>
+                  <h3> به جزییات قلمزنی دقت کنید</h3>
+                  <p>
+                    هرچه عمق و ظرافت کار بیشتر باشد، ارزش و ماندگاری آن بالاتر
+                    است.
+                  </p>
+                </div>
 
-              <div className={styles.guideItem}>
-                <h3> به جزییات قلمزنی دقت کنید</h3>
-                <p>
-                  هرچه عمق و ظرافت کار بیشتر باشد، ارزش و ماندگاری آن بالاتر
-                  است.
-                </p>
-              </div>
-
-              <div className={styles.guideItem}>
-                <h3> ابعاد مناسب را انتخاب کنید</h3>
-                <p>
-                  فضای ویترین، میز یا کنسول خود را پیش از خرید در نظر بگیرید.
-                </p>
-              </div>
-              <div className={styles.guideItem}>
-                <h3>به کیفیت فلز توجه کنید</h3>
-                <p>
-                  فلز مرغوب نه تنها نقش را بهتر نمایش می دهد، بلکه در برابر ضربه
-                  یا تغییر رنگ مقاوم تر است.
-                </p>
-              </div>
-              <div className={styles.guideItem}>
-                <h3>هماهنگی با سایر ظروف</h3>
-                <p>
-                  اگر ست کامل ندارید، بهتر است طرح و رنگ محصول جدید با سایر
-                  لوازم پذیرایی و دکور هماهنگ باشد.
-                </p>
+                <div className={styles.guideItem}>
+                  <h3> ابعاد مناسب را انتخاب کنید</h3>
+                  <p>
+                    فضای ویترین، میز یا کنسول خود را پیش از خرید در نظر بگیرید.
+                  </p>
+                </div>
+                <div className={styles.guideItem}>
+                  <h3>به کیفیت فلز توجه کنید</h3>
+                  <p>
+                    فلز مرغوب نه تنها نقش را بهتر نمایش می دهد، بلکه در برابر
+                    ضربه یا تغییر رنگ مقاوم تر است.
+                  </p>
+                </div>
+                <div className={styles.guideItem}>
+                  <h3>هماهنگی با سایر ظروف</h3>
+                  <p>
+                    اگر ست کامل ندارید، بهتر است طرح و رنگ محصول جدید با سایر
+                    لوازم پذیرایی و دکور هماهنگ باشد.
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* FAQ Section */}
-        <section className={styles.faqSection}>
-          <div className={styles.container}>
-            <h2 className={styles.sectionTitle}>
-              سواالت متداول درباره محصولات قلمزنی
-            </h2>
+          {/* FAQ Section */}
+          <section className={styles.faqSection}>
+            <div className={styles.container}>
+              <h2 className={styles.sectionTitle}>
+                سواالت متداول درباره محصولات قلمزنی
+              </h2>
 
-            <div className={styles.faqList}>
-              <div className={styles.faqItem}>
-                <h3>آیا محصولات قلمزنی سنگین هستند؟</h3>
-                <p>
-                  بله، وزن معمولا به دلیل استفاده از فلز ضخیم تر و باکیفیت بیشتر
-                  است که هم ماندگاری بیشتر دارد و هم ثبات ظرف را افزایش می دهد.
-                </p>
-              </div>
+              <div className={styles.faqList}>
+                <div className={styles.faqItem}>
+                  <h3>آیا محصولات قلمزنی سنگین هستند؟</h3>
+                  <p>
+                    بله، وزن معمولا به دلیل استفاده از فلز ضخیم تر و باکیفیت
+                    بیشتر است که هم ماندگاری بیشتر دارد و هم ثبات ظرف را افزایش
+                    می دهد.
+                  </p>
+                </div>
 
-              <div className={styles.faqItem}>
-                <h3>چطور باید محصولات قلمزنی را تمیز کرد؟</h3>
-                <p>
-                  بهتر است از یک پارچه نرم و خشک استفاده کنید. در صورت نیاز به
-                  شست وشو، از آب ولرم و مواد غیرساینده کمک بگیرید.
-                </p>
-              </div>
+                <div className={styles.faqItem}>
+                  <h3>چطور باید محصولات قلمزنی را تمیز کرد؟</h3>
+                  <p>
+                    بهتر است از یک پارچه نرم و خشک استفاده کنید. در صورت نیاز به
+                    شست وشو، از آب ولرم و مواد غیرساینده کمک بگیرید.
+                  </p>
+                </div>
 
-              <div className={styles.faqItem}>
-                <h3>آیا این محصولات قابل استفاده روزمره هستند؟</h3>
-                <p>
-                  بله، ولی برای افزایش طول عمر و حفظ زیبایی، توصیه می شود بیشتر
-                  در پذیرایی های خاص یا به عنوان دکور استفاده شوند.
-                </p>
+                <div className={styles.faqItem}>
+                  <h3>آیا این محصولات قابل استفاده روزمره هستند؟</h3>
+                  <p>
+                    بله، ولی برای افزایش طول عمر و حفظ زیبایی، توصیه می شود
+                    بیشتر در پذیرایی های خاص یا به عنوان دکور استفاده شوند.
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* CTA Section */}
-        {/* <section className={styles.ctaSection}>
+          {/* CTA Section */}
+          {/* <section className={styles.ctaSection}>
         <div className={styles.container}>
           <div className={styles.ctaContent}>
             <h2>آماده خرید سماور برنجی هستید؟</h2>
@@ -381,6 +392,7 @@ export default async function QalamzaniPage() {
           </div>
         </div>
       </section> */}
+        </div>
         <Footer />
       </div>
     </>

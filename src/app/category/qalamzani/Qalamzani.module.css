@@ -1,5 +1,9 @@
 /* BrassSamovar.module.css */
 
+.pageContainer{
+  direction: rtl;
+}
+
 .pageContent {
   direction: rtl;
   line-height: 1.6;
