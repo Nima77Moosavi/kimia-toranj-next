@@ -9,6 +9,13 @@ import SpecialProducts from "@/components/SpecialProducts/SpecialProducts";
 import FeaturesLine from "@/components/FeaturesLine/FeaturesLine";
 import Footer from "@/components/Footer/Footer";
 
+export const metadata = {
+  title: "فروشگاه کیمیا ترنج | صنایع دستی اصفهان ",
+  description:
+    "خرید صنایع دستی اصیل اصفهان و ایران؛ خاتم‌کاری، قلم‌زنی، مینیاتور، سماور برنجی، پک هدیه سازمانی و محصولات دست‌ساز با کیفیت.",
+};
+
+
 export default function Home() {
   return (
     <div className={styles.page}>
