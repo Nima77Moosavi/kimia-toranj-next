@@ -1,10 +1,9 @@
-// app/sitemap.ts
-import type { MetadataRoute } from "next";
+// app/sitemap.js
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+export default async function sitemap() {
   const baseUrl = "https://kimiatoranj.com";
 
-  // 1️⃣ Fetch all products from your API
+  // 1️⃣ Fetch products from your API
   const res = await fetch(
     "https://api.kimiatoranj.com/api/store/products/?page_size=1000",
     { next: { revalidate: 3600 } } // revalidate every hour
@@ -17,16 +16,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ? data.results
     : [];
 
-  // 2️⃣ Map them to product URLs
-  const productRoutes: MetadataRoute.Sitemap = products.map((p: any) => ({
+  // 2️⃣ Map product URLs
+  const productRoutes = products.map((p) => ({
     url: `${baseUrl}/product/${p.url_title}-${p.id}`,
     lastModified: new Date(),
     changeFrequency: "daily",
     priority: 0.7,
   }));
 
-  // 3️⃣ Add static + blog routes
-  const staticRoutes: MetadataRoute.Sitemap = [
+  // 3️⃣ Add static routes
+  const staticRoutes = [
     "/login",
     "/installment-payment",
     "/faq",
