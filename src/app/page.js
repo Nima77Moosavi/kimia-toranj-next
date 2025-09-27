@@ -8,6 +8,8 @@ import SpecialOffer from "@/components/SpecialOffer/SpecialOffer";
 import SpecialProducts from "@/components/SpecialProducts/SpecialProducts";
 import FeaturesLine from "@/components/FeaturesLine/FeaturesLine";
 import Footer from "@/components/Footer/Footer";
+import FooterMenu from "@/components/FooterMenu/FooterMenu";
+import ContactButton from "@/components/ContactButton/ContactButton";
 
 export const metadata = {
   title: "فروشگاه کیمیا ترنج | صنایع دستی اصفهان ",
@@ -40,6 +42,8 @@ export default function Home() {
         <FeaturesLine />
 
         <Footer />
+        <FooterMenu />
+        <ContactButton />
       </main>
 
       <footer className={styles.footer}>
