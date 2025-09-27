@@ -15,7 +15,6 @@ export const metadata = {
     "خرید صنایع دستی اصیل اصفهان و ایران؛ خاتم‌کاری، قلم‌زنی، مینیاتور، سماور برنجی، پک هدیه سازمانی و محصولات دست‌ساز با کیفیت.",
 };
 
-
 export default function Home() {
   return (
     <div className={styles.page}>
@@ -25,6 +24,7 @@ export default function Home() {
       <main className={styles.main}>
         {/* Hero / Banner */}
         <BannerSlider />
+        <h1 className={styles.hidden}>صنایع دستی کیمیاترنج</h1>
 
         <Highlights />
 
@@ -40,8 +40,6 @@ export default function Home() {
         <FeaturesLine />
 
         <Footer />
-
-        {/* You can add more sections here: Highlights, Collections, etc. */}
       </main>
 
       <footer className={styles.footer}>

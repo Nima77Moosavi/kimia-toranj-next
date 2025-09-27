@@ -23,7 +23,7 @@ export default function HighlightCard({ highlight }) {
             />
           </div>
         </div>
-        <h3 className={styles.title}>{highlight.title}</h3>
+        <h2 className={styles.title}>{highlight.title}</h2>
       </div>
     </Link>
   );

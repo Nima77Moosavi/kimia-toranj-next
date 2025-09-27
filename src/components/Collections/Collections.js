@@ -47,9 +47,9 @@ export default async function Collections() {
                 unoptimized
               />
               <div className={styles.overlay}>
-                <div className={styles.description}>
+                <h3 className={styles.description}>
                   {collection.description || collection.title}
-                </div>
+                </h3>
               </div>
             </Link>
           );
