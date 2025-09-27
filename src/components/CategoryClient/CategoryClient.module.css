@@ -64,7 +64,7 @@
 /* Small mobile: 2 columns */
 @media (max-width: 480px) {
   .productGrid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 0.5rem;
   }
 }
