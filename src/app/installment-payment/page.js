@@ -1,7 +1,3 @@
-"use client";
-
-import React from "react";
-import { useSearchParams } from "next/navigation";
 import { FaWhatsapp } from "react-icons/fa";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
@@ -18,7 +14,6 @@ const getInstallmentMonths = (price) => {
   return null;
 };
 
-// 🔹 Extract table into its own component for reuse
 const InstallmentTable = () => (
   <div className={styles.tableWrapper}>
     <table className={styles.table}>
@@ -30,44 +25,19 @@ const InstallmentTable = () => (
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>۵,۰۰۰,۰۰۰ تا ۱۰,۰۰۰,۰۰۰</td>
-          <td>۱ ماه</td>
-          <td>۳۰٪</td>
-        </tr>
-        <tr>
-          <td>۱۰,۰۰۰,۰۰۰ تا ۲۰,۰۰۰,۰۰۰</td>
-          <td>۲ ماه</td>
-          <td>۳۰٪</td>
-        </tr>
-        <tr>
-          <td>۲۰,۰۰۰,۰۰۰ تا ۳۰,۰۰۰,۰۰۰</td>
-          <td>۳ ماه</td>
-          <td>۳۰٪</td>
-        </tr>
-        <tr>
-          <td>۳۰,۰۰۰,۰۰۰ تا ۴۰,۰۰۰,۰۰۰</td>
-          <td>۴ ماه</td>
-          <td>۳۰٪</td>
-        </tr>
-        <tr>
-          <td>۴۰,۰۰۰,۰۰۰ تا ۵۰,۰۰۰,۰۰۰</td>
-          <td>۵ ماه</td>
-          <td>۳۰٪</td>
-        </tr>
-        <tr>
-          <td>۵۰,۰۰۰,۰۰۰ و مبالغ بیشتر</td>
-          <td>۶ ماه</td>
-          <td>۳۰٪</td>
-        </tr>
+        <tr><td>۵,۰۰۰,۰۰۰ تا ۱۰,۰۰۰,۰۰۰</td><td>۱ ماه</td><td>۳۰٪</td></tr>
+        <tr><td>۱۰,۰۰۰,۰۰۰ تا ۲۰,۰۰۰,۰۰۰</td><td>۲ ماه</td><td>۳۰٪</td></tr>
+        <tr><td>۲۰,۰۰۰,۰۰۰ تا ۳۰,۰۰۰,۰۰۰</td><td>۳ ماه</td><td>۳۰٪</td></tr>
+        <tr><td>۳۰,۰۰۰,۰۰۰ تا ۴۰,۰۰۰,۰۰۰</td><td>۴ ماه</td><td>۳۰٪</td></tr>
+        <tr><td>۴۰,۰۰۰,۰۰۰ تا ۵۰,۰۰۰,۰۰۰</td><td>۵ ماه</td><td>۳۰٪</td></tr>
+        <tr><td>۵۰,۰۰۰,۰۰۰ و مبالغ بیشتر</td><td>۶ ماه</td><td>۳۰٪</td></tr>
       </tbody>
     </table>
   </div>
 );
 
-export default function InstallmentPayment() {
-  const searchParams = useSearchParams();
-  const price = Number(searchParams.get("price")) || 0;
+export default function InstallmentPayment({ searchParams }) {
+  const price = Number(searchParams.price) || 0;
 
   const months = getInstallmentMonths(price);
   const upfront = Math.round(price * 0.3);
@@ -160,7 +130,6 @@ export default function InstallmentPayment() {
           </>
         )}
 
-        {/* 🔹 Always show the table at the bottom */}
         <InstallmentTable />
       </div>
       <Footer />
