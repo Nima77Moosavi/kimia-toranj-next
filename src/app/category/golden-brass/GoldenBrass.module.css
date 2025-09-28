@@ -66,6 +66,9 @@
 }
 
 @media (max-width: 768px) {
+  .pageContainer {
+    margin-top: 60px;
+  }
   .seoSection {
     padding: 15px;
     font-size: 0.95rem;
