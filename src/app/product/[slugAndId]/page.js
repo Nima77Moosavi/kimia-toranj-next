@@ -6,7 +6,9 @@ import "./ProductDetailsSeo.css";
 const API_URL = "https://api.kimiatoranj.com/";
 
 export async function generateMetadata({ params }) {
-  const id = params.slugAndId.substring(params.slugAndId.lastIndexOf("-") + 1);
+  const { slugAndId } = await params; // ✅ await here
+  const id = slugAndId.substring(slugAndId.lastIndexOf("-") + 1);
+
   const res = await fetch(`${API_URL}api/store/products/${id}/`, {
     next: { revalidate: 60 },
   });
@@ -20,7 +22,9 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function ProductPage({ params }) {
-  const id = params.slugAndId.substring(params.slugAndId.lastIndexOf("-") + 1);
+  const { slugAndId } = await params; // ✅ await here
+  const id = slugAndId.substring(slugAndId.lastIndexOf("-") + 1);
+
   const res = await fetch(`${API_URL}api/store/products/${id}/`, {
     next: { revalidate: 60 },
   });
@@ -29,9 +33,7 @@ export default async function ProductPage({ params }) {
   return (
     <>
       <Header />
-      {/* Pass product to client component for interactivity */}
       <ProductDetailsClient initialProduct={product} />
-      {/* Static SEO content rendered server-side */}
       {product.seo?.content_html && (
         <section
           className="seoContent"
