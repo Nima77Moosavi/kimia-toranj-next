@@ -1,44 +1,68 @@
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
-import ProductDetailsClient from "./ProductDetailsClient";
-import "./ProductDetailsSeo.css";
+import ShopClient from "./ShopClient";
 
-const API_URL = "https://api.kimiatoranj.com/";
+const API_BASE = "https://api.kimiatoranj.com/api/store";
 
-export async function generateMetadata({ params }) {
-  const id = params.slugAndId.substring(params.slugAndId.lastIndexOf("-") + 1);
-  const res = await fetch(`${API_URL}api/store/products/${id}/`, {
-    next: { revalidate: 60 },
-  });
-  if (!res.ok) return { title: "محصول", description: "" };
-  const product = await res.json();
+export default async function ShopPage({ searchParams }) {
+  // Convert to a plain object
+  const plainParams = await Promise.resolve(searchParams);
 
-  return {
-    title: product.seo?.meta_title || product.name,
-    description: product.seo?.meta_description || "",
-  };
-}
+  const params = new URLSearchParams();
 
-export default async function ProductPage({ params }) {
-  const id = params.slugAndId.substring(params.slugAndId.lastIndexOf("-") + 1);
-  const res = await fetch(`${API_URL}api/store/products/${id}/`, {
-    next: { revalidate: 60 },
-  });
-  const product = await res.json();
+  // Add existing search params
+  Object.entries(plainParams)
+    .filter(([_, v]) => v != null)
+    .forEach(([k, v]) => {
+      if (Array.isArray(v)) {
+        v.forEach(val => params.append(k, String(val)));
+      } else {
+        params.set(k, String(v));
+      }
+    });
 
-  return (
-    <>
-      <Header />
-      {/* Pass product to client component for interactivity */}
-      <ProductDetailsClient initialProduct={product} />
-      {/* Static SEO content rendered server-side */}
-      {product.seo?.content_html && (
-        <section
-          className="seoContent"
-          dangerouslySetInnerHTML={{ __html: product.seo.content_html }}
+  // Set default sort if not exists
+  if (!params.get("order_by")) {
+    params.set("order_by", "price");
+  }
+
+  try {
+    const [productsRes, collectionsRes] = await Promise.all([
+      fetch(`${API_BASE}/products/?${params.toString()}`, {
+        next: { revalidate: 60 },
+      }),
+      fetch(`${API_BASE}/collections/`, { next: { revalidate: 300 } }),
+    ]);
+
+    const productsData = productsRes.ok
+      ? await productsRes.json()
+      : { results: [], next: null };
+      
+    const collectionsData = collectionsRes.ok ? await collectionsRes.json() : [];
+
+    return (
+      <>
+        <Header />
+        <ShopClient
+          initialProducts={productsData.results}
+          initialCollections={collectionsData}
+          initialHasMore={!!productsData.next}
         />
-      )}
-      <Footer />
-    </>
-  );
+        <Footer />
+      </>
+    );
+  } catch (error) {
+    // Handle fetch errors gracefully
+    return (
+      <>
+        <Header />
+        <ShopClient
+          initialProducts={[]}
+          initialCollections={[]}
+          initialHasMore={false}
+        />
+        <Footer />
+      </>
+    );
+  }
 }
