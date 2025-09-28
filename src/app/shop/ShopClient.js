@@ -7,16 +7,12 @@ import styles from "./Shop.module.css";
 
 const API_BASE = "https://api.kimiatoranj.com/api/store";
 
-export default function ShopClient({ 
-  initialProducts, 
-  initialCollections, 
-  initialHasMore 
-}) {
+export default function ShopClient({ initialProducts, initialCollections, initialHasMore }) {
   const [products, setProducts] = useState(initialProducts);
   const [collections] = useState(initialCollections);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [page, setPage] = useState(2); // Start from page 2 since page 1 is already loaded
+  const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(initialHasMore);
   const [showFilters, setShowFilters] = useState(false);
 
@@ -28,17 +24,9 @@ export default function ShopClient({
     return qs ? `?${qs}&page=${p}` : `?page=${p}`;
   };
 
-  // Reset products when searchParams change (filters/sort)
+  // Fetch products when filters/page change (skip first render)
   useEffect(() => {
-    setProducts(initialProducts);
-    setPage(2);
-    setHasMore(initialHasMore);
-  }, [initialProducts, initialHasMore]);
-
-  // Fetch products when page changes (for infinite scroll)
-  useEffect(() => {
-    if (page === 1) return; // Skip for page 1 since we have initial data
-    
+    if (page === 1 && products.length) return; // already have initial data
     let active = true;
     const abort = new AbortController();
 
@@ -49,7 +37,6 @@ export default function ShopClient({
         const res = await fetch(`${API_BASE}/products/${buildQuery()}`, {
           signal: abort.signal,
         });
-        
         if (!res.ok) {
           if (res.status === 404) {
             if (active) setHasMore(false);
@@ -57,11 +44,9 @@ export default function ShopClient({
           }
           throw new Error("مشکل در دریافت محصولات");
         }
-        
         const data = await res.json();
         if (!active) return;
-        
-        setProducts(prev => [...prev, ...data.results]);
+        setProducts((prev) => (page === 1 ? data.results : [...prev, ...data.results]));
         setHasMore(data.next !== null);
       } catch (err) {
         if (active && err.name !== "AbortError") {
@@ -77,21 +62,19 @@ export default function ShopClient({
       active = false;
       abort.abort();
     };
-  }, [page, searchParams]);
+  }, [searchParams, page]);
 
   const applyFilter = (key, value) => {
     const params = new URLSearchParams(searchParams.toString());
-    
     if (key === "collection" && value === "all") {
       params.delete("collection");
     } else {
       params.set(key, value);
     }
-    
-    // Remove page parameter when filters change
-    params.delete("page");
-    
     router.push(`/shop?${params.toString()}`);
+    setProducts([]);
+    setPage(1);
+    setHasMore(true);
     setShowFilters(false);
   };
 
@@ -106,13 +89,11 @@ export default function ShopClient({
     (node) => {
       if (loading) return;
       if (observer.current) observer.current.disconnect();
-      
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasMore) {
-          setPage(prev => prev + 1);
+          setPage((p) => p + 1);
         }
       });
-      
       if (node) observer.current.observe(node);
     },
     [loading, hasMore]
