@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import ProductCard from "@/components/ProductCard/ProductCard";
+import ProductCardSkeleton from "@/components/ProductCard/ProductCard.Skeleton"; // ✅ create this skeleton
 import styles from "./Shop.module.css";
 
 const API_BASE = "https://api.kimiatoranj.com/api/store";
@@ -19,16 +20,20 @@ export default function ShopClient({ initialProducts, initialCollections, initia
   const searchParams = useSearchParams();
   const router = useRouter();
 
+  // 🔑 Track request key to ignore stale responses
+  const requestKeyRef = useRef(0);
+
   const buildQuery = (p = page) => {
     const qs = searchParams.toString();
     return qs ? `?${qs}&page=${p}` : `?page=${p}`;
   };
 
-  // Fetch products when filters/page change (skip first render)
+  // Fetch products when filters/page change
   useEffect(() => {
-    if (page === 1 && products.length) return; // already have initial data
+    if (page === 1 && products.length) return; // skip initial render
     let active = true;
     const abort = new AbortController();
+    const currentKey = ++requestKeyRef.current;
 
     const load = async () => {
       setLoading(true);
@@ -45,7 +50,7 @@ export default function ShopClient({ initialProducts, initialCollections, initia
           throw new Error("مشکل در دریافت محصولات");
         }
         const data = await res.json();
-        if (!active) return;
+        if (!active || currentKey !== requestKeyRef.current) return; // ✅ ignore stale
         setProducts((prev) => (page === 1 ? data.results : [...prev, ...data.results]));
         setHasMore(data.next !== null);
       } catch (err) {
@@ -53,7 +58,9 @@ export default function ShopClient({ initialProducts, initialCollections, initia
           setError(err.message);
         }
       } finally {
-        if (active) setLoading(false);
+        if (active && currentKey === requestKeyRef.current) {
+          setLoading(false);
+        }
       }
     };
 
@@ -72,10 +79,12 @@ export default function ShopClient({ initialProducts, initialCollections, initia
       params.set(key, value);
     }
     router.push(`/shop?${params.toString()}`);
+    // reset state
     setProducts([]);
     setPage(1);
     setHasMore(true);
     setShowFilters(false);
+    requestKeyRef.current++; // ✅ bump key to cancel old responses
   };
 
   const filterByCollection = (title) => applyFilter("collection", title);
@@ -141,20 +150,27 @@ export default function ShopClient({ initialProducts, initialCollections, initia
       {/* Main */}
       <div className={styles.container}>
         <div className={styles.productContainer}>
-          {products.map((product, i) => {
-            const isLast = i === products.length - 1;
-            return (
-              <div
-                key={product.id}
-                ref={isLast ? lastRef : null}
-                className={styles.productWrapper}
-              >
-                <ProductCard product={product} />
-              </div>
-            );
-          })}
+          {/* ✅ Skeletons when loading first page */}
+          {loading && page === 1 && products.length === 0
+            ? Array.from({ length: 12 }).map((_, i) => (
+                <div key={i} className={styles.productWrapper}>
+                  <ProductCardSkeleton />
+                </div>
+              ))
+            : products.map((product, i) => {
+                const isLast = i === products.length - 1;
+                return (
+                  <div
+                    key={product.id}
+                    ref={isLast ? lastRef : null}
+                    className={styles.productWrapper}
+                  >
+                    <ProductCard product={product} />
+                  </div>
+                );
+              })}
 
-          {loading && <div className={styles.loading}>در حال بارگذاری...</div>}
+          {loading && page > 1 && <div className={styles.loading}>در حال بارگذاری...</div>}
           {error && <div className={styles.error}>خطا: {error}</div>}
           {!loading && products.length === 0 && (
             <div className={styles.empty}>هیچ محصولی یافت نشد.</div>

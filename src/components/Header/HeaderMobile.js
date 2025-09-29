@@ -173,11 +173,11 @@ export default function HeaderMobile() {
                   صفحه اصلی
                 </Link>
               </li>
-              <li className={styles.menuItem}>
+              {/* <li className={styles.menuItem}>
                 <Link href="/about" onClick={() => setIsMenuOpen(false)}>
                   درباره ما
                 </Link>
-              </li>
+              </li> */}
               <li className={styles.menuItem}>
                 <Link href="/agent" onClick={() => setIsMenuOpen(false)}>
                   اخذ نمایندگی

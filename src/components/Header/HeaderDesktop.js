@@ -227,11 +227,11 @@ export default function HeaderDesktop() {
                   کادو چی بخرم <GoGift />
                 </li>
               </Link>
-              <Link href="/about">
+              {/* <Link href="/about">
                 <li>
                   درباره ما <BsFileEarmarkPerson />
                 </li>
-              </Link>
+              </Link> */}
               <Link href="/">
                 <li>
                   اخذ نمایندگی <TbDeviceIpadHorizontalStar />

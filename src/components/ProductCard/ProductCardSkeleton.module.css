@@ -1,0 +1,30 @@
+.textLine {
+  width: 100%;        /* ✅ full width instead of 80% */
+  max-width: 90%;     /* optional: keep a little margin */
+  height: 20px;
+  margin-top: 12px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e4e4e4 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.textLineShort {
+  width: 70%;         /* ✅ wider than 50% */
+  height: 20px;
+  margin-top: 8px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e4e4e4 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.price {
+  width: 80%;         /* ✅ wider than 60% */
+  height: 24px;
+  margin-top: 16px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e4e4e4 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}

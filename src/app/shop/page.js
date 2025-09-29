@@ -1,6 +1,7 @@
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import ShopClient from "./ShopClient";
+import FooterMenu from "@/components/FooterMenu/FooterMenu";
 
 const API_BASE = "https://api.kimiatoranj.com/api/store";
 
@@ -41,6 +42,7 @@ export default async function ShopPage({ searchParams }) {
         initialHasMore={!!productsData.next}
       />
       <Footer />
+      <FooterMenu />
     </>
   );
 }
