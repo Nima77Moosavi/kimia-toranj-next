@@ -1,23 +1,24 @@
 .postContainer {
-  max-width: 1080px; /* wider than before */
+  max-width: 1080px;
   margin: 40px auto;
-  /* --- Option A: Keep card look --- */
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
-  padding: 48px 40px;
-
-  /* --- Option B: Remove card look ---
-  background: transparent;
+  background: transparent;   /* no card look */
   border-radius: 0;
   box-shadow: none;
   padding: 0 20px;
-  */
 
   direction: rtl;
   font-family: inherit;
   line-height: 1.8;
   color: #222;
+}
+
+.carouselWrapper {
+  /* max-width: 1080px;
+  margin: 40px auto;
+  padding: 0 20px; */
+  padding: 0 20px;
+  position: relative; /* anchors carousel arrows */
+  direction: rtl;
 }
 
 .postContainer h1,
@@ -26,13 +27,13 @@
 .postContainer h4,
 .postContainer p,
 .postContainer li {
-  color: #222 !important; /* force override to prevent white text */
+  color: #222 !important;
 }
 
 .postContainer h1 {
   font-size: 2.4rem;
   font-weight: 700;
-  color: var(--primary-color) !important;
+  color: var(--primary-color, #1976d2) !important;
   margin-bottom: 18px;
   text-align: center;
 }
@@ -43,13 +44,13 @@
   margin-top: 36px;
   margin-bottom: 16px;
   font-weight: 600;
-  border-right: 4px solid var(--primary-color);
+  border-right: 4px solid var(--primary-color, #1976d2);
   padding-right: 8px;
 }
 
 .postContainer h3 {
   font-size: 1.3rem;
-  color: var(--primary-color) !important;
+  color: var(--primary-color, #1976d2) !important;
   margin-top: 28px;
   margin-bottom: 10px;
   font-weight: 500;
@@ -66,7 +67,6 @@
 .postContainer p {
   font-size: 1.05rem;
   margin-bottom: 14px;
-  max-width: 70ch; /* limit line length for readability */
 }
 
 .postContainer ul,
@@ -83,7 +83,7 @@
 
 .postImage {
   display: block;
-  max-width: 480px; /* bigger image */
+  max-width: 480px;
   width: 100%;
   margin: 24px auto;
   border-radius: 12px;
@@ -95,45 +95,65 @@
   transform: scale(1.02);
 }
 
-.styleTable {
-  width: 100%;
-  border-collapse: collapse;
+.sideBySideImages {
+  display: flex;
+  gap: 18px;
+  justify-content: center;
   margin: 24px 0;
-  font-size: 1rem;
+}
+
+.sideBySideImages .postImage {
+  max-width: 220px;
+  margin: 0;
+}
+
+.carouselPlaceholder {
   background: #f7fafd;
   border-radius: 10px;
-  overflow: hidden;
+  padding: 18px 0;
+  text-align: center;
+  color: var(--primary-color, #1976d2);
+  font-size: 1.1rem;
+  margin: 24px 0;
+  border: 1px dashed #b3e5fc;
 }
 
-.styleTable th,
-.styleTable td {
-  padding: 12px 10px;
-  border-bottom: 1px solid #e0e0e0;
-  text-align: right;
+.allProductsBtn {
+  display: inline-block;
+  margin: 18px auto 0 auto;
+  background: var(--primary-color, #1976d2);
+  color: #fff;
+  padding: 10px 28px;
+  border-radius: 8px;
+  font-size: 1rem;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.2s;
+  text-align: center;
 }
 
-.styleTable th {
-  background: #e3f2fd;
-  color: var(--primary-color);
-  font-weight: 600;
-}
-
-.styleTable tr:last-child td {
-  border-bottom: none;
+.allProductsBtn:hover {
+  background: #023047;
 }
 
 @media (max-width: 600px) {
   .postContainer {
-    padding: 18px 8px;
-    border-radius: 8px;
+    padding: 8px;
+    border-radius: 0;
   }
   .postImage {
     max-width: 98vw;
     border-radius: 8px;
   }
-  .styleTable th,
-  .styleTable td {
-    padding: 8px 4px;
-    font-size: 0.95rem;
+  .sideBySideImages {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .sideBySideImages .postImage {
+    max-width: 98vw;
+  }
+  .allProductsBtn {
+    width: 100%;
+    padding: 10px 0;
   }
 }
