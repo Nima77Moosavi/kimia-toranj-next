@@ -57,6 +57,9 @@ const Post1 = () => (
     </article>
     <div className={styles.carouselWrapper}>
       <ProductCarousel collectionId={8} title="محصولات خاتم کاری" />
+      <Link href="/category/khatamkari" className={styles.allProductsBtn}>
+        مشاهده تمامی محصولات
+      </Link>
     </div>
     <article className={styles.postContainer}>
       <h3>۲. میناکاری</h3>
@@ -89,8 +92,10 @@ const Post1 = () => (
       />
       <h4>تاریخچه کوتاه قلم زنی</h4>
       <p>
-        اصول آن به هزاره دوم پیش از میلاد می‌رسد و در دوره صفوی اوج گرفته است.
+        <Link href="/category/qalamzani">هنر قلم‌زنی</Link> اصول آن به هزاره دوم
+        پیش از میلاد می‌رسد و در دوره صفوی اوج گرفته است.
       </p>
+
       <h4>مراحل ساخت</h4>
       <ol>
         <li>آماده‌سازی ورق فلز: مس، برنج یا نقره.</li>
@@ -104,7 +109,14 @@ const Post1 = () => (
         <li>سینی بزرگ پذیرایی</li>
         <li>شمعدان تزئینی</li>
       </ul>
-
+    </article>
+    <div className={styles.carouselWrapper}>
+      <ProductCarousel collectionId={7} title="محصولات قلمزنی" />
+      <Link href="/category/qalamzani" className={styles.allProductsBtn}>
+        مشاهده تمامی محصولات
+      </Link>
+    </div>
+    <article className={styles.postContainer}>
       <h3>۴. سفال و سرامیک لعاب‌دار</h3>
       <img
         src="/images/ceramic.webp"
