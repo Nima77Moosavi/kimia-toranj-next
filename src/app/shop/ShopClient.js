@@ -110,7 +110,7 @@ export default function ShopClient({ initialProducts, initialCollections, initia
 
   return (
     <div className={styles.content}>
-      <h2 className={styles.title}>فروشگاه</h2>
+      <h1 className={styles.title}>فروشگاه صنایع دستی کیمیاترنج</h1>
 
       {/* Mobile filters */}
       <div className={styles.filterDropdownMobile}>

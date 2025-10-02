@@ -2,6 +2,7 @@ import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import ProductDetailsClient from "./ProductDetailsClient";
 import "./ProductDetailsSeo.css";
+import FooterMenu from "@/components/FooterMenu/FooterMenu";
 
 const API_URL = "https://api.kimiatoranj.com/";
 
@@ -40,6 +41,7 @@ export default async function ProductPage({ params }) {
           dangerouslySetInnerHTML={{ __html: product.seo.content_html }}
         />
       )}
+      <FooterMenu />
       <Footer />
     </>
   );
