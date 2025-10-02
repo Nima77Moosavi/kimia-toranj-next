@@ -3,6 +3,13 @@ import styles from "./Blog.module.css";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 
+
+export const metadata = {
+  title: "مقالات صنایع دستی ایرانی | بلاگ کیمیا ترنج",
+  description:
+    "مطالب و مقالات تخصصی درباره هنر و صنایع دستی ایران؛ از قلم‌زنی و خاتم‌کاری اصفهان تا راهنمای خرید ظروف برنجی و دکوراسیون اصیل ایرانی در بلاگ کیمیا ترنج.",
+};
+
 const posts = [
   {
     id: 1,
