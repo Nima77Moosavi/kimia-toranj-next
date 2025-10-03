@@ -6,10 +6,10 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 import axiosInstance from "@/utils/axiosInstance";
-import axiosInstanceNoRedirect from "@/utils/axiosInstanceNoRedirect";
 import { formatPrice } from "@/utils/formatPrice";
 import { API_URL } from "@/config/config";
 import { useCartStore } from "@/store/cartStore";
+import { useAuthStore } from "@/store/authStore";
 
 import styles from "./HeaderDesktop.module.css";
 
@@ -32,38 +32,24 @@ export default function HeaderDesktop() {
   const [searchTerm, setSearchTerm] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const debounceRef = useRef();
   const menuRef = useRef();
   const suggestionsRef = useRef();
   const router = useRouter();
 
-  // Zustand store hooks
+  // Zustand stores
   const cartCount = useCartStore((state) => state.cartCount());
   const fetchCartFromBackend = useCartStore(
     (state) => state.fetchCartFromBackend
   );
+  const { isLoggedIn, checkAuth } = useAuthStore();
 
   // Fetch cart + auth on mount
   useEffect(() => {
     fetchCartFromBackend();
-
-    const checkAuth = async () => {
-      try {
-        const response = await axiosInstanceNoRedirect.get(
-          "api/store/customer/me/"
-        );
-        if (response.status === 200 && response.data) {
-          setIsLoggedIn(true);
-        }
-      } catch {
-        setIsLoggedIn(false);
-      }
-    };
-
     checkAuth();
-  }, [fetchCartFromBackend]);
+  }, [fetchCartFromBackend, checkAuth]);
 
   // Close menus on outside click or scroll
   useEffect(() => {
@@ -147,9 +133,9 @@ export default function HeaderDesktop() {
             src="/logo.png"
             alt="کیمیاترنج"
             className={styles.logo}
-            width={120} // ✅ required in next/image
-            height={40} // adjust to your actual logo ratio
-            priority // optional: preload for faster LCP
+            width={120}
+            height={40}
+            priority
           />
         </Link>
 
@@ -227,11 +213,6 @@ export default function HeaderDesktop() {
                   کادو چی بخرم <GoGift />
                 </li>
               </Link>
-              {/* <Link href="/about">
-                <li>
-                  درباره ما <BsFileEarmarkPerson />
-                </li>
-              </Link> */}
               <Link href="/">
                 <li>
                   اخذ نمایندگی <TbDeviceIpadHorizontalStar />
