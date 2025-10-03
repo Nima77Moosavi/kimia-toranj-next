@@ -1,8 +1,9 @@
 import Link from "next/link";
+import Image from "next/image";
+
 import styles from "./Blog.module.css";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-
 
 export const metadata = {
   title: "مقالات صنایع دستی ایرانی | بلاگ کیمیا ترنج",
@@ -60,10 +61,12 @@ export default function Blog() {
               className={styles.card}
             >
               <div className={styles.cardImageWrapper}>
-                <img
+                <Image
                   src={post.image}
                   alt={post.title}
+                  fill
                   className={styles.cardImage}
+                  unoptimized
                 />
               </div>
               <div className={styles.cardContent}>
