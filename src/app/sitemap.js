@@ -42,6 +42,8 @@ export default async function sitemap() {
     "/blog",
     "/post/Enlivening-your-home-with-iranian-arts-and-crafts",
     "/post/Isfahan-Handicrafts-A-lasting-legacy-from-the-heart-of-Iranian-history",
+    "/post/a-guide-to-buying-a-brass-fruit-bowl-a-stylish-choice-for-home-decoration",
+    "/post/The-art-of-calligraphy-and-inlay-work-masterpieces-of-Isfahan-handicrafts",
   ].map((path) => ({
     url: `${baseUrl}${path}`,
     lastModified: new Date(),
