@@ -106,7 +106,7 @@ export default function ShoppingCartPage() {
 
   const calculateShippingPrice = () => {
     const total = calculateTotal();
-    // return total < 1000000 ? 80000 : 0;
+    return total < 1000000 ? 80000 : 0;
     return 0;
   };
 
