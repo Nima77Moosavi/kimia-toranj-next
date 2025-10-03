@@ -1,17 +1,23 @@
-/* FooterMenu.module.css */
+/* Hide by default, show only on mobile */
 .container {
-  width: 100%;
-  display: flex;
-  flex-direction: row-reverse;
-  direction: rtl;
-  background-color: white;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 10000;
-  justify-content: center;
-  max-height: 80px;
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+    direction: rtl;
+    background-color: white;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10000;
+    justify-content: center;
+    max-height: 80px;
+  }
 }
 
 .footerul {
@@ -42,7 +48,7 @@
   text-decoration: none;
   color: #023047;
   font-size: 11px;
-  padding: 8px; /* Added padding to better see the background change */
+  padding: 8px;
   transition: background-color 0.3s ease;
 }
 

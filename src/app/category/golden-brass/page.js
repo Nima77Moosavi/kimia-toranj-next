@@ -2,6 +2,7 @@ import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import CategoryClient from "@/components/CategoryClient/CategoryClient";
 import styles from "./GoldenBrass.module.css";
+import FooterMenu from "@/components/FooterMenu/FooterMenu";
 
 const API_URL = "https://api.kimiatoranj.com/";
 
@@ -214,7 +215,7 @@ export default async function GoldenBrassPage() {
           </p>
         </section>
       </div>
-
+      <FooterMenu />
       <Footer />
     </>
   );

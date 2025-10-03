@@ -3,6 +3,7 @@ import Footer from "@/components/Footer/Footer";
 import CategoryClient from "@/components/CategoryClient/CategoryClient";
 
 import styles from "./Qalamzani.module.css";
+import FooterMenu from "@/components/FooterMenu/FooterMenu";
 
 const API_URL = "https://api.kimiatoranj.com/";
 
@@ -224,6 +225,7 @@ export default async function QalamzaniPage() {
           </p>
         </div>
       </div>
+      <FooterMenu />
       <Footer />
     </>
   );

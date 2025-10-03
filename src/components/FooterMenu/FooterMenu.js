@@ -14,7 +14,6 @@ import axiosInstanceNoRedirect from "@/utils/axiosInstanceNoRedirect";
 import { useCartStore } from "@/store/cartStore";
 
 const FooterMenu = () => {
-  const [isMobile, setIsMobile] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const pathname = usePathname();
 
@@ -24,11 +23,6 @@ const FooterMenu = () => {
   );
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const checkScreenSize = () => setIsMobile(window.innerWidth <= 768);
-    checkScreenSize();
-
     const checkAuth = async () => {
       try {
         const res = await axiosInstanceNoRedirect.get("api/store/customer/me/");
@@ -42,12 +36,7 @@ const FooterMenu = () => {
 
     fetchCartFromBackend();
     checkAuth();
-
-    window.addEventListener("resize", checkScreenSize);
-    return () => window.removeEventListener("resize", checkScreenSize);
   }, [fetchCartFromBackend]);
-
-  if (!isMobile) return null;
 
   return (
     <div className={styles.container}>

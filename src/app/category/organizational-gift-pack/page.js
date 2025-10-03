@@ -3,6 +3,7 @@ import Footer from "@/components/Footer/Footer";
 import Link from "next/link";
 import CategoryClient from "@/components/CategoryClient/CategoryClient";
 import styles from "./OrganizationalGiftPack.module.css";
+import FooterMenu from "@/components/FooterMenu/FooterMenu";
 
 const API_URL = "https://api.kimiatoranj.com/";
 
@@ -166,6 +167,8 @@ export default async function OrganizationalGiftPackPage() {
           </p>
         </div>
       </div>
+
+      <FooterMenu />
       <Footer />
     </>
   );

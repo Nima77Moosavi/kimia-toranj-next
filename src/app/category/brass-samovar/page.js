@@ -2,6 +2,7 @@ import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import CategoryClient from "@/components/CategoryClient/CategoryClient";
 import styles from "./BrassSamovar.module.css";
+import FooterMenu from "@/components/FooterMenu/FooterMenu";
 
 const API_URL = "https://api.kimiatoranj.com/";
 
@@ -127,8 +128,8 @@ export default async function BrassSamovarPage() {
 
         <p>
           چه در اتاق پذیرایی باشد، چه روی اپن آشپزخانه یا در ویترین شیشه‌ای،
-          سماور برنجی همیشه جلب توجه می‌کند و به نوعی\1&quot;\2&quot;
-          محسوب می‌شود.
+          سماور برنجی همیشه جلب توجه می‌کند و به نوعی\1&quot;\2&quot; محسوب
+          می‌شود.
         </p>
 
         <h2>راهنمای خرید سماور برنجی از فروشگاه کیمیا ترنج</h2>
@@ -178,6 +179,7 @@ export default async function BrassSamovarPage() {
         </p>
       </div>
 
+      <FooterMenu />
       <Footer />
     </>
   );

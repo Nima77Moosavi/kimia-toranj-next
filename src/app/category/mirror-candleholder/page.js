@@ -2,6 +2,7 @@ import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import CategoryClient from "@/components/CategoryClient/CategoryClient";
 import styles from "./MirrorCandleholder.module.css";
+import FooterMenu from "@/components/FooterMenu/FooterMenu";
 
 const API_URL = "https://api.kimiatoranj.com/";
 
@@ -165,7 +166,7 @@ export default async function MirrorCandleholderPage() {
           حاصل هنر استادکاران اصفهانی هستند.
         </p>
       </div>
-
+      <FooterMenu />
       <Footer />
     </>
   );
