@@ -171,13 +171,65 @@ export default function HeaderDesktop() {
                     setSearchTerm("");
                   }}
                 >
-                  <div className={styles.suggestionTitle}>{prod.title}</div>
-                  <div className={styles.suggestionMeta}>
-                    {prod.collection?.title} •{" "}
-                    {formatPrice(
-                      prod.variants?.[0]?.price?.toLocaleString() || "0"
-                    )}{" "}
-                    تومان
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "12px",
+                    }}
+                  >
+                    {/* تصویر محصول */}
+                    {prod.images &&
+                    prod.images.length > 0 &&
+                    prod.images[0].image ? (
+                      <div
+                        style={{
+                          width: "80px",
+                          height: "80px",
+                          flexShrink: 0,
+                          borderRadius: "4px",
+                          overflow: "hidden",
+                        }}
+                      >
+                        <img
+                          src={prod.images[0].image}
+                          alt={prod.title}
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
+                          }}
+                        />
+                      </div>
+                    ) : (
+                      <div
+                        style={{
+                          width: "40px",
+                          height: "40px",
+                          flexShrink: 0,
+                          borderRadius: "4px",
+                          backgroundColor: "#f0f0f0",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          color: "#999",
+                          fontSize: "12px",
+                        }}
+                      >
+                        بدون تصویر
+                      </div>
+                    )}
+
+                    <div style={{ flex: 1 }}>
+                      <div className={styles.suggestionTitle}>{prod.title}</div>
+                      <div className={styles.suggestionMeta}>
+                        {prod.collection?.title} {" "}
+                        {formatPrice(
+                          prod.variants?.[0]?.price?.toLocaleString() || "0"
+                        )}{" "}
+                        تومان
+                      </div>
+                    </div>
                   </div>
                 </li>
               ))}
