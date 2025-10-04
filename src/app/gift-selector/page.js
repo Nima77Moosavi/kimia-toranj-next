@@ -50,7 +50,7 @@ export default function GiftSelector() {
             </div>
           ))}
           <button type="submit" className={styles.submitButton}>
-            تایید
+            تایید 
           </button>
         </form>
       </div>
