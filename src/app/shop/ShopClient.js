@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import ProductCard from "@/components/ProductCard/ProductCard";
-import ProductCardSkeleton from "@/components/ProductCard/ProductCard.Skeleton"; // ✅ create this skeleton
+import ProductCardSkeleton from "@/components/ProductCard/ProductCard.Skeleton";
 import styles from "./Shop.module.css";
 
 const API_BASE = "https://api.kimiatoranj.com/api/store";
