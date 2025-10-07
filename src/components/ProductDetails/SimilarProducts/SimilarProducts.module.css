@@ -113,17 +113,63 @@
 }
 
 /* —————————————————————————————
-   Each Slide Item
+   Each Slide Item (fixed width)
    ————————————————————————————— */
 .slideItem {
-  flex: 0 0 auto;
-  min-width: 220px;   /* keeps cards readable on mobile */
-  max-width: 280px;   /* optional cap for large screens */
+  flex: 0 0 220px;   /* fixed width */
+  width: 220px;
   transition: transform 0.2s;
 }
-
 .slideItem:hover {
   transform: translateY(-4px);
+}
+
+/* Card wrapper inside each slide */
+.productCard {
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  background: #fff;
+  overflow: hidden;
+  border: 1px solid #eee;
+  height: 100%;
+}
+
+/* Fixed image box with aspect ratio */
+.imageWrapper {
+  position: relative;
+  aspect-ratio: 4 / 5; /* consistent height */
+  overflow: hidden;
+}
+.image {
+  object-fit: cover;
+}
+
+/* Content area */
+.content {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Clamp product title to 2 lines */
+.productTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* show max 2 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: calc(1.4em * 2); /* reserve space for 2 lines */
+  line-height: 1.4;
+}
+
+.price {
+  font-size: 13px;
+  color: #555;
 }
 
 /* —————————————————————————————
@@ -152,6 +198,10 @@
     font-size: 14px;
   }
   .slideItem {
-    min-width: 180px; /* slightly smaller cards on very small screens */
+    flex: 0 0 180px;
+    width: 180px;
+  }
+  .productTitle {
+    font-size: 13px;
   }
 }
