@@ -10,6 +10,7 @@ import FeaturesLine from "@/components/FeaturesLine/FeaturesLine";
 import Footer from "@/components/Footer/Footer";
 import FooterMenu from "@/components/FooterMenu/FooterMenu";
 import ContactButton from "@/components/ContactButton/ContactButton";
+import ArticleCarousel from "@/components/ArticleCarousel/ArticleCarousel";
 
 export const metadata = {
   title: "فروشگاه کیمیا ترنج | صنایع دستی اصفهان ",
@@ -83,7 +84,7 @@ export default async function Home() {
         <SpecialOffer />
         <SpecialProducts />
         <FeaturesLine />
-
+        <ArticleCarousel />
         <Footer />
         <FooterMenu />
         <ContactButton />
