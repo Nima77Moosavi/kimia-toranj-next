@@ -1,39 +1,163 @@
+"use client";
+
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
-import CategoryClient from "@/components/CategoryClient/CategoryClient";
 import styles from "./Khatamkari.module.css";
 import FooterMenu from "@/components/FooterMenu/FooterMenu";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const API_URL = "https://api.kimiatoranj.com/";
 
-export const metadata = {
-  title: "خاتمکاری اصل اصفهان | خرید اینترنتی از کیمیا ترنج",
-  description:
-    "فروش انواع آثار خاتمکاری دست‌ساز، شامل جعبه، قاب، ست پذیرایی و هدیه‌های هنری. هنر اصیل ایرانی را از کیمیا ترنج تجربه کنید. ارسال تضمینی.",
-};
+export default function KhatamkariPage() {
+  const [subcategories, setSubcategories] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-export default async function KhatamkariPage() {
-  const productsRes = await fetch(
-    `${API_URL}api/store/products/?collection=خاتم کاری&page=1`,
-    { next: { revalidate: 60 } }
-  );
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const categoriesRes = await fetch(
+          `${API_URL}api/store/collections/`
+        );
 
-  const productsData = productsRes.ok
-    ? await productsRes.json()
-    : { results: [], next: null };
+        if (categoriesRes.ok) {
+          const categoriesData = await categoriesRes.json();
+          const khatamCategory = categoriesData.find(
+            cat => cat.title === "خاتم کاری" || cat.landing_page_url === "khatamkari"
+          );
+          const subs = khatamCategory?.subcollections || [];
+          
+          if (subs.length === 0) {
+            setSubcategories([
+              {
+                "id": 12,
+                "title": "ساعت خاتم کاری",
+                "landing_page_url": "saatkhatamkari"
+              },
+              {
+                "id": 13,
+                "title": "شکلاتخوری خاتم",
+                "landing_page_url": "shokolatkhori"
+              },
+              {
+                "id": 14,
+                "title": "سایر محصولات خاتم",
+                "landing_page_url": "others"
+              }
+            ]);
+          } else {
+            setSubcategories(subs);
+          }
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        setSubcategories([
+          {
+            "id": 12,
+            "title": "ساعت خاتم کاری",
+            "landing_page_url": "saatkhatamkari"
+          },
+          {
+            "id": 13,
+            "title": "شکلاتخوری خاتم",
+            "landing_page_url": "shokolatkhori"
+          },
+          {
+            "id": 14,
+            "title": "سایر محصولات خاتم",
+            "landing_page_url": "others"
+          }
+        ]);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchCategories();
+  }, []);
+
+  // تابع برای دریافت تصویر واقعی
+  const getImageUrl = (title) => {
+    const images = {
+      "ساعت خاتم کاری": "/images/clock-khatam.webp",
+      "شکلاتخوری خاتم": "/images/chocolate-khatam.webp",
+      "سایر محصولات خاتم": "/images/other-khatam.webp"
+    };
+    return images[title] || "/images/default-khatam.webp";
+  };
+
+  // تابع برای هندل کردن خطای تصویر
+  const handleImageError = (e) => {
+    const title = e.target.alt;
+    const fallbackImages = {
+      "ساعت خاتم کاری": "https://via.placeholder.com/300x240/4a7c59/ffffff?text=ساعت+خاتم",
+      "شکلاتخوری خاتم": "https://via.placeholder.com/300x240/2c5530/ffffff?text=شکلاتخوری",
+      "سایر محصولات خاتم": "https://via.placeholder.com/300x240/023047/ffffff?text=سایر+محصولات"
+    };
+    e.target.src = fallbackImages[title] || "https://via.placeholder.com/300x240/666666/ffffff?text=خاتم+کاری";
+  };
+
+  if (loading) {
+    return (
+      <>
+        <Header />
+        <div className={styles.pageContainer}>
+          <div className={styles.loading}>در حال بارگذاری...</div>
+        </div>
+        <FooterMenu />
+        <Footer />
+      </>
+    );
+  }
 
   return (
     <>
       <Header />
-
       <div className={styles.pageContainer}>
-        {/* Product Grid */}
-        <h1 className={styles.title}>محصولات خاتم کاری کیمیاترنج </h1>
-        <CategoryClient
-          categoryName="خاتم کاری"
-          initialProducts={productsData.results}
-          initialHasMore={!!productsData.next}
-        />
+        <h1 className={styles.title}>دسته‌بندی‌های خاتم کاری کیمیاترنج</h1>
+        
+        {subcategories.length > 0 ? (
+          <div className={styles.row}>
+            {subcategories.map((subcategory) => {
+              // لینک‌های مستقیم
+              let href = "";
+              if (subcategory.title === "ساعت خاتم کاری") {
+                href = "./khatamkari/saatkhatamkari";
+              } else if (subcategory.title === "شکلاتخوری خاتم") {
+                href = "./khatamkari/shokolatkhori";
+              } else if (subcategory.title === "سایر محصولات خاتم") {
+                href = "./khatamkari/others";
+              } else {
+                href = `./khatamkari/${subcategory.landing_page_url}`;
+              }
+
+              return (
+                <Link
+                  href={href}
+                  key={subcategory.id}
+                  className={styles.collectionCard}
+                >
+                  <img
+                    src={getImageUrl(subcategory.title)}
+                    alt={subcategory.title}
+                    className={styles.collectionImage}
+                    onError={handleImageError}
+                  />
+                  <div className={styles.overlay}>
+                    <h3 className={styles.description}>
+                      {subcategory.title}
+                    </h3>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        ) : (
+          <div className={styles.noCategories}>
+            <p>در حال حاضر هیچ زیردسته‌ای برای خاتم‌کاری موجود نیست</p>
+          </div>
+        )}
+
         <div className={styles.seoSection}>
           <h2>خرید محصولات خاتمکاری اصفهان | ترکیب هنر، ظرافت و اصالت</h2>
 
@@ -114,7 +238,7 @@ export default async function KhatamkariPage() {
             </li>
             <li>
               <strong>طرح و سبک:</strong>
-              کلاسیک یا ترکیبی با هنرهای دیگر مثل مینا یا میکرو خاتم؟
+              کلاسیک یا ترکیبی با هنرهای دیگر مثل مینا یا میکرو خاتم？
             </li>
             <li>
               <strong>جنس و کیفیت مواد اولیه:</strong>
@@ -130,6 +254,7 @@ export default async function KhatamkariPage() {
               می‌شوند.
             </li>
           </ul>
+          
           <h2>سؤالات متداول درباره خاتمکاری</h2>
 
           <h3>محصولات خاتمکاری فقط تزئینی هستن؟</h3>
