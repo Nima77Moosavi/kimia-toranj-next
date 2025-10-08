@@ -1,8 +1,9 @@
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
-import CategoryClient from "@/components/CategoryClient/CategoryClient";
-import styles from "./Khatamkari.module.css";
 import FooterMenu from "@/components/FooterMenu/FooterMenu";
+import styles from "./Khatamkari.module.css";
+import Link from "next/link";
+import Image from "next/image";
 
 const API_URL = "https://api.kimiatoranj.com/";
 
@@ -13,27 +14,51 @@ export const metadata = {
 };
 
 export default async function KhatamkariPage() {
-  const productsRes = await fetch(
-    `${API_URL}api/store/products/?collection=خاتم کاری&page=1`,
-    { next: { revalidate: 60 } }
-  );
+  // Fetch all collections
+  const res = await fetch(`${API_URL}api/store/collections/`, {
+    cache: "force-cache", // build-time cache
+  });
 
-  const productsData = productsRes.ok
-    ? await productsRes.json()
-    : { results: [], next: null };
+  const allCollections = res.ok ? await res.json() : [];
+  // Filter only subcollections of Khatamkari (parent = 8)
+  const subCollections = allCollections.filter((c) => c.parent === 8);
 
   return (
     <>
       <Header />
 
       <div className={styles.pageContainer}>
-        {/* Product Grid */}
-        <h1 className={styles.title}>محصولات خاتم کاری کیمیاترنج </h1>
-        <CategoryClient
-          categoryName="خاتم کاری"
-          initialProducts={productsData.results}
-          initialHasMore={!!productsData.next}
-        />
+        <h1 className={styles.title}>محصولات خاتم کاری کیمیاترنج</h1>
+
+        <div className={styles.collectionsRow}>
+          {subCollections.map((collection) => {
+            const href = collection.landing_page_url
+              ? `/category/${collection.landing_page_url}`
+              : `/shop?collection=${encodeURIComponent(collection.title)}`;
+
+            return (
+              <Link
+                href={href}
+                key={collection.id}
+                className={styles.collectionCard}
+              >
+                <Image
+                  src={collection.image || "/placeholder.jpg"}
+                  alt={collection.title}
+                  width={400}
+                  height={300}
+                  className={styles.collectionImage}
+                  unoptimized
+                />
+                <div className={styles.overlay}>
+                  <h3 className={styles.description}>
+                    {collection.description || collection.title}
+                  </h3>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
         <div className={styles.seoSection}>
           <h2>خرید محصولات خاتمکاری اصفهان | ترکیب هنر، ظرافت و اصالت</h2>
 
