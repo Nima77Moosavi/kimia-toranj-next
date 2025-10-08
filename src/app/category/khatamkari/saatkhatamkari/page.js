@@ -14,7 +14,7 @@ export const metadata = {
 
 export default async function KhatamkariPage() {
   const productsRes = await fetch(
-    `${API_URL}api/store/products/?collection=خاتم کاری&page=1`,
+    `${API_URL}api/store/products/?collection=ساعت خاتم کاری&page=1`,
     { next: { revalidate: 60 } }
   );
 
@@ -30,7 +30,7 @@ export default async function KhatamkariPage() {
         {/* Product Grid */}
         <h1 className={styles.title}>محصولات ساعت خاتم کاری کیمیاترنج </h1>
         <CategoryClient
-          categoryName="خاتم کاری"
+          categoryName="ساعت خاتم کاری"
           initialProducts={productsData.results}
           initialHasMore={!!productsData.next}
         />
