@@ -14,7 +14,7 @@ export const metadata = {
 
 export default async function KhatamkariPage() {
   const productsRes = await fetch(
-    `${API_URL}api/store/products/?collection=خاتم کاری&page=1`,
+    `${API_URL}api/store/products/?collection=سایر محصولات خاتم &page=1`,
     { next: { revalidate: 60 } }
   );
 
@@ -32,7 +32,7 @@ export default async function KhatamkariPage() {
           محصولات دیگر دسته بندی خاتم کاری کیمیاترنج{" "}
         </h1>
         <CategoryClient
-          categoryName="خاتم کاری"
+          categoryName="سایر محصولات خاتم "
           initialProducts={productsData.results}
           initialHasMore={!!productsData.next}
         />
