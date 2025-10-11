@@ -52,6 +52,14 @@ const posts = [
       "محصولات زرینه خاتم قلم‌زنی اصفهان، با تلفیق دو هنر اصیل ایرانی، جلوه‌ای بی‌نظیر و لوکس به محیط زندگی می‌بخشند و حس ایرانی بودن و احترام به هنر سنتی را منتقل می‌کنند.",
     image: "/images/post5/golden-product-1.webp",
   },
+  {
+    id: 6,
+    slug: "Brass-Products-The-Shine-of-Authenticity-in-Iranian-Home",
+    title: "محصولات برنجی دست‌ساز اصفهان | خرید از کیمیا ترنج",
+    excerpt:
+      "در هر گوشه‌ای از خانه‌های اصیل ایرانی، نشانی از هنر و فرهنگ کهن به چشم می‌خورد؛ از فرش دست‌باف تا ظروف مسی و برنجی.",
+    image: "/images/post6/brass-product-2.webp",
+  },
 ];
 
 export default function Blog() {
