@@ -8,7 +8,11 @@ import styles from "./Shop.module.css";
 
 const API_BASE = "https://api.kimiatoranj.com/api/store";
 
-export default function ShopClient({ initialProducts, initialCollections, initialHasMore }) {
+export default function ShopClient({
+  initialProducts,
+  initialCollections,
+  initialHasMore,
+}) {
   const [products, setProducts] = useState(initialProducts);
   const [collections] = useState(initialCollections);
   const [loading, setLoading] = useState(false);
@@ -17,11 +21,13 @@ export default function ShopClient({ initialProducts, initialCollections, initia
   const [hasMore, setHasMore] = useState(initialHasMore);
   const [showFilters, setShowFilters] = useState(false);
 
+  // 🔑 Track request key to ignore stale responses
+  const requestKeyRef = useRef(0);
+
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  // 🔑 Track request key to ignore stale responses
-  const requestKeyRef = useRef(0);
+  const mainCollections = collections.filter((c) => c.parent === null);
 
   const buildQuery = (p = page) => {
     const qs = searchParams.toString();
@@ -51,7 +57,9 @@ export default function ShopClient({ initialProducts, initialCollections, initia
         }
         const data = await res.json();
         if (!active || currentKey !== requestKeyRef.current) return; // ✅ ignore stale
-        setProducts((prev) => (page === 1 ? data.results : [...prev, ...data.results]));
+        setProducts((prev) =>
+          page === 1 ? data.results : [...prev, ...data.results]
+        );
         setHasMore(data.next !== null);
       } catch (err) {
         if (active && err.name !== "AbortError") {
@@ -93,6 +101,12 @@ export default function ShopClient({ initialProducts, initialCollections, initia
   const sortExpensive = () => applyFilter("order_by", "-price");
   const sortNewest = () => applyFilter("order_by", "-created_at");
 
+  // 🔽 Expand/collapse state
+  const [expandedCollectionId, setExpandedCollectionId] = useState(null);
+  const toggleExpand = (id) => {
+    setExpandedCollectionId((prev) => (prev === id ? null : id));
+  };
+
   const observer = useRef();
   const lastRef = useCallback(
     (node) => {
@@ -124,24 +138,57 @@ export default function ShopClient({ initialProducts, initialCollections, initia
           <div className={styles.dropdownFilters}>
             <div className={styles.collections}>
               <h2 className={styles.collectionsTitle}>فیلتر بر اساس مجموعه</h2>
-              <p onClick={filterAllProducts} className={styles.collectionFilter}>
+              <p
+                onClick={filterAllProducts}
+                className={styles.collectionFilter}
+              >
                 همه محصولات
               </p>
-              {collections.map((c) => (
-                <p
-                  key={c.id}
-                  onClick={() => filterByCollection(c.title)}
-                  className={styles.collectionFilter}
-                >
-                  {c.title}
-                </p>
+              {mainCollections.map((c) => (
+                <div key={c.id} className={styles.collectionGroup}>
+                  <div className={styles.collectionHeader}>
+                    <span
+                      className={styles.collectionName}
+                      onClick={() => filterByCollection(c.title)}
+                    >
+                      {c.title}
+                    </span>
+                    {c.subcollections && c.subcollections.length > 0 && (
+                      <span
+                        className={styles.dropdownArrow}
+                        onClick={() => toggleExpand(c.id)}
+                      >
+                        {expandedCollectionId === c.id ? "▲" : "▼"}
+                      </span>
+                    )}
+                  </div>
+                  {expandedCollectionId === c.id && c.subcollections && (
+                    <div className={styles.subcollectionList}>
+                      {c.subcollections.map((sub) => (
+                        <p
+                          key={sub.id}
+                          onClick={() => filterByCollection(sub.title)}
+                          className={styles.subcollectionFilter}
+                        >
+                          {sub.title}
+                        </p>
+                      ))}
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
             <div className={styles.sort}>
               <h2 className={styles.sortTitle}>مرتب کردن بر اساس</h2>
-              <p onClick={sortCheapest} className={styles.sortOption}>ارزان‌ترین</p>
-              <p onClick={sortExpensive} className={styles.sortOption}>گران‌ترین</p>
-              <p onClick={sortNewest} className={styles.sortOption}>جدیدترین</p>
+              <p onClick={sortCheapest} className={styles.sortOption}>
+                ارزان‌ترین
+              </p>
+              <p onClick={sortExpensive} className={styles.sortOption}>
+                گران‌ترین
+              </p>
+              <p onClick={sortNewest} className={styles.sortOption}>
+                جدیدترین
+              </p>
             </div>
           </div>
         )}
@@ -150,7 +197,6 @@ export default function ShopClient({ initialProducts, initialCollections, initia
       {/* Main */}
       <div className={styles.container}>
         <div className={styles.productContainer}>
-          {/* ✅ Skeletons when loading first page */}
           {loading && page === 1 && products.length === 0
             ? Array.from({ length: 12 }).map((_, i) => (
                 <div key={i} className={styles.productWrapper}>
@@ -170,7 +216,9 @@ export default function ShopClient({ initialProducts, initialCollections, initia
                 );
               })}
 
-          {loading && page > 1 && <div className={styles.loading}>در حال بارگذاری...</div>}
+          {loading && page > 1 && (
+            <div className={styles.loading}>در حال بارگذاری...</div>
+          )}
           {error && <div className={styles.error}>خطا: {error}</div>}
           {!loading && products.length === 0 && (
             <div className={styles.empty}>هیچ محصولی یافت نشد.</div>
@@ -185,24 +233,58 @@ export default function ShopClient({ initialProducts, initialCollections, initia
           <div className={styles.sidebarInner}>
             <div className={styles.collections}>
               <h2 className={styles.collectionsTitle}>فیلتر بر اساس مجموعه</h2>
-              <p onClick={filterAllProducts} className={styles.collectionFilter}>
+              <p
+                onClick={filterAllProducts}
+                className={styles.collectionFilter}
+              >
                 همه محصولات
               </p>
-              {collections.map((c) => (
-                <p
-                  key={c.id}
-                  onClick={() => filterByCollection(c.title)}
-                  className={styles.collectionFilter}
-                >
-                  {c.title}
-                </p>
+              {mainCollections.map((c) => (
+                <div key={c.id} className={styles.collectionGroup}>
+                  <div className={styles.collectionHeader}>
+                    <span
+                      className={styles.collectionName}
+                      onClick={() => filterByCollection(c.title)}
+                    >
+                      {c.title}
+                    </span>
+                    {c.subcollections && c.subcollections.length > 0 && (
+                      <span
+                        className={styles.dropdownArrow}
+                        onClick={() => toggleExpand(c.id)}
+                      >
+                        {expandedCollectionId === c.id ? "▲" : "▼"}
+                      </span>
+                    )}
+                  </div>
+                  {expandedCollectionId === c.id && c.subcollections && (
+                    <div className={styles.subcollectionList}>
+                      {c.subcollections.map((sub) => (
+                        <p
+                          key={sub.id}
+                          onClick={() => filterByCollection(sub.title)}
+                          className={styles.subcollectionFilter}
+                        >
+                          {sub.title}
+                        </p>
+                      ))}
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
+
             <div className={styles.sort}>
               <h2 className={styles.sortTitle}>مرتب کردن بر اساس</h2>
-              <p onClick={sortCheapest} className={styles.sortOption}>ارزان‌ترین</p>
-              <p onClick={sortExpensive} className={styles.sortOption}>گران‌ترین</p>
-              <p onClick={sortNewest} className={styles.sortOption}>جدیدترین</p>
+              <p onClick={sortCheapest} className={styles.sortOption}>
+                ارزان‌ترین
+              </p>
+              <p onClick={sortExpensive} className={styles.sortOption}>
+                گران‌ترین
+              </p>
+              <p onClick={sortNewest} className={styles.sortOption}>
+                جدیدترین
+              </p>
             </div>
           </div>
         </aside>

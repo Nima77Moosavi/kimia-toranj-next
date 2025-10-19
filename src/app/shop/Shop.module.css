@@ -3,6 +3,7 @@
    ————————————————————————————— */
 .content {
   margin-top: 60px;
+  position: relative;
 }
 
 .circle {
@@ -62,30 +63,33 @@
 }
 
 /* —————————————————————————————
-   Product Grid (explicit columns)
+   Product Grid
    ————————————————————————————— */
 .productContainer {
   flex: 3;
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* default desktop: 4 columns */
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
 
-/* Large desktop: 5 columns */
+.productWrapper {
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
 @media (min-width: 1400px) {
   .productContainer {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
   }
 }
 
-/* Tablet: 3 columns */
 @media (max-width: 1024px) {
   .productContainer {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-/* Mobile: 2 columns */
 @media (max-width: 768px) {
   .productContainer {
     grid-template-columns: repeat(2, 1fr);
@@ -94,7 +98,7 @@
 }
 
 /* —————————————————————————————
-   Sidebar (Desktop only)
+   Sidebar
    ————————————————————————————— */
 .sidebarContainer {
   flex: 0 0 260px;
@@ -127,10 +131,39 @@
   font-weight: 600;
 }
 
-.collectionFilter,
+.collectionGroup {
+  margin-bottom: 10px;
+}
+
+/* Header row for parent collection */
+.collectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.collectionName {
+  flex: 1;
+  cursor: pointer;
+  padding: 8px 12px;
+  color: #555;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.collectionName:hover {
+  background-color: #f8f8f8;
+  color: #023047;
+}
+
+.collectionName.active {
+  background-color: #023047;
+  color: #fff;
+}
+
 .sortOption {
   cursor: pointer;
-  margin: 10px 0;
+  margin: 6px 0;
   padding: 8px 12px;
   color: #555;
   transition: all 0.3s ease;
@@ -138,16 +171,42 @@
   font-size: 16px;
 }
 
-.collectionFilter:hover,
 .sortOption:hover {
   background-color: #f8f8f8;
   color: #023047;
 }
 
-.collectionFilter.active,
 .sortOption.active {
   background-color: #023047;
-  color: white;
+  color: #fff;
+}
+
+.subcollectionList {
+  margin-right: 10px;
+  margin-top: 5px;
+  border-right: 2px solid #eee;
+  padding-right: 10px;
+}
+
+.subcollectionFilter {
+  cursor: pointer;
+  font-size: 14px;
+  color: #666;
+  margin: 4px 0;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.subcollectionFilter:hover {
+  background-color: #f0f0f0;
+  color: #023047;
+}
+
+.dropdownArrow {
+  font-size: 0.8rem;
+  margin-left: 8px;
+  cursor: pointer;
 }
 
 /* —————————————————————————————
@@ -155,13 +214,20 @@
    ————————————————————————————— */
 .loading,
 .error,
-.empty {
+.empty,
+.endMessage {
   text-align: center;
   font-size: 18px;
   margin-top: 20px;
 }
+
 .error {
   color: red;
+}
+
+.endMessage {
+  color: #777;
+  font-size: 16px;
 }
 
 /* —————————————————————————————
@@ -176,12 +242,10 @@
     padding: 10px;
   }
 
-  /* Hide desktop sidebar */
   .sidebarContainer {
     display: none;
   }
 
-  /* Mobile filter dropdown */
   .filterDropdownMobile {
     display: block;
     margin: 10px;
@@ -213,14 +277,13 @@
     font-size: 18px;
   }
 
-  .collectionFilter,
+  .collectionName,
   .sortOption {
     font-size: 16px;
     margin: 6px 0;
   }
 }
 
-/* Hide mobile filter button on desktop */
 @media (min-width: 769px) {
   .filterDropdownMobile {
     display: none !important;

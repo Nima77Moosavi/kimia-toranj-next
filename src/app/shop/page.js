@@ -36,7 +36,7 @@ export default async function ShopPage({ searchParams }) {
   const productsData = productsRes.ok
     ? await productsRes.json()
     : { results: [] };
-  const collectionsData = collectionsRes.ok ? await collectionsRes.json() : [];
+    const collectionsData = collectionsRes.ok ? await collectionsRes.json() : [];
 
   return (
     <>
