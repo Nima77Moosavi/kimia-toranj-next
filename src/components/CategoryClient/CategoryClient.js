@@ -8,7 +8,8 @@ import styles from "./CategoryClient.module.css";
 const API_URL = "https://api.kimiatoranj.com/";
 
 export default function CategoryClient({
-  categoryName,
+  categoryId,       // new: numeric id
+  categoryName,     // optional: fallback to title
   initialProducts,
   initialHasMore,
 }) {
@@ -41,7 +42,12 @@ export default function CategoryClient({
     setLoading(true);
     setError(null);
 
-    fetch(`${API_URL}api/store/products/?collection=${categoryName}&page=${page}`)
+    // ✅ Build query param: prefer id, fallback to name
+    const filterParam = categoryId
+      ? `collection_id=${categoryId}`
+      : `collection=${encodeURIComponent(categoryName)}`;
+
+    fetch(`${API_URL}api/store/products/?${filterParam}&page=${page}`)
       .then((res) => {
         if (!res.ok) throw new Error("خطا در دریافت محصولات");
         return res.json();
@@ -62,7 +68,7 @@ export default function CategoryClient({
     return () => {
       active = false;
     };
-  }, [page, categoryName]);
+  }, [page, categoryId, categoryName]);
 
   // اسکلتون برای لودینگ اولیه
   const renderSkeletons = (count = 8) => {
@@ -75,9 +81,7 @@ export default function CategoryClient({
     <section className={styles.productGridSection}>
       <div className={styles.container}>
         {initialLoading ? (
-          <div className={styles.productGrid}>
-            {renderSkeletons()}
-          </div>
+          <div className={styles.productGrid}>{renderSkeletons()}</div>
         ) : error ? (
           <div className={styles.error}>{error}</div>
         ) : products.length === 0 ? (
@@ -92,14 +96,12 @@ export default function CategoryClient({
                 </div>
               );
             })}
-            
+
             {/* اسکلتون برای لودینگ صفحات بعدی */}
             {loading && renderSkeletons(4)}
-            
+
             {!hasMore && products.length > 0 && (
-              <div className={styles.endMessage}>
-                هیچ محصول بیشتری موجود نیست
-              </div>
+              <div className={styles.endMessage}>هیچ محصول بیشتری موجود نیست</div>
             )}
           </div>
         )}

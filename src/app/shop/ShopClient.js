@@ -95,7 +95,8 @@ export default function ShopClient({
     requestKeyRef.current++; // ✅ bump key to cancel old responses
   };
 
-  const filterByCollection = (title) => applyFilter("collection", title);
+  // ✅ FIX: filter by id, not title
+  const filterByCollection = (id) => applyFilter("collection", id);
   const filterAllProducts = () => applyFilter("collection", "all");
   const sortCheapest = () => applyFilter("order_by", "price");
   const sortExpensive = () => applyFilter("order_by", "-price");

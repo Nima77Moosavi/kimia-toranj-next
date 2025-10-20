@@ -1,6 +1,7 @@
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import FooterMenu from "@/components/FooterMenu/FooterMenu";
+import CategoryClient from "@/components/CategoryClient/CategoryClient";
 import styles from "./Khatamkari.module.css";
 import Link from "next/link";
 import Image from "next/image";
@@ -16,12 +17,22 @@ export const metadata = {
 export default async function KhatamkariPage() {
   // Fetch all collections
   const res = await fetch(`${API_URL}api/store/collections/`, {
-    cache: "force-cache", // build-time cache
+    cache: "force-cache",
   });
-
   const allCollections = res.ok ? await res.json() : [];
+
   // Filter only subcollections of Khatamkari (parent = 8)
   const subCollections = allCollections.filter((c) => c.parent === 8);
+
+  // ✅ Fetch initial products for collection_id=8
+  const productsRes = await fetch(
+    `${API_URL}api/store/products/?collection_id=8&page=1`,
+    { cache: "no-store" }
+  );
+  const productsData = productsRes.ok ? await productsRes.json() : { results: [] };
+
+  const initialProducts = productsData.results || [];
+  const initialHasMore = !!productsData.next;
 
   return (
     <>
@@ -59,6 +70,14 @@ export default async function KhatamkariPage() {
             );
           })}
         </div>
+
+        {/* ✅ Now pass the fetched products into CategoryClient */}
+        <CategoryClient
+          categoryId={8}
+          initialProducts={initialProducts}
+          initialHasMore={initialHasMore}
+        />
+
         <div className={styles.seoSection}>
           <h2>خرید محصولات خاتمکاری اصفهان | ترکیب هنر، ظرافت و اصالت</h2>
 
