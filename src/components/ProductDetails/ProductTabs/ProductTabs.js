@@ -159,9 +159,9 @@ export default function ProductTabs({
 
         {/* Reviews */}
         <div ref={reviewsRef} className={styles.reviewsContainer}>
-          <h2>
+          {/* <h2>
             <LiaComments className={styles.icons} /> دیدگاه مشتریان
-          </h2>
+          </h2> */}
           <div className={styles.reviewsWrapper}>
             {reviews
               .slice(0, showAllReviews ? reviews.length : 4)
