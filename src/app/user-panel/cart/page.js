@@ -47,7 +47,7 @@ export default function ShoppingCartPage() {
 
   const updateQuantity = async (itemId, newQuantity) => {
     if (!cartData) return;
-    
+
     const item = cartData.items.find((it) => it.id === itemId);
     if (!item) return;
 
@@ -57,8 +57,8 @@ export default function ShoppingCartPage() {
     if (newQuantity % step !== 0) return;
     if (newQuantity > availableStock || newQuantity < step) return;
 
-    setUpdatingItems(prev => new Set(prev).add(itemId));
-    
+    setUpdatingItems((prev) => new Set(prev).add(itemId));
+
     const updatedItems = cartData.items.map((it) =>
       it.id === itemId
         ? { product_variant_id: it.product_variant.id, quantity: newQuantity }
@@ -82,7 +82,7 @@ export default function ShoppingCartPage() {
       );
       setCartData({ ...cartData, items: revertedItems });
     } finally {
-      setUpdatingItems(prev => {
+      setUpdatingItems((prev) => {
         const newSet = new Set(prev);
         newSet.delete(itemId);
         return newSet;
@@ -92,9 +92,9 @@ export default function ShoppingCartPage() {
 
   const removeItem = async (itemId) => {
     if (!cartData) return;
-    
-    setUpdatingItems(prev => new Set(prev).add(itemId));
-    
+
+    setUpdatingItems((prev) => new Set(prev).add(itemId));
+
     const itemToRemove = cartData.items.find((it) => it.id === itemId);
     setCartData({
       ...cartData,
@@ -120,7 +120,7 @@ export default function ShoppingCartPage() {
         items: [...cartData.items, itemToRemove],
       });
     } finally {
-      setUpdatingItems(prev => {
+      setUpdatingItems((prev) => {
         const newSet = new Set(prev);
         newSet.delete(itemId);
         return newSet;
@@ -182,26 +182,27 @@ export default function ShoppingCartPage() {
 
   const applyCoupon = async () => {
     if (!couponCode.trim()) return;
-    
+
     try {
-      // This would be your actual coupon API call
-      // const response = await axiosInstance.post(`${API_URL}api/coupons/apply/`, { code: couponCode });
-      // setAppliedCoupon(response.data);
-      
-      // Mock success for demonstration
-      setAppliedCoupon({
+      const response = await axios.post(`${API_URL}api/coupons/apply/`, {
         code: couponCode,
-        discount_percent: 10,
-        message: "کد تخفیف با موفقیت اعمال شد"
+        order_total: orderTotal,
       });
+
+      setAppliedCoupon(response.data);
       setCouponCode("");
+      setError("");
     } catch (err) {
-      setError("کد تخفیف معتبر نیست");
+      setError(
+        err.response?.data?.error ||
+          "کد تخفیف معتبر نیست یا شرایط لازم را ندارد"
+      );
     }
   };
 
   const removeCoupon = () => {
     setAppliedCoupon(null);
+    setError("");
   };
 
   const handleCheckout = () => {
@@ -230,9 +231,7 @@ export default function ShoppingCartPage() {
             <h1>سبد خرید شما</h1>
           </div>
           {cartData?.items?.length > 0 && (
-            <div className={styles.itemCount}>
-              {cartData.items.length} کالا
-            </div>
+            <div className={styles.itemCount}>{cartData.items.length} کالا</div>
           )}
         </div>
 
@@ -249,20 +248,34 @@ export default function ShoppingCartPage() {
               <div className={styles.itemsSection}>
                 <div className={styles.itemsList}>
                   {cartData.items.map((item) => {
-                    const promotions = item.product_variant?.product?.promotions || [];
-                    const hasPromotion = promotions.length > 0 && promotions[0].discount;
-                    const discountPercent = hasPromotion ? promotions[0].discount : 0;
+                    const promotions =
+                      item.product_variant?.product?.promotions || [];
+                    const hasPromotion =
+                      promotions.length > 0 && promotions[0].discount;
+                    const discountPercent = hasPromotion
+                      ? promotions[0].discount
+                      : 0;
                     const basePrice = item.product_variant?.price || 0;
                     const finalPrice = getItemFinalPrice(item);
-                    const imageUrl = item.product_variant?.product?.images?.[0]?.image || "/placeholder.png";
-                    const step = item.product_variant?.product?.order_count || 1;
+                    const imageUrl =
+                      item.product_variant?.product?.images?.[0]?.image ||
+                      "/placeholder.png";
+                    const step =
+                      item.product_variant?.product?.order_count || 1;
                     const isUpdating = updatingItems.has(item.id);
                     const stockStatus = item.product_variant?.stock || 0;
 
                     return (
-                      <div key={item.id} className={`${styles.cartItem} ${isUpdating ? styles.updating : ''}`}>
-                        {isUpdating && <div className={styles.updatingOverlay}></div>}
-                        
+                      <div
+                        key={item.id}
+                        className={`${styles.cartItem} ${
+                          isUpdating ? styles.updating : ""
+                        }`}
+                      >
+                        {isUpdating && (
+                          <div className={styles.updatingOverlay}></div>
+                        )}
+
                         <div className={styles.itemImage}>
                           {hasPromotion && (
                             <span className={styles.discountBadge}>
@@ -271,14 +284,18 @@ export default function ShoppingCartPage() {
                           )}
                           <img
                             src={imageUrl}
-                            alt={item.product_variant?.product?.title || "Product Image"}
+                            alt={
+                              item.product_variant?.product?.title ||
+                              "Product Image"
+                            }
                           />
                         </div>
-                        
+
                         <div className={styles.itemDetails}>
                           <div className={styles.itemHeader}>
                             <h3 className={styles.itemTitle}>
-                              {item.product_variant?.product?.title || "Product Name"}
+                              {item.product_variant?.product?.title ||
+                                "Product Name"}
                             </h3>
                             <button
                               className={styles.removeItemButton}
@@ -288,11 +305,11 @@ export default function ShoppingCartPage() {
                               <MdDeleteOutline />
                             </button>
                           </div>
-                          
+
                           <p className={styles.itemDescription}>
                             {item.product_variant?.product?.description || ""}
                           </p>
-                          
+
                           <div className={styles.priceSection}>
                             {hasPromotion ? (
                               <div className={styles.priceWrapper}>
@@ -308,16 +325,24 @@ export default function ShoppingCartPage() {
                                 {basePrice.toLocaleString()} تومان
                               </span>
                             )}
-                            
+
                             <div className={styles.itemTotal}>
-                              جمع: {(finalPrice * item.quantity).toLocaleString()} تومان
+                              جمع:{" "}
+                              {(finalPrice * item.quantity).toLocaleString()}{" "}
+                              تومان
                             </div>
                           </div>
 
                           <div className={styles.itemInfo}>
-                            <p className={`${styles.itemStock} ${stockStatus < 3 ? styles.lowStock : ''}`}>
+                            <p
+                              className={`${styles.itemStock} ${
+                                stockStatus < 3 ? styles.lowStock : ""
+                              }`}
+                            >
                               موجودی: {stockStatus} عدد
-                              {stockStatus < 3 && stockStatus > 0 && " (کم موجودی)"}
+                              {stockStatus < 3 &&
+                                stockStatus > 0 &&
+                                " (کم موجودی)"}
                               {stockStatus === 0 && " (ناموجود)"}
                             </p>
                             {step > 1 && (
@@ -331,9 +356,12 @@ export default function ShoppingCartPage() {
                             <div className={styles.quantityBox}>
                               <button
                                 className={`${styles.quantityButton} ${styles.plusButton}`}
-                                onClick={() => updateQuantity(item.id, item.quantity + step)}
+                                onClick={() =>
+                                  updateQuantity(item.id, item.quantity + step)
+                                }
                                 disabled={
-                                  item.quantity + step > stockStatus || isUpdating
+                                  item.quantity + step > stockStatus ||
+                                  isUpdating
                                 }
                               >
                                 <FiPlus />
@@ -346,7 +374,12 @@ export default function ShoppingCartPage() {
                               {item.quantity > step ? (
                                 <button
                                   className={`${styles.quantityButton} ${styles.minusButton}`}
-                                  onClick={() => updateQuantity(item.id, item.quantity - step)}
+                                  onClick={() =>
+                                    updateQuantity(
+                                      item.id,
+                                      item.quantity - step
+                                    )
+                                  }
                                   disabled={isUpdating}
                                 >
                                   <FiMinus />
@@ -361,7 +394,7 @@ export default function ShoppingCartPage() {
                                 </button>
                               )}
                             </div>
-                            
+
                             {stockStatus === 0 && (
                               <span className={styles.outOfStock}>ناموجود</span>
                             )}
@@ -377,26 +410,38 @@ export default function ShoppingCartPage() {
               <div className={styles.summarySection}>
                 <div className={styles.summaryCard}>
                   <h3 className={styles.summaryTitle}>خلاصه سفارش</h3>
-                  
+
                   {!isCartValid() && (
                     <div className={styles.stockWarning}>
                       <FiAlertTriangle />
-                      برخی از محصولات در سبد خرید شما از موجودی موجود بیشتر هستند یا تعدادشان با حداقل سفارش همخوانی ندارد.
+                      برخی از محصولات در سبد خرید شما از موجودی موجود بیشتر
+                      هستند یا تعدادشان با حداقل سفارش همخوانی ندارد.
                     </div>
                   )}
 
-                  {/* Coupon Section */}
-                  {/* <div className={styles.couponSection}>
+                  <div className={styles.couponSection}>
                     {appliedCoupon ? (
                       <div className={styles.appliedCoupon}>
                         <div className={styles.couponInfo}>
                           <RiCoupon3Line />
-                          <span>کد تخفیف: {appliedCoupon.code}</span>
-                          <span className={styles.couponDiscount}>
-                            {appliedCoupon.discount_percent}% تخفیف
+                          <span>کد تخفیف: {appliedCoupon.coupon.code}</span>
+                          {appliedCoupon.coupon.discount_percent > 0 && (
+                            <span className={styles.couponDiscount}>
+                              {appliedCoupon.coupon.discount_percent}% تخفیف
+                            </span>
+                          )}
+                          {appliedCoupon.discount > 0 && (
+                            <span className={styles.couponDiscount}>
+                              مبلغ تخفیف:{" "}
+                              {appliedCoupon.discount.toLocaleString()} ریال
+                            </span>
+                          )}
+                          <span className={styles.finalTotal}>
+                            مبلغ نهایی:{" "}
+                            {appliedCoupon.final_total.toLocaleString()} ریال
                           </span>
                         </div>
-                        <button 
+                        <button
                           className={styles.removeCouponButton}
                           onClick={removeCoupon}
                         >
@@ -412,7 +457,7 @@ export default function ShoppingCartPage() {
                           onChange={(e) => setCouponCode(e.target.value)}
                           className={styles.couponInput}
                         />
-                        <button 
+                        <button
                           className={styles.applyCouponButton}
                           onClick={applyCoupon}
                           disabled={!couponCode.trim()}
@@ -421,7 +466,8 @@ export default function ShoppingCartPage() {
                         </button>
                       </div>
                     )}
-                  </div> */}
+                    {error && <p className={styles.error}>{error}</p>}
+                  </div>
 
                   <div className={styles.summaryDetails}>
                     <div className={styles.summaryRow}>
@@ -430,9 +476,13 @@ export default function ShoppingCartPage() {
                     </div>
 
                     {appliedCoupon && (
-                      <div className={`${styles.summaryRow} ${styles.discountRow}`}>
+                      <div
+                        className={`${styles.summaryRow} ${styles.discountRow}`}
+                      >
                         <span>تخفیف:</span>
-                        <span>-{calculateDiscount().toLocaleString()} تومان</span>
+                        <span>
+                          -{calculateDiscount().toLocaleString()} تومان
+                        </span>
                       </div>
                     )}
 
@@ -453,17 +503,20 @@ export default function ShoppingCartPage() {
                       <div className={styles.freeShippingProgress}>
                         <div className={styles.freeShippingText}>
                           <FiTruck className={styles.truckIcon} />
-                          {calculateRemainingForFreeShipping().toLocaleString()} تومان تا ارسال رایگان
+                          {calculateRemainingForFreeShipping().toLocaleString()}{" "}
+                          تومان تا ارسال رایگان
                         </div>
                         <div className={styles.progressBar}>
-                          <div 
-                            className={styles.progressFill} 
+                          <div
+                            className={styles.progressFill}
                             style={{ width: `${calculateShippingProgress()}%` }}
                           ></div>
                         </div>
                       </div>
                     ) : (
-                      <div className={`${styles.freeShippingProgress} ${styles.freeShippingAchieved}`}>
+                      <div
+                        className={`${styles.freeShippingProgress} ${styles.freeShippingAchieved}`}
+                      >
                         <div className={styles.freeShippingText}>
                           <FiTruck className={styles.truckIcon} />
                           🎉 تبریک! خرید شما رایگان ارسال می‌شود
@@ -473,16 +526,22 @@ export default function ShoppingCartPage() {
 
                     <div className={styles.divider}></div>
 
-                    <div className={`${styles.summaryRow} ${styles.totalPayRow}`}>
+                    <div
+                      className={`${styles.summaryRow} ${styles.totalPayRow}`}
+                    >
                       <span>مبلغ نهایی:</span>
-                      <span>{calculateFinalTotal().toLocaleString()} تومان</span>
+                      <span>
+                        {calculateFinalTotal().toLocaleString()} تومان
+                      </span>
                     </div>
                   </div>
 
                   <button
                     className={styles.checkoutButton}
                     onClick={handleCheckout}
-                    disabled={loading || !isCartValid() || cartData.items.length === 0}
+                    disabled={
+                      loading || !isCartValid() || cartData.items.length === 0
+                    }
                   >
                     {loading ? "در حال پردازش..." : "ادامه فرآیند خرید"}
                   </button>
@@ -501,7 +560,7 @@ export default function ShoppingCartPage() {
               <MdShoppingCart className={styles.emptyCartIcon} />
               <h3>سبد خرید شما خالی است</h3>
               <p>می‌توانید برای مشاهده محصولات بیشتر به صفحه فروشگاه بروید</p>
-              <button 
+              <button
                 className={styles.continueShoppingButton}
                 onClick={continueShopping}
               >
