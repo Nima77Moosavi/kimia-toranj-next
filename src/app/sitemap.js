@@ -48,6 +48,9 @@ export default async function sitemap() {
     "/post/a-guide-to-buying-a-brass-fruit-bowl-a-stylish-choice-for-home-decoration",
     "/post/The-art-of-calligraphy-and-inlay-work-masterpieces-of-Isfahan-handicrafts",
     "/post/Golden-products-the-magic-of-calligraphy-and-inlay-art-in-modern-Iranian-life",
+    "/post/handmade-mirror-and-candleholder",
+    "/post/Calligraphy-and-enamel-paintings-walls-that-speak",
+    "/post/Brass-Products-The-Shine-of-Authenticity-in-Iranian-Home",
   ].map((path) => ({
     url: `${baseUrl}${path}`,
     lastModified: new Date(),
