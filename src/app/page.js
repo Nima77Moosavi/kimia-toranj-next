@@ -11,6 +11,7 @@ import Footer from "@/components/Footer/Footer";
 import FooterMenu from "@/components/FooterMenu/FooterMenu";
 import ContactButton from "@/components/ContactButton/ContactButton";
 import ArticleCarousel from "@/components/ArticleCarousel/ArticleCarousel";
+import { API_URL } from "@/config/config";
 
 export const metadata = {
   title: "فروشگاه کیمیا ترنج | صنایع دستی اصفهان ",
@@ -20,14 +21,29 @@ export const metadata = {
 
 // Build-time fetch (static, like sitemap)
 async function getAllProducts() {
-  const res = await fetch(
-    "https://kimiatoranj-api.liara.run/api/store/products/?page_size=1000",
-    { cache: "force-cache" } // ensures build-time fetch
-  );
+  let allProducts = [];
+  let page = 1;
+  let hasMore = true;
 
-  if (!res.ok) return [];
-  const data = await res.json();
-  return Array.isArray(data) ? data : Array.isArray(data.results) ? data.results : [];
+  while (hasMore) {
+    const res = await fetch(
+      `${API_URL}api/store/products/?page=${page}&page_size=100`,
+      { cache: "force-cache" } // ensures build-time fetch
+    );
+
+    if (!res.ok) break;
+    const data = await res.json();
+    return Array.isArray(data)
+      ? data
+      : Array.isArray(data.results)
+      ? data.results
+      : [];
+  }
+  allProducts = allProducts.concat(results);
+
+  // If fewer than 100 results came back, we’re at the last page
+  hasMore = results.length === 100;
+  page++;
 }
 
 export default async function Home() {
