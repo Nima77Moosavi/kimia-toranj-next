@@ -13,6 +13,8 @@ import ContactButton from "@/components/ContactButton/ContactButton";
 import ArticleCarousel from "@/components/ArticleCarousel/ArticleCarousel";
 import { API_URL } from "@/config/config";
 
+import axios from "axios";
+
 export const metadata = {
   title: "فروشگاه کیمیا ترنج | صنایع دستی اصفهان ",
   description:

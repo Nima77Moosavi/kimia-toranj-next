@@ -8,6 +8,13 @@ import styles from "./ShoppingCart.module.css";
 import { MdDeleteOutline, MdShoppingCart } from "react-icons/md";
 import { FiPlus, FiMinus, FiTruck, FiAlertTriangle } from "react-icons/fi";
 import { RiCoupon3Line } from "react-icons/ri";
+import axios from "axios";
+
+// export const metadata = {
+//   title: "فروشگاه کیمیا ترنج | صنایع دستی اصفهان ",
+//   description:
+//     "خرید صنایع دستی اصیل اصفهان و ایران؛ خاتم‌کاری، قلم‌زنی، مینیاتور، سماور برنجی، پک هدیه سازمانی و محصولات دست‌ساز با کیفیت.",
+// };
 
 export default function ShoppingCartPage() {
   const [cartData, setCartData] = useState(null);
@@ -181,18 +188,29 @@ export default function ShoppingCartPage() {
   };
 
   const applyCoupon = async () => {
-    if (!couponCode.trim()) return;
+    console.log("applyCoupon called with code:", couponCode);
+
+    if (!couponCode.trim()) {
+      console.log("Coupon code empty, returning");
+      return;
+    }
 
     try {
-      const response = await axios.post(`${API_URL}api/store/coupons/apply/`, {
+      const url = `${API_URL}api/store/coupons/apply/`;
+      console.log("Posting to:", url);
+
+      const response = await axios.post(url, {
         code: couponCode,
-        order_total: orderTotal,
+        order_total: calculateTotal(),
       });
+
+      console.log("Response:", response.data);
 
       setAppliedCoupon(response.data);
       setCouponCode("");
       setError("");
     } catch (err) {
+      console.error("Coupon error:", err);
       setError(
         err.response?.data?.error ||
           "کد تخفیف معتبر نیست یا شرایط لازم را ندارد"
@@ -550,7 +568,7 @@ export default function ShoppingCartPage() {
                     className={styles.continueShoppingButton}
                     onClick={continueShopping}
                   >
-                    ادامه خرید
+                    افزودن محصول جدید به سبد خرید
                   </button>
                 </div>
               </div>
