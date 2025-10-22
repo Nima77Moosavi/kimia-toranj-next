@@ -184,7 +184,7 @@ export default function ShoppingCartPage() {
     if (!couponCode.trim()) return;
 
     try {
-      const response = await axios.post(`${API_URL}api/coupons/apply/`, {
+      const response = await axios.post(`${API_URL}api/store/coupons/apply/`, {
         code: couponCode,
         order_total: orderTotal,
       });
