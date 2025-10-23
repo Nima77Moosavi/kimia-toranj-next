@@ -150,8 +150,11 @@ export default function ShoppingCartPage() {
 
   const calculateDiscount = () => {
     if (!appliedCoupon) return 0;
-    const total = calculateTotal();
-    return Math.round(total * (appliedCoupon.discount_percent / 100));
+
+    const total = Number(calculateTotal() || 0);
+    const percent = Number(appliedCoupon.discount_percent || 0);
+
+    return Math.round(total * (percent / 100));
   };
 
   const calculateFinalTotal = () => {
@@ -199,16 +202,37 @@ export default function ShoppingCartPage() {
       const url = `${API_URL}api/store/coupons/apply/`;
       console.log("Posting to:", url);
 
-      const response = await axios.post(url, {
+      // use axiosInstance so auth headers/cookies are sent
+      const response = await axiosInstance.post(url, {
         code: couponCode,
         order_total: calculateTotal(),
       });
 
-      console.log("Response:", response.data);
+      console.log("Coupon apply response:", response.data);
 
+      // Save applied coupon locally
       setAppliedCoupon(response.data);
       setCouponCode("");
       setError("");
+
+      // Persist coupon on server-side cart so checkout/order creation sees it
+      try {
+        const attachRes = await axiosInstance.patch(
+          `${API_URL}api/store/cart/`,
+          {
+            coupon_code:
+              response.data?.coupon?.code || response.data?.code || couponCode,
+          }
+        );
+
+        // update local cart with server response if provided
+        if (attachRes?.data) {
+          setCartData(attachRes.data);
+        }
+      } catch (attachErr) {
+        console.warn("Failed to attach coupon to cart:", attachErr);
+        // non-fatal: coupon applied but not attached to cart; still allow user to proceed
+      }
     } catch (err) {
       console.error("Coupon error:", err);
       setError(
@@ -218,9 +242,20 @@ export default function ShoppingCartPage() {
     }
   };
 
-  const removeCoupon = () => {
+  const removeCoupon = async () => {
     setAppliedCoupon(null);
     setError("");
+
+    try {
+      const res = await axiosInstance.patch(`${API_URL}api/store/cart/`, {
+        coupon_code: null,
+      });
+      if (res?.data) {
+        setCartData(res.data);
+      }
+    } catch (err) {
+      console.warn("Failed to remove coupon from cart:", err);
+    }
   };
 
   const handleCheckout = () => {
@@ -451,12 +486,12 @@ export default function ShoppingCartPage() {
                           {appliedCoupon.discount > 0 && (
                             <span className={styles.couponDiscount}>
                               مبلغ تخفیف:{" "}
-                              {appliedCoupon.discount.toLocaleString()} ریال
+                              {appliedCoupon.discount.toLocaleString()} تومان
                             </span>
                           )}
                           <span className={styles.finalTotal}>
                             مبلغ نهایی:{" "}
-                            {appliedCoupon.final_total.toLocaleString()} ریال
+                            {appliedCoupon.final_total.toLocaleString()} تومان
                           </span>
                         </div>
                         <button
@@ -499,7 +534,7 @@ export default function ShoppingCartPage() {
                       >
                         <span>تخفیف:</span>
                         <span>
-                          -{calculateDiscount().toLocaleString()} تومان
+                          {appliedCoupon.discount.toLocaleString()} تومان
                         </span>
                       </div>
                     )}
@@ -549,7 +584,10 @@ export default function ShoppingCartPage() {
                     >
                       <span>مبلغ نهایی:</span>
                       <span>
-                        {calculateFinalTotal().toLocaleString()} تومان
+                        {appliedCoupon
+                          ? appliedCoupon.final_total.toLocaleString()
+                          : calculateFinalTotal().toLocaleString()}{" "}
+                        تومان
                       </span>
                     </div>
                   </div>
