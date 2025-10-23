@@ -126,7 +126,9 @@ export default function ProductDetailsClient({ initialProduct }) {
       <div className={styles.pageContent}>
         <div className={styles.circle}></div>
 
-        {product.images?.length > 0 && <ImageSlider images={product.images} />}
+        {product.images?.length > 0 && (
+          <ImageSlider images={product.images} productTitle={product.title} />
+        )}
 
         <div className={styles.container}>
           <div className={styles.leftSidebar}>
@@ -137,8 +139,7 @@ export default function ProductDetailsClient({ initialProduct }) {
               stock={variant.stock || 0}
               orderCount={product.order_count}
             />
-        <IconsBox isLiked={like} onLikeClick={likeHandler} />
-
+            <IconsBox isLiked={like} onLikeClick={likeHandler} />
           </div>
 
           <ProductTabs

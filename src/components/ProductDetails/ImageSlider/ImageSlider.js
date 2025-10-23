@@ -4,7 +4,7 @@ import { useState } from "react";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import styles from "./ImageSlider.module.css";
 
-export default function ImageSlider({ images }) {
+export default function ImageSlider({ images, productTitle }) {
   const [currentImage, setCurrentImage] = useState(0);
 
   if (!images || images.length === 0) {
@@ -23,11 +23,16 @@ export default function ImageSlider({ images }) {
     );
   };
 
+  // Helper to get alt text with fallback
+  const getAlt = (img, fallback) =>
+    img.alt_text && img.alt_text.trim() !== "" ? img.alt_text : fallback;
+
   return (
     <div className={styles.sliderContainer}>
+      {/* Main image */}
       <img
         src={images[currentImage].image}
-        alt={`تصویر محصول ${currentImage + 1}`}
+        alt={getAlt(images[currentImage], productTitle)}
         className={styles.sliderImage}
       />
 
@@ -55,7 +60,7 @@ export default function ImageSlider({ images }) {
           <img
             key={index}
             src={img.image}
-            alt={`تصویر بندانگشتی ${index + 1}`}
+            alt={getAlt(img, productTitle)}
             className={`${styles.thumbnail} ${
               index === currentImage ? styles.activeThumbnail : ""
             }`}

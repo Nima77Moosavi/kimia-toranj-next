@@ -17,7 +17,7 @@ export async function generateMetadata({ params }) {
   const product = await res.json();
 
   return {
-    title: product.seo?.meta_title || product.name,
+    title: product.seo?.meta_title || product.title,
     description: product.seo?.meta_description || "",
   };
 }
