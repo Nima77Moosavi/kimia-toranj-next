@@ -145,7 +145,14 @@ export default function ShoppingCartPage() {
 
   const calculateShippingPrice = () => {
     const total = calculateTotal();
-    return total < 1000000 ? 80000 : 0;
+
+    if (total < 1000000) {
+      return 80000;
+    } else if (total >= 1000000 && total < 2000000) {
+      return 120000;
+    } else {
+      return 0;
+    }
   };
 
   const calculateDiscount = () => {
@@ -162,20 +169,26 @@ export default function ShoppingCartPage() {
   };
 
   // محاسبه مبلغ باقیمانده تا خرید رایگان
-  const calculateRemainingForFreeShipping = () => {
-    const freeShippingThreshold = 1000000;
-    const total = calculateTotal();
-    const remaining = freeShippingThreshold - total;
-    return remaining > 0 ? remaining : 0;
-  };
+const calculateRemainingForFreeShipping = () => {
+  const freeShippingThreshold = 2000000; // free shipping starts at 2M
+  const total = calculateTotal();
+  const remaining = freeShippingThreshold - total;
+  return remaining > 0 ? remaining : 0;
+};
+
 
   // محاسبه درصد پیشرفت برای نوار پیشرفت
   const calculateShippingProgress = () => {
-    const freeShippingThreshold = 1000000;
-    const total = calculateTotal();
-    const progress = (total / freeShippingThreshold) * 100;
-    return Math.min(progress, 100);
-  };
+  const total = calculateTotal();
+
+  if (total < 1000000) return 0;        // below 1M → empty bar
+  if (total >= 2000000) return 100;     // 2M or more → full bar
+
+  // normalize between 1M and 2M
+  const progress = ((total - 1000000) / (2000000 - 1000000)) * 100;
+  return progress;
+};
+
 
   const isCartValid = () => {
     if (!cartData?.items || cartData.items.length === 0) return false;
@@ -551,22 +564,34 @@ export default function ShoppingCartPage() {
                       </span>
                     </div>
 
-                    {/* بخش نمایش مبلغ باقیمانده تا خرید رایگان */}
-                    {calculateShippingPrice() > 0 ? (
-                      <div className={styles.freeShippingProgress}>
-                        <div className={styles.freeShippingText}>
-                          <FiTruck className={styles.truckIcon} />
-                          {calculateRemainingForFreeShipping().toLocaleString()}{" "}
-                          تومان تا ارسال رایگان
-                        </div>
-                        <div className={styles.progressBar}>
-                          <div
-                            className={styles.progressFill}
-                            style={{ width: `${calculateShippingProgress()}%` }}
-                          ></div>
-                        </div>
+                    {/* نمایش وضعیت ارسال رایگان */}
+                    {calculateTotal() < 1000000 && (
+                      <div className={styles.freeShippingInfo}>
+                        <FiTruck className={styles.truckIcon} />
+                        برای سفارش‌های بالای ۲,۰۰۰,۰۰۰ تومان ارسال رایگان است
                       </div>
-                    ) : (
+                    )}
+
+                    {calculateTotal() >= 1000000 &&
+                      calculateTotal() < 2000000 && (
+                        <div className={styles.freeShippingProgress}>
+                          <div className={styles.freeShippingText}>
+                            <FiTruck className={styles.truckIcon} />
+                            {calculateRemainingForFreeShipping().toLocaleString()}{" "}
+                            تومان تا ارسال رایگان
+                          </div>
+                          <div className={styles.progressBar}>
+                            <div
+                              className={styles.progressFill}
+                              style={{
+                                width: `${calculateShippingProgress()}%`,
+                              }}
+                            ></div>
+                          </div>
+                        </div>
+                      )}
+
+                    {calculateTotal() >= 2000000 && (
                       <div
                         className={`${styles.freeShippingProgress} ${styles.freeShippingAchieved}`}
                       >
