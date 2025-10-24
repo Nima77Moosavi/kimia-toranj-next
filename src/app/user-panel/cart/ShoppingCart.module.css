@@ -685,6 +685,40 @@
   transform: translateY(-1px);
 }
 
+.installmentPayment {
+  width: 100%;
+  margin-top: 12px;
+  background: #e0f7fa;
+  border: none;
+  border-radius: 8px;
+  padding: 0;
+  transition: background 0.2s;
+}
+
+.installmentPayment:hover {
+  background: #b2ebf2;
+}
+
+.contactOption {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background-color: #2852e4;
+  font-size: 18px;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 12px 0;
+  width: 100%;
+  border-radius: 10px;
+}
+
+.installmentPaymentIcon {
+  margin-right: 8px;
+  font-size: 22px;
+  vertical-align: middle;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .cartWithSummary {

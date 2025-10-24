@@ -10,6 +10,10 @@ import { FiPlus, FiMinus, FiTruck, FiAlertTriangle } from "react-icons/fi";
 import { RiCoupon3Line } from "react-icons/ri";
 import axios from "axios";
 
+import Link from "next/link";
+
+import { MdOutlineReceiptLong } from "react-icons/md";
+
 // export const metadata = {
 //   title: "فروشگاه کیمیا ترنج | صنایع دستی اصفهان ",
 //   description:
@@ -169,26 +173,24 @@ export default function ShoppingCartPage() {
   };
 
   // محاسبه مبلغ باقیمانده تا خرید رایگان
-const calculateRemainingForFreeShipping = () => {
-  const freeShippingThreshold = 2000000; // free shipping starts at 2M
-  const total = calculateTotal();
-  const remaining = freeShippingThreshold - total;
-  return remaining > 0 ? remaining : 0;
-};
-
+  const calculateRemainingForFreeShipping = () => {
+    const freeShippingThreshold = 2000000; // free shipping starts at 2M
+    const total = calculateTotal();
+    const remaining = freeShippingThreshold - total;
+    return remaining > 0 ? remaining : 0;
+  };
 
   // محاسبه درصد پیشرفت برای نوار پیشرفت
   const calculateShippingProgress = () => {
-  const total = calculateTotal();
+    const total = calculateTotal();
 
-  if (total < 1000000) return 0;        // below 1M → empty bar
-  if (total >= 2000000) return 100;     // 2M or more → full bar
+    if (total < 1000000) return 0; // below 1M → empty bar
+    if (total >= 2000000) return 100; // 2M or more → full bar
 
-  // normalize between 1M and 2M
-  const progress = ((total - 1000000) / (2000000 - 1000000)) * 100;
-  return progress;
-};
-
+    // normalize between 1M and 2M
+    const progress = ((total - 1000000) / (2000000 - 1000000)) * 100;
+    return progress;
+  };
 
   const isCartValid = () => {
     if (!cartData?.items || cartData.items.length === 0) return false;
@@ -632,6 +634,19 @@ const calculateRemainingForFreeShipping = () => {
                     onClick={continueShopping}
                   >
                     افزودن محصول جدید به سبد خرید
+                  </button>
+                  <button className={styles.installmentPayment}>
+                    <Link
+                      href={`/installment-payment?price=${
+                        calculateFinalTotal()
+                      }`}
+                      className={styles.contactOption}
+                    >
+                      پرداخت اقساطی
+                      <MdOutlineReceiptLong
+                        className={styles.installmentPaymentIcon}
+                      />
+                    </Link>
                   </button>
                 </div>
               </div>
