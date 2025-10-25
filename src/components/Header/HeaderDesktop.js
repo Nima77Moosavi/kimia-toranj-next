@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
-import axiosInstance from "@/utils/axiosInstance";
+import axiosInstanceNoRedirect from "@/utils/axiosInstanceNoRedirect";
 import { formatPrice } from "@/utils/formatPrice";
 import { API_URL } from "@/config/config";
 import { useCartStore } from "@/store/cartStore";
@@ -48,7 +48,7 @@ export default function HeaderDesktop() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const { data } = await axiosInstance.get(`${API_URL}api/store/collections/`);
+        const { data } = await axiosInstanceNoRedirect.get(`${API_URL}api/store/collections/`);
         setCategories(data);
       } catch (err) {
         console.error("Failed to fetch categories", err);
@@ -79,7 +79,7 @@ export default function HeaderDesktop() {
     clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(async () => {
       try {
-        const { data } = await axiosInstance.get(
+        const { data } = await axiosInstanceNoRedirect.get(
           `${API_URL}api/store/products/?title=${encodeURIComponent(q)}`
         );
         setSuggestions(data.results.slice(0, 8));
