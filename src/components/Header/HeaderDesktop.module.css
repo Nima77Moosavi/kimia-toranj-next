@@ -1,165 +1,52 @@
-/* HeaderDesktop.module.css */
-
-/* ───────────────────────────────────────────────────────
-   Base Header Styles
-   ─────────────────────────────────────────────────────── */
+/* ───────────────────────────────────────────────
+   Base Header
+   ─────────────────────────────────────────────── */
 .header {
   width: 100%;
-  height: max-content;
   padding: 10px 20px;
-  position: relative;
-  overflow: visible;
-  margin-bottom: 0;
+  background: #fff;
+  border-bottom: 1px solid #eee;
   z-index: 100;
+  direction: rtl;
+  position: relative; /* important so overlay anchors to header */
 }
 
-.overlay {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  backdrop-filter: blur(2px);
+/* ───────────────────────────────
+   Row 1 Layout
+   ─────────────────────────────── */
+.topRow {
   display: flex;
-  justify-content: flex-end;
-  z-index: 100;
-}
-
-.menu {
-  width: 300px;
-  height: 100%;
-  padding: 2rem;
-  animation: slideIn 0.3s ease-out;
-  direction: ltr;
-  text-align: center;
-  background-color: #fff;
-}
-
-.menu a {
-  text-decoration: none;
-}
-
-@keyframes slideIn {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(0%);
-  }
-}
-
-.container {
-  display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: center;
-  position: relative;
-  z-index: 20;
-  flex-wrap: wrap;
-  min-height: 80px;
+  gap: 24px;
+  min-height: 90px;
 }
 
+/* Logo */
 .logoContainer {
-  width: 240px;
-  height: auto;
   display: flex;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .logo {
-  width: 100%;
+  width: 160px;
   height: auto;
 }
 
-/* ───────────────────────────────────────────────────────
-   Icons & Buttons
-   ─────────────────────────────────────────────────────── */
-.icons {
-  display: flex;
-  gap: 20px;
-  order: 1;
-  font-size: 28px;
-  color: #023047 !important;
-  margin-left: 100px;
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  z-index: 30;
-}
-.cartIcon{
-  color: #023047 !important;
-  display: flex;
-  align-items: center;  /* vertical centering */
-  justify-content: center;
-  position: relative;   /* needed for absolutely‑positioned badge */
-  font-size: 2rem;
-}
-
-.cartItemsCount {
-  position: absolute;
-  top: -6px;            /* move up */
-  right: -6px;          /* move right */
-  background: #e63946;  /* red background */
-  color: #fff;          /* white text */
-  font-size: 0.7rem;
-  font-weight: bold;
-  padding: 2px 6px;
-  min-width: 18px;
-  text-align: center;
-  line-height: 1;
-  border-radius: 50%;
-  box-shadow: 0 0 0 2px #fff; /* small white border for contrast */
-}
-.loginButton {
-  order: 2;
-  color: #023047;
-  margin-left: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.loginButton a {
-  text-decoration: none;
-  color: inherit;
-}
-
-.loginButton button {
-  font-size: 20px;
-  padding: 8px 16px;
-  background-color: #fff;
-  color: #023047;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-}
-
-.loginButton a {
-  pointer-events: auto;
-}
-
-/* ───────────────────────────────────────────────────────
-   Search Container & Box
-   ─────────────────────────────────────────────────────── */
+/* ───────────────────────────────
+   Search Box
+   ─────────────────────────────── */
 .searchContainer {
-  order: 3;
-  flex-grow: 1;
-  margin: 0 20px;
-  position: relative;
+  flex: 1;
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  z-index: 10;
-  height: 40px;
+  justify-content: center;
+  position: relative;
 }
 
 .searchBox {
-  width: 70%;
+  width: 100%;
+  max-width: 500px;
   position: relative;
   display: flex;
   align-items: center;
@@ -167,226 +54,222 @@
 
 .searchBox input {
   width: 100%;
-  height: 40px;
-  padding: 0 40px 0 10px;
+  height: 44px;
+  padding: 0 44px 0 14px;
   border: 1px solid #023047;
   border-radius: 50px;
-  text-align: right;
+  font-size: 16px;
   direction: rtl;
-  font-size: 18px;
-  box-sizing: border-box;
 }
 
 .searchIcon {
   position: absolute;
-  left: 10px;
+  left: 14px;
   top: 50%;
   transform: translateY(-50%);
   color: #023047;
-  font-size: 24px;
-  pointer-events: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
-}
-
-/* ───────────────────────────────────────────────────────
-   Autocomplete Suggestions Dropdown
-   ─────────────────────────────────────────────────────── */
-   .suggestionsList {
-    position: absolute;
-    top: calc(100% + 4px);
-    right: 0;
-    left: auto;
-    width: 70%; /* match searchBox width */
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    list-style: none;
-    margin: 4px 0 0;
-    padding: 0;
-    z-index: 10;
-    direction: rtl;
-  }
-  
-  .suggestionItem {
-    padding: 10px 16px;
-    cursor: pointer;
-    font-size: 16px;
-    border-bottom: 1px solid #f0f0f0;
-    display: flex;
-    align-items: center; /* برای تراز عمودی بهتر */
-    gap: 12px; /* فاصله بین عکس و متن */
-  }
-  
-  .suggestionItem a {
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    width: 100%;
-  }
-  
-  .suggestionItem:last-child {
-    border-bottom: none;
-  }
-  
-  .suggestionItem:hover {
-    background-color: #f9f9f9;
-  }
-  
-  .suggestionTitle {
-    font-weight: 500;
-    color: #023047;
-    margin-bottom: 4px;
-  }
-  
-  .suggestionMeta {
-    font-size: 14px;
-    color: #777;
-  }
-  
-  .suggestionItem .suggestionImage {
-    width: 100px;
-    height: 100px;
-    flex-shrink: 0;
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  
-  .suggestionItem .suggestionImage img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-/* ───────────────────────────────────────────────────────
-   Hamburger Menu
-   ─────────────────────────────────────────────────────── */
-.hamburgerMenu {
-  order: 4;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: max-content;
-  height: 50px;
-}
-
-.hamburgerMenu span {
-  font-size: 50px;
-  cursor: pointer;
-  color: #023047;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* ───────────────────────────────────────────────────────
-   Menu List Items
-   ─────────────────────────────────────────────────────── */
-.menu li {
   font-size: 22px;
-  width: 100%;
-  padding: 5px 28px;
-  color: #023047;
-  border-bottom: 1px solid #023047;
-  margin: 5px 0;
-  text-align: right;
-  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.menu li:hover {
-  background-color: #f0f0f0;
+/* ───────────────────────────────
+   Login Button
+   ─────────────────────────────── */
+.loginButton button {
+  font-size: 15px;
+  padding: 8px 18px;
+  background-color: #023047;
+  color: #fff;
+  border-radius: 8px;
+  border: none;
   cursor: pointer;
-  transition: 0.3s;
+  transition: background 0.2s ease;
 }
 
-/* ───────────────────────────────────────────────────────
-   Responsive Media Queries
-   ─────────────────────────────────────────────────────── */
-@media (max-width: 1200px) {
-  .icons {
-    margin-left: 50px;
-  }
-  .searchBox {
-    width: 60%;
-  }
+.loginButton button:hover {
+  background-color: #03506f;
 }
 
-@media (max-width: 768px) {
-  .header {
-    min-height: 300px;
-    padding: 10px;
-  }
-  .icons {
-    margin-left: 20px;
-    font-size: 24px;
-  }
-  .loginButton {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .loginButton button {
-    font-size: 18px;
-  }
-  .searchContainer {
-    width: 30%;
-    margin: 10px 0;
-  }
-  .searchBox {
-    width: 90%;
-  }
-  .searchBox input {
-    font-size: 16px;
-  }
-  .searchIcon {
-    font-size: 20px;
-  }
-  .hamburgerMenu span {
-    font-size: 40px;
-  }
+/* ───────────────────────────────
+   Cart Icon
+   ─────────────────────────────── */
+.icons {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
 }
 
-@media (max-width: 480px) {
-  .header {
-    min-height: 250px;
-  }
-  .container {
-    flex-direction: row;
-    align-items: center;
-  }
-  .icons {
-    font-size: 20px;
-  }
-  .loginButton {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .loginButton button {
-    font-size: 16px;
-    height: max-content;
-    border: #023047 solid 1px;
-    padding: 0 10px;
-  }
-  .searchContainer {
-    width: 80%;
-    margin: 10px 0;
-  }
-  .searchBox {
-    width: 100%;
-  }
-  .searchBox input {
-    font-size: 14px;
-  }
-  .searchIcon {
-    font-size: 18px;
-  }
-  .hamburgerMenu span {
-    font-size: 30px;
-  }
+.cartIcon {
+  font-size: 1.9rem;
+  color: #023047;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cartItemsCount {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  background: #e63946;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 50%;
+  line-height: 1;
+  box-shadow: 0 0 0 2px #fff;
+}
+
+/* ───────────────────────────────────────────────
+   Row 2: Horizontal Navigation Menu
+   ─────────────────────────────────────────────── */
+.navMenu {
+  border-top: 1px solid #eee;
+  margin-top: 8px;
+  position: relative;
+}
+
+.navMenu ul {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  list-style: none;
+  padding: 10px 0;
+  margin: 0;
+}
+
+.navMenu li a,
+.navMenu li span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 16px;
+  color: #023047;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  cursor: pointer;
+}
+
+.navMenu li a:hover,
+.navMenu li span:hover {
+  color: #e63946;
+}
+
+/* ───────────────────────────────────────────────
+   Overlay Menu for Categories (mega menu)
+   ─────────────────────────────────────────────── */
+.dropdown {
+  position: relative;
+}
+
+.overlayMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  width: 100vw; /* full viewport width */
+  background: #fff;
+  border-top: 1px solid #eee;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  padding: 40px 80px;
+  z-index: 200;
+  animation: fadeIn 0.25s ease;
+}
+
+.overlayContent {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 40px 60px;
+}
+
+.categoryBlock {
+  text-align: right;
+}
+
+.categoryBlock h4 {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #023047;
+  font-weight: 600;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 6px;
+}
+
+.categoryBlock ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.categoryBlock li {
+  font-size: 14px;
+  margin: 6px 0;
+}
+
+.categoryBlock li a {
+  text-decoration: none;
+  color: #555;
+  transition: color 0.2s ease;
+}
+
+.categoryBlock li a:hover {
+  color: #e63946;
+}
+
+/* Simple fade animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ───────────────────────────────────────────────
+   Suggestions Dropdown (search autocomplete)
+   ─────────────────────────────────────────────── */
+.suggestionsList {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  width: 100%;
+  max-width: 500px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  z-index: 10;
+  direction: rtl;
+}
+
+.suggestionItem {
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.suggestionItem:hover {
+  background-color: #f9f9f9;
+}
+
+.suggestionTitle {
+  font-weight: 500;
+  color: #023047;
+  margin-bottom: 4px;
+}
+
+.suggestionMeta {
+  font-size: 13px;
+  color: #777;
 }
