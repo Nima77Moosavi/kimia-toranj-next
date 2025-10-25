@@ -8,7 +8,7 @@
   border-bottom: 1px solid #eee;
   z-index: 100;
   direction: rtl;
-  position: relative; /* important so overlay anchors to header */
+  position: relative; /* anchor for overlay */
 }
 
 /* ───────────────────────────────
@@ -41,7 +41,8 @@
   flex: 1;
   display: flex;
   justify-content: center;
-  position: relative;
+  position: relative; /* anchor for suggestions */
+  z-index: 50;
 }
 
 .searchBox {
@@ -72,6 +73,51 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Suggestions dropdown */
+.suggestionsList {
+  position: absolute;
+  top: 100%;              /* directly below input */
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  list-style: none;
+  margin-top: 6px;
+  padding: 0;
+  z-index: 1000;          /* above overlay/nav */
+  max-height: 400px;
+  overflow-y: auto;
+  direction: rtl;
+}
+
+.suggestionItem {
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fff;
+}
+
+.suggestionItem:hover {
+  background-color: #f9f9f9;
+}
+
+.suggestionTitle {
+  font-weight: 500;
+  color: #023047;
+  margin-bottom: 4px;
+}
+
+.suggestionMeta {
+  font-size: 13px;
+  color: #777;
 }
 
 /* ───────────────────────────────
@@ -227,49 +273,4 @@
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ───────────────────────────────────────────────
-   Suggestions Dropdown (search autocomplete)
-   ─────────────────────────────────────────────── */
-.suggestionsList {
-  position: absolute;
-  top: calc(100% + 4px);
-  right: 0;
-  width: 100%;
-  max-width: 500px;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  list-style: none;
-  margin: 4px 0 0;
-  padding: 0;
-  z-index: 10;
-  direction: rtl;
-}
-
-.suggestionItem {
-  padding: 10px 16px;
-  cursor: pointer;
-  font-size: 14px;
-  border-bottom: 1px solid #f0f0f0;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.suggestionItem:hover {
-  background-color: #f9f9f9;
-}
-
-.suggestionTitle {
-  font-weight: 500;
-  color: #023047;
-  margin-bottom: 4px;
-}
-
-.suggestionMeta {
-  font-size: 13px;
-  color: #777;
 }

@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 import axiosInstance from "@/utils/axiosInstance";
+import { formatPrice } from "@/utils/formatPrice";
 import { API_URL } from "@/config/config";
 import { useCartStore } from "@/store/cartStore";
 import { useAuthStore } from "@/store/authStore";
@@ -23,8 +24,13 @@ import { GoGift } from "react-icons/go";
 export default function HeaderDesktop() {
   const [categories, setCategories] = useState([]);
   const [hovered, setHovered] = useState(false);
-  const timeoutRef = useRef();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
+  const timeoutRef = useRef();
+  const debounceRef = useRef();
+  const suggestionsRef = useRef();
   const router = useRouter();
 
   // Zustand stores
@@ -51,6 +57,55 @@ export default function HeaderDesktop() {
     fetchCategories();
   }, []);
 
+  // Close suggestions on outside click
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (suggestionsRef.current && !suggestionsRef.current.contains(event.target)) {
+        setShowSuggestions(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Search suggestions
+  useEffect(() => {
+    if (!showSuggestions) return;
+    const q = searchTerm.trim();
+    if (q.length < 2) {
+      setSuggestions([]);
+      return;
+    }
+    clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(async () => {
+      try {
+        const { data } = await axiosInstance.get(
+          `${API_URL}api/store/products/?title=${encodeURIComponent(q)}`
+        );
+        setSuggestions(data.results.slice(0, 8));
+      } catch {
+        setSuggestions([]);
+      }
+    }, 300);
+
+    return () => clearTimeout(debounceRef.current);
+  }, [searchTerm, showSuggestions]);
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+    setShowSuggestions(true);
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    const q = searchTerm.trim();
+    if (q) {
+      router.push(`/shop?search=${encodeURIComponent(q)}`);
+      setShowSuggestions(false);
+      setSearchTerm("");
+    }
+  };
+
   // Hover handlers with delay
   const openMenu = () => {
     clearTimeout(timeoutRef.current);
@@ -76,19 +131,55 @@ export default function HeaderDesktop() {
           />
         </Link>
 
-        <div className={styles.searchContainer}>
-          <form
-            className={styles.searchBox}
-            onSubmit={(e) => {
-              e.preventDefault();
-              // implement search if needed
-            }}
-          >
-            <input type="text" placeholder="جستجو کنید..." />
+        {/* Search with suggestions */}
+        <div className={styles.searchContainer} ref={suggestionsRef}>
+          <form className={styles.searchBox} onSubmit={handleSearchSubmit}>
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={handleSearchChange}
+              placeholder="جستجو کنید..."
+            />
             <button type="submit" className={styles.searchIcon}>
               <IoSearch />
             </button>
           </form>
+          {showSuggestions && suggestions.length > 0 && (
+            <ul className={styles.suggestionsList}>
+              {suggestions.map((prod) => (
+                <li
+                  key={prod.id}
+                  className={styles.suggestionItem}
+                  onClick={() => {
+                    router.push(`/product/${prod.url_title}-${prod.id}`);
+                    setShowSuggestions(false);
+                    setSearchTerm("");
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                    {prod.images?.[0]?.image ? (
+                      <img
+                        src={prod.images[0].image}
+                        alt={prod.title}
+                        style={{ width: "60px", height: "60px", objectFit: "cover" }}
+                      />
+                    ) : (
+                      <div style={{ width: "60px", height: "60px", background: "#eee" }}>
+                        بدون تصویر
+                      </div>
+                    )}
+                    <div>
+                      <div className={styles.suggestionTitle}>{prod.title}</div>
+                      <div className={styles.suggestionMeta}>
+                        {prod.collection?.title}{" "}
+                        {formatPrice(prod.variants?.[0]?.price?.toLocaleString() || "0")} تومان
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
         <div className={styles.loginButton}>
@@ -117,7 +208,7 @@ export default function HeaderDesktop() {
           </li>
 
           {/* Categories with overlay */}
-          {/* <li
+          <li
             className={styles.dropdown}
             onMouseEnter={openMenu}
             onMouseLeave={closeMenu}
@@ -151,7 +242,7 @@ export default function HeaderDesktop() {
                 </div>
               </div>
             )}
-          </li> */}
+          </li>
 
           <li>
             <Link href="/shop">
