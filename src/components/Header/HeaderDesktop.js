@@ -208,7 +208,7 @@ export default function HeaderDesktop() {
           </li>
 
           {/* Categories with overlay */}
-          <li
+          {/* <li
             className={styles.dropdown}
             onMouseEnter={openMenu}
             onMouseLeave={closeMenu}
@@ -242,7 +242,7 @@ export default function HeaderDesktop() {
                 </div>
               </div>
             )}
-          </li>
+          </li> */}
 
           <li>
             <Link href="/shop">
