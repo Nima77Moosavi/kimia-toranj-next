@@ -29,7 +29,9 @@ export default async function KhatamkariPage() {
     `${API_URL}api/store/products/?collection_id=8&page=1`,
     { cache: "no-store" }
   );
-  const productsData = productsRes.ok ? await productsRes.json() : { results: [] };
+  const productsData = productsRes.ok
+    ? await productsRes.json()
+    : { results: [] };
 
   const initialProducts = productsData.results || [];
   const initialHasMore = !!productsData.next;
@@ -40,6 +42,10 @@ export default async function KhatamkariPage() {
 
       <div className={styles.pageContainer}>
         <h1 className={styles.title}>محصولات خاتم کاری کیمیاترنج</h1>
+        <p className={styles.subtitle}>
+          <strong>زیرمجموعه‌های خاتم‌کاری</strong> در زیر نمایش داده شده‌اند.
+          برای مشاهده محصولات هر دسته، کافیست روی کارت کلیک کنید.
+        </p>
 
         <div className={styles.collectionsRow}>
           {subCollections.map((collection) => {
