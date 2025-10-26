@@ -86,13 +86,12 @@ export default function ShopClient({
     } else {
       params.set(key, value);
     }
-    router.push(`/shop?${params.toString()}`);
-    // reset state
     setProducts([]);
     setPage(1);
     setHasMore(true);
     setShowFilters(false);
-    requestKeyRef.current++; // ✅ bump key to cancel old responses
+    requestKeyRef.current++;
+    router.push(`/shop?${params.toString()}`);
   };
 
   // ✅ FIX: filter by id, not title
