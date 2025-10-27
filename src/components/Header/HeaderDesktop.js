@@ -128,6 +128,7 @@ export default function HeaderDesktop() {
             width={160}
             height={50}
             priority
+            unoptimized
           />
         </Link>
 
