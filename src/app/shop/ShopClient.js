@@ -34,9 +34,15 @@ export default function ShopClient({
     return qs ? `?${qs}&page=${p}` : `?page=${p}`;
   };
 
-  // Fetch products when filters/page change
+  const firstLoadRef = useRef(true);
+
   useEffect(() => {
-    if (page === 1 && products.length) return; // skip initial render
+    // Skip only the very first render (SSR data already loaded)
+    if (firstLoadRef.current) {
+      firstLoadRef.current = false;
+      return;
+    }
+
     let active = true;
     const abort = new AbortController();
     const currentKey = ++requestKeyRef.current;
@@ -56,7 +62,7 @@ export default function ShopClient({
           throw new Error("مشکل در دریافت محصولات");
         }
         const data = await res.json();
-        if (!active || currentKey !== requestKeyRef.current) return; // ✅ ignore stale
+        if (!active || currentKey !== requestKeyRef.current) return;
         setProducts((prev) =>
           page === 1 ? data.results : [...prev, ...data.results]
         );
@@ -233,12 +239,12 @@ export default function ShopClient({
           <div className={styles.sidebarInner}>
             <div className={styles.collections}>
               <h2 className={styles.collectionsTitle}>فیلتر بر اساس مجموعه</h2>
-              <p
+              <span
                 onClick={filterAllProducts}
-                className={styles.collectionFilter}
+                className={styles.collectionName}
               >
                 همه محصولات
-              </p>
+              </span>
               {mainCollections.map((c) => (
                 <div key={c.id} className={styles.collectionGroup}>
                   <div className={styles.collectionHeader}>
