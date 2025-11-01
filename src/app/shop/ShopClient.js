@@ -8,22 +8,16 @@ import styles from "./Shop.module.css";
 
 const API_BASE = "https://api.kimiatoranj.com/api/store";
 
-export default function ShopClient({
-  initialProducts,
-  initialCollections,
-  initialHasMore,
-}) {
-  const [products, setProducts] = useState(initialProducts);
-  const [collections] = useState(initialCollections);
+export default function ShopClient({ initialCollections = [] }) {
+  const [products, setProducts] = useState([]);
+  const [collections, setCollections] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(initialHasMore);
+  const [hasMore, setHasMore] = useState(true);
   const [showFilters, setShowFilters] = useState(false);
 
-  // 🔑 Track request key to ignore stale responses
   const requestKeyRef = useRef(0);
-
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -34,15 +28,7 @@ export default function ShopClient({
     return qs ? `?${qs}&page=${p}` : `?page=${p}`;
   };
 
-  const firstLoadRef = useRef(true);
-
   useEffect(() => {
-    // Skip only the very first render (SSR data already loaded)
-    if (firstLoadRef.current) {
-      firstLoadRef.current = false;
-      return;
-    }
-
     let active = true;
     const abort = new AbortController();
     const currentKey = ++requestKeyRef.current;
@@ -51,7 +37,7 @@ export default function ShopClient({
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch(`${API_BASE}/products/${buildQuery()}`, {
+        const res = await fetch(`${API_BASE}/products${buildQuery()}`, {
           signal: abort.signal,
         });
         if (!res.ok) {
@@ -66,7 +52,7 @@ export default function ShopClient({
         setProducts((prev) =>
           page === 1 ? data.results : [...prev, ...data.results]
         );
-        setHasMore(data.next !== null);
+        setHasMore(Boolean(data.next));
       } catch (err) {
         if (active && err.name !== "AbortError") {
           setError(err.message);
@@ -85,6 +71,22 @@ export default function ShopClient({
     };
   }, [searchParams, page]);
 
+  // 🔑 fetch collections once
+  useEffect(() => {
+    async function fetchCollections() {
+      try {
+        const res = await fetch(`${API_BASE}/collections/`);
+        if (res.ok) {
+          const data = await res.json();
+          setCollections(data);
+        }
+      } catch (err) {
+        console.error("Error fetching collections", err);
+      }
+    }
+    fetchCollections();
+  }, []);
+
   const applyFilter = (key, value) => {
     const params = new URLSearchParams(searchParams.toString());
     if (key === "collection" && value === "all") {
@@ -100,14 +102,13 @@ export default function ShopClient({
     router.push(`/shop?${params.toString()}`);
   };
 
-  // ✅ FIX: filter by id, not title
-  const filterByCollection = (id) => applyFilter("collection", id);
+  // Replace filterByCollection definition
+  const filterByCollection = (title) => applyFilter("collection", title);
   const filterAllProducts = () => applyFilter("collection", "all");
   const sortCheapest = () => applyFilter("order_by", "price");
   const sortExpensive = () => applyFilter("order_by", "-price");
   const sortNewest = () => applyFilter("order_by", "-created_at");
 
-  // 🔽 Expand/collapse state
   const [expandedCollectionId, setExpandedCollectionId] = useState(null);
   const toggleExpand = (id) => {
     setExpandedCollectionId((prev) => (prev === id ? null : id));
