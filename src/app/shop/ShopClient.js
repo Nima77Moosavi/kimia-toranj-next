@@ -240,40 +240,43 @@ export default function ShopClient({ initialCollections = [] }) {
           <div className={styles.sidebarInner}>
             <div className={styles.collections}>
               <h2 className={styles.collectionsTitle}>فیلتر بر اساس مجموعه</h2>
-              <span
+
+              <div
+                className={`${styles.collectionItem} ${
+                  !searchParams.get("collection") ? styles.active : ""
+                }`}
                 onClick={filterAllProducts}
-                className={styles.collectionName}
               >
                 همه محصولات
-              </span>
+              </div>
+
               {mainCollections.map((c) => (
                 <div key={c.id} className={styles.collectionGroup}>
-                  <div className={styles.collectionHeader}>
-                    <span
-                      className={styles.collectionName}
-                      onClick={() => filterByCollection(c.title)}
-                    >
-                      {c.title}
-                    </span>
-                    {c.subcollections && c.subcollections.length > 0 && (
-                      <span
-                        className={styles.dropdownArrow}
-                        onClick={() => toggleExpand(c.id)}
-                      >
-                        {expandedCollectionId === c.id ? "▲" : "▼"}
-                      </span>
-                    )}
+                  <div
+                    className={`${styles.collectionItem} ${
+                      searchParams.get("collection") === c.title
+                        ? styles.active
+                        : ""
+                    }`}
+                    onClick={() => filterByCollection(c.title)}
+                  >
+                    {c.title}
                   </div>
-                  {expandedCollectionId === c.id && c.subcollections && (
+
+                  {c.subcollections?.length > 0 && (
                     <div className={styles.subcollectionList}>
                       {c.subcollections.map((sub) => (
-                        <p
+                        <div
                           key={sub.id}
+                          className={`${styles.subcollectionItem} ${
+                            searchParams.get("collection") === sub.title
+                              ? styles.active
+                              : ""
+                          }`}
                           onClick={() => filterByCollection(sub.title)}
-                          className={styles.subcollectionFilter}
                         >
                           {sub.title}
-                        </p>
+                        </div>
                       ))}
                     </div>
                   )}

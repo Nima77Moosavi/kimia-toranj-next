@@ -97,9 +97,7 @@
   }
 }
 
-/* —————————————————————————————
-   Sidebar
-   ————————————————————————————— */
+/* Sidebar container stays the same */
 .sidebarContainer {
   flex: 0 0 260px;
   max-width: 280px;
@@ -114,26 +112,77 @@
 .sidebarInner {
   display: flex;
   flex-direction: column;
+  gap: 25px;
 }
 
 .collections,
 .sort {
-  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .collectionsTitle,
 .sortTitle {
-  font-size: 20px;
-  margin-bottom: 15px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid #f0f0f0;
-  color: #333;
+  font-size: 18px;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f0f0f0;
+  color: #222;
   font-weight: 600;
 }
 
-.collectionGroup {
-  margin-bottom: 10px;
+/* Each filter item (including "همه محصولات") */
+.collectionItem {
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  color: #555;
+  transition: all 0.3s ease;
+  font-size: 15px;
 }
+
+.collectionItem:hover {
+  background-color: #f8f8f8;
+  color: #023047;
+}
+
+.collectionItem.active {
+  background-color: #023047;
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Subcollections: indented, subtle line */
+.subcollectionList {
+  margin-top: 4px;
+  margin-right: 12px;
+  padding-right: 10px;
+  border-right: 2px solid #eee;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.subcollectionItem {
+  cursor: pointer;
+  font-size: 14px;
+  color: #666;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.subcollectionItem:hover {
+  background-color: #f0f0f0;
+  color: #023047;
+}
+
+.subcollectionItem.active {
+  background-color: #023047;
+  color: #fff;
+}
+
 
 /* Header row for parent collection */
 .collectionHeader {
