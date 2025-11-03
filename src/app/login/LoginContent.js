@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import styles from "./login.module.css";
@@ -17,8 +17,22 @@ export default function LoginContent() {
   const [timer, setTimer] = useState(90);
 
   const router = useRouter();
+  const codeInputRef = useRef(null);
+  const phoneInputRef = useRef(null);
   const searchParams = useSearchParams();
   const nextUrl = searchParams.get("next") || "/";
+
+  useEffect(() => {
+    if (isCodeSent && codeInputRef.current) {
+      codeInputRef.current.focus();
+    }
+  }, [isCodeSent]);
+
+  useEffect(() => {
+    if (!isCodeSent && phoneInputRef.current) {
+      phoneInputRef.current.focus();
+    }
+  }, [isCodeSent]);
 
   useEffect(() => {
     let interval;
@@ -151,6 +165,7 @@ export default function LoginContent() {
                   onChange={handlePhoneChange}
                   className={styles.input}
                   maxLength="11"
+                  ref={phoneInputRef}
                   autoFocus
                 />
                 <button
@@ -175,6 +190,7 @@ export default function LoginContent() {
                   className={styles.input}
                   maxLength="6"
                   autoFocus
+                  ref={codeInputRef}
                 />
                 <button
                   className={styles.button}
