@@ -4,6 +4,9 @@ import CategoryClient from "@/components/CategoryClient/CategoryClient";
 import styles from "./SilverPlated.module.css";
 import FooterMenu from "@/components/FooterMenu/FooterMenu";
 
+import Link from "next/link";
+import Image from "next/image";
+
 const API_URL = "https://api.kimiatoranj.com/";
 
 export const metadata = {
@@ -14,28 +17,73 @@ export const metadata = {
 };
 
 export default async function SilverPlatedPage() {
-  const productsRes = await fetch(
-    `${API_URL}api/store/products/?collection=شبه نقره&page=1`,
-    { next: { revalidate: 60 } }
-  );
+  // Fetch all collections
+  const res = await fetch(`${API_URL}api/store/collections/`, {
+    cache: "force-cache",
+  });
+  const allCollections = res.ok ? await res.json() : [];
 
+  // Filter only subcollections of Khatamkari (parent = 8)
+  const subCollections = allCollections.filter((c) => c.parent === 2);
+
+  // ✅ Fetch initial products for collection_id=8
+  const productsRes = await fetch(
+    `${API_URL}api/store/products/?collection_id=2&page=1`,
+    { cache: "no-store" }
+  );
   const productsData = productsRes.ok
     ? await productsRes.json()
-    : { results: [], next: null };
+    : { results: [] };
 
+  const initialProducts = productsData.results || [];
+  const initialHasMore = !!productsData.next;
   return (
     <>
       <Header />
 
       <div className={styles.pageContainer}>
-        <h1 className={styles.title}>محصولات شبه نقره قلمزنی کیمیاترنج</h1>
-        <CategoryClient
-          categoryName="شبه نقره"
-          initialProducts={productsData.results}
-          initialHasMore={!!productsData.next}
-        />
+        <h1 className={styles.title}>محصولات شبه نقره کیمیاترنج</h1>
+        <p className={styles.subtitle}>
+          <strong>زیرمجموعه‌های شبه نقره</strong> در زیر نمایش داده شده‌اند.
+          برای مشاهده محصولات هر دسته، کافیست روی کارت کلیک کنید.
+        </p>
 
-        {/* SEO Content Section */}
+        <div className={styles.collectionsRow}>
+          {subCollections.map((collection) => {
+            const href = collection.landing_page_url
+              ? `/category/${collection.landing_page_url}`
+              : `/shop?collection=${encodeURIComponent(collection.title)}`;
+
+            return (
+              <Link
+                href={href}
+                key={collection.id}
+                className={styles.collectionCard}
+              >
+                <Image
+                  src={collection.image || "/placeholder.jpg"}
+                  alt={collection.title}
+                  width={400}
+                  height={300}
+                  className={styles.collectionImage}
+                  unoptimized
+                />
+                <div className={styles.overlay}>
+                  <h3 className={styles.description}>
+                    {collection.description || collection.title}
+                  </h3>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* ✅ Now pass the fetched products into CategoryClient */}
+        <CategoryClient
+          categoryId={2}
+          initialProducts={initialProducts}
+          initialHasMore={initialHasMore}
+        />
         <section className={styles.seoSection}>
           <h2>زیبایی و اصالت، درخشش ماندگار بدون هزینه سنگین نقره خالص</h2>
           <p>

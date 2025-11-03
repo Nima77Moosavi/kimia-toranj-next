@@ -37,7 +37,7 @@ export default async function KhatamkariPage() {
           initialHasMore={!!productsData.next}
         />
         <div className={styles.seoSection}>
-          <h1>خرید شکلات‌خوری خاتم‌کاری اصفهان </h1>
+          <h2>خرید شکلات‌خوری خاتم‌کاری اصفهان </h2>
 
           <p>
             شکلات‌خوری خاتم‌کاری یکی از اصیل‌ترین و زیباترین محصولات صنایع دستی
