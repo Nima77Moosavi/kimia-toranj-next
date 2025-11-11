@@ -6,8 +6,9 @@ import styles from "./BannerSlider.module.css";
 
 export default function BannerSlider() {
   // Paths to your images in /public
-  const bannerPaths = ["/banner11.jpg", "/banner22.jpg", "/banner33.jpg", "/banner44.jpg"];
-  const patternPath = "/forground-banner.png";
+  const bannerPaths = ["/banner11.webp", "/banner22.webp"];
+  // const bannerPaths = ["/banner11.webp", "/banner22.webp", "/banner33.jpg", "/banner44.jpg"];
+  // const patternPath = "/forground-banner.png";
 
   const realSlides = useMemo(() => bannerPaths, []);
   const slides = useMemo(() => {
@@ -56,11 +57,11 @@ export default function BannerSlider() {
   return (
     <div className={styles.bannerWrapper}>
       {/* Decorative foreground pattern */}
-      <div
+      {/* <div
         className={styles.patternContainer}
         aria-hidden="true"
         style={{ backgroundImage: `url(${patternPath})` }}
-      />
+      /> */}
 
       <div
         className={styles.sliderWindow}

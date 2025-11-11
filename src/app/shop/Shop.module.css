@@ -40,7 +40,7 @@
 }
 
 .title::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   right: 50%;
@@ -182,7 +182,6 @@
   background-color: #023047;
   color: #fff;
 }
-
 
 /* Header row for parent collection */
 .collectionHeader {
