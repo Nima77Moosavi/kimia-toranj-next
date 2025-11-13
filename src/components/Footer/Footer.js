@@ -78,6 +78,18 @@ export default function Footer() {
       <div className={styles.enamadWrapper}>
         <EnamadSeal />
       </div>
+      <div className={styles.enamadWrapper}>
+        <a href="https://emalls.ir/Shop/67408/" target="_blank">
+          <img
+            width={75}
+            height={112}
+            style={{ margin: "3px" }}
+            alt="نشان اعتباری ایمالز"
+            referrerPolicy="origin"
+            src="https://service.emalls.ir/neshan?id=67408"
+          />
+        </a>
+      </div>
     </div>
   );
 }
