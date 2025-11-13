@@ -7,6 +7,7 @@ import {
 } from "react-icons/fa";
 import EnamadSeal from "@/components/EnamadSeal/EnamadSeal";
 import { toPersianDigits } from "@/utils/faDigits";
+import EmallsSeal from "../EmallsSeal/EmallsSeal";
 
 export default function Footer() {
   return (
@@ -79,16 +80,7 @@ export default function Footer() {
         <EnamadSeal />
       </div>
       <div className={styles.enamadWrapper}>
-        <a href="https://emalls.ir/Shop/67408/" target="_blank">
-          <img
-            width={75}
-            height={112}
-            style={{ margin: "3px" }}
-            alt="نشان اعتباری ایمالز"
-            referrerPolicy="origin"
-            src="https://service.emalls.ir/neshan?id=67408"
-          />
-        </a>
+        <EmallsSeal />
       </div>
     </div>
   );
