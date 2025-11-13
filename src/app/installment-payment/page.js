@@ -3,6 +3,7 @@ import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import styles from "./InstallmentPayment.module.css";
 
+// ✅ Determine number of months based on price range
 const getInstallmentMonths = (price) => {
   const priceMillion = price / 1_000_000;
   if (priceMillion >= 5 && priceMillion < 10) return 1;
@@ -38,9 +39,13 @@ const InstallmentTable = () => (
 
 export default function InstallmentPayment({ searchParams }) {
   const price = Number(searchParams.price) || 0;
-
   const months = getInstallmentMonths(price);
-  const upfront = Math.round(price * 0.3);
+
+  // ✅ Round only the upfront to next million
+  const rawUpfront = price * 0.3;
+  const upfront = Math.ceil(rawUpfront / 1_000_000) * 1_000_000;
+
+  // ✅ Calculate remaining and monthly normally
   const remaining = price - upfront;
   const monthly = months ? Math.round(remaining / months) : null;
 
