@@ -3,18 +3,32 @@
 export default async function sitemap() {
   const baseUrl = "https://kimiatoranj.com";
 
-  // 1️⃣ Fetch products from your API
-  const res = await fetch(
-    "https://api.kimiatoranj.com/api/store/products/?page_size=1000",
-    { next: { revalidate: 3600 } } // revalidate every hour
-  );
-  const data = await res.json();
+  // 1️⃣ Fetch all products across pages
+  let products = [];
+  let page = 1;
+  let hasMore = true;
 
-  const products = Array.isArray(data)
-    ? data
-    : Array.isArray(data.results)
-    ? data.results
-    : [];
+  while (hasMore) {
+    const res = await fetch(
+      `https://api.kimiatoranj.com/api/store/products/?page=${page}&page_size=100`,
+      { next: { revalidate: 3600 } } // revalidate every hour
+    );
+
+    if (!res.ok) break;
+    const data = await res.json();
+
+    const results = Array.isArray(data)
+      ? data
+      : Array.isArray(data.results)
+      ? data.results
+      : [];
+
+    products = products.concat(results);
+
+    // If API provides `next`, use that; otherwise fall back to length check
+    hasMore = Boolean(data.next) || results.length === 100;
+    page++;
+  }
 
   // 2️⃣ Map product URLs
   const productRoutes = products.map((p) => ({

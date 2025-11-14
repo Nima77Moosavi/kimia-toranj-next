@@ -37,7 +37,7 @@
 }
 .adresses,
 .contactUs,
-.acricles,
+.articles,
 .socials {
   width: 50%;
   height: 200px;
@@ -46,9 +46,23 @@
   word-spacing: 2px;
 }
 
-.acricles p {
+.articles p {
   cursor: pointer;
 }
+.articles a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.articles ul {
+  list-style: none;
+}
+
+.articles .post {
+  color: #fff;
+}
+
+
 .contactUs,
 .socials {
   height: 150px;
@@ -84,7 +98,7 @@
 
   .adresses,
   .contactUs,
-  .acricles,
+  .articles,
   .socials {
     width: 100%; /* هر بخش در یک ردیف نمایش داده شود */
     height: auto;

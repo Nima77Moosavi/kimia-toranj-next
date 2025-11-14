@@ -8,6 +8,30 @@ import {
 import EnamadSeal from "@/components/EnamadSeal/EnamadSeal";
 import { toPersianDigits } from "@/utils/faDigits";
 import EmallsSeal from "../EmallsSeal/EmallsSeal";
+import Link from "next/link";
+
+const posts = [
+  {
+    id: 1,
+    slug: "Enlivening-your-home-with-iranian-arts-and-crafts",
+    title: "زنده کردن فضای خانه با هنر و صنایع دستی ایرانی",
+  },
+  {
+    id: 2,
+    slug: "Isfahan-Handicrafts-A-lasting-legacy-from-the-heart-of-Iranian-history",
+    title: "صنایع دستی اصفهان؛ میراثی ماندگار از دل تاریخ ایران",
+  },
+  {
+    id: 3,
+    slug: "The-art-of-calligraphy-and-inlay-work-masterpieces-of-Isfahan-handicrafts",
+    title: "هنر قلم‌زنی و خاتم‌کاری؛ شاهکارهای صنایع دستی اصفهان",
+  },
+  {
+    id: 4,
+    slug: "a-guide-to-buying-a-brass-fruit-bowl-a-stylish-choice-for-home-decoration",
+    title: "راهنمای خرید میوه‌خوری برنجی؛ انتخابی شیک برای دکوراسیون خانه",
+  },
+];
 
 export default function Footer() {
   return (
@@ -23,12 +47,19 @@ export default function Footer() {
       </div>
 
       {/* Articles */}
-      <div className={styles.acricles}>
-        <h2 className={styles.title}>مقالات برتر</h2>
-        <p>نگه داری از سماور زغالی</p>
-        <p>آیینه شمعدان طرح نقره چگونه است؟</p>
-        <p>سرمایه گذاری روی صنایع دستی</p>
-        <p>خاتم کاری اصفهان</p>
+      <div className={styles.articles}>
+        <div className={styles.articles}>
+          <h2 className={styles.title}>
+            <Link href="/blog">مقالات کیمیا ترنج</Link>
+          </h2>
+          <ul>
+            {posts.map((post) => (
+              <li key={post.slug}>
+                <Link href={`/post/${post.slug}`} className={styles.post}>{post.title}</Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
 
       {/* Contact Numbers */}

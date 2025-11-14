@@ -30,22 +30,27 @@ async function getAllProducts() {
   while (hasMore) {
     const res = await fetch(
       `${API_URL}api/store/products/?page=${page}&page_size=100`,
-      { cache: "force-cache" } // ensures build-time fetch
+      { cache: "force-cache" }
     );
 
     if (!res.ok) break;
     const data = await res.json();
-    return Array.isArray(data)
+
+    // normalize results
+    const results = Array.isArray(data)
       ? data
       : Array.isArray(data.results)
       ? data.results
       : [];
-  }
-  allProducts = allProducts.concat(results);
 
-  // If fewer than 100 results came back, we’re at the last page
-  hasMore = results.length === 100;
-  page++;
+    allProducts = allProducts.concat(results);
+
+    // if fewer than 100, stop
+    hasMore = results.length === 100;
+    page++;
+  }
+
+  return allProducts;
 }
 
 export default async function Home() {
@@ -108,9 +113,9 @@ export default async function Home() {
         <ContactButton />
       </main>
 
-      <footer className={styles.footer}>
+      {/* <footer className={styles.footer}>
         <p>© {new Date().getFullYear()} کیمیا ترنج</p>
-      </footer>
+      </footer> */}
     </div>
   );
 }
