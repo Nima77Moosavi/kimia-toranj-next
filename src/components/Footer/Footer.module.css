@@ -36,14 +36,34 @@
   transition: 0.8s ease;
 }
 .adresses,
+.categories,
 .contactUs,
 .articles,
-.socials {
+.socials,
+.iconWrapper {
   width: 50%;
   height: 200px;
   text-align: right;
   margin-bottom: 55px;
   word-spacing: 2px;
+}
+
+.categories p {
+  cursor: pointer;
+}
+.categories a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.categories ul {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.categories .post {
+  color: #fff;
 }
 
 .articles p {
@@ -61,7 +81,6 @@
 .articles .post {
   color: #fff;
 }
-
 
 .contactUs,
 .socials {

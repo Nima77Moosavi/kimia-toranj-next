@@ -33,6 +33,19 @@ const posts = [
   },
 ];
 
+const categories = [
+  { title: "قاب", link: "category/frame" },
+  { title: "خاتم کاری", link: "category/khatamkari" },
+  { title: "قلمزنی", link: "category/qalamzani" },
+  { title: "سماور برنجی", link: "category/brass-samovar" },
+  { title: "پک هدیه سازمانی", link: "category/organizational-gift-pack" },
+  { title: "محصولات برنجی", link: "category/brass-products" },
+  { title: "رومیزی", link: "/shop?collection=رومیزی" },
+  { title: "زرینه", link: "category/golden-brass" },
+  { title: "شبه نقره", link: "category/silver-plated" },
+  { title: "آینه شمعدان", link: "category/mirror-candleholder" },
+];
+
 export default function Footer() {
   return (
     <div className={styles.container}>
@@ -46,20 +59,38 @@ export default function Footer() {
         <p>کارگاه تولیدی: روبرو شهرک صنعتی جی، کوچه فروردین، فروردین ۶</p>
       </div>
 
+      {/* Product Categories */}
+
+      <div className={styles.categories}>
+        <h2 className={styles.title}>
+          <Link href="#">دسته بندی محصولات</Link>
+        </h2>
+        <ul>
+          {categories.map((category) => (
+            <li key={category.link}>
+              <Link href={category.link} className={styles.post}>
+                {category.title}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+
       {/* Articles */}
+
       <div className={styles.articles}>
-        <div className={styles.articles}>
-          <h2 className={styles.title}>
-            <Link href="/blog">مقالات کیمیا ترنج</Link>
-          </h2>
-          <ul>
-            {posts.map((post) => (
-              <li key={post.slug}>
-                <Link href={`/post/${post.slug}`} className={styles.post}>{post.title}</Link>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <h2 className={styles.title}>
+          <Link href="/blog">مقالات کیمیا ترنج</Link>
+        </h2>
+        <ul>
+          {posts.map((post) => (
+            <li key={post.slug}>
+              <Link href={`/post/${post.slug}`} className={styles.post}>
+                {post.title}
+              </Link>
+            </li>
+          ))}
+        </ul>
       </div>
 
       {/* Contact Numbers */}
@@ -107,11 +138,13 @@ export default function Footer() {
       </div>
 
       {/* Enamad Seal */}
-      <div className={styles.enamadWrapper}>
-        <EnamadSeal />
-      </div>
-      <div className={styles.enamadWrapper}>
-        <EmallsSeal />
+      <div className={styles.iconWrapper}>
+        <div className={styles.enamadWrapper}>
+          <EnamadSeal />
+        </div>
+        <div className={styles.enamadWrapper}>
+          <EmallsSeal />
+        </div>
       </div>
     </div>
   );
