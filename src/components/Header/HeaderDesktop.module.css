@@ -78,17 +78,17 @@
 /* Suggestions dropdown */
 .suggestionsList {
   position: absolute;
-  top: 100%;              /* directly below input */
+  top: 100%; /* directly below input */
   left: 0;
   right: 0;
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 6px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   list-style: none;
   margin-top: 6px;
   padding: 0;
-  z-index: 1000;          /* above overlay/nav */
+  z-index: 1000; /* above overlay/nav */
   max-height: 400px;
   overflow-y: auto;
   direction: rtl;
@@ -174,6 +174,79 @@
 /* ───────────────────────────────────────────────
    Row 2: Horizontal Navigation Menu
    ─────────────────────────────────────────────── */
+
+/* Mega menu overlay */
+.overlayMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  width: 100%;              /* match header width instead of full viewport */
+  background: #fff;
+  border-top: 1px solid #eee;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  padding: 20px 30px;       /* smaller padding */
+  z-index: 1500;
+  animation: fadeIn 0.25s ease;
+}
+
+/* Inner container: vertical stack */
+.overlayContent {
+  max-width: 1000px;        /* narrower max width */
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;                /* less space between categories */
+}
+
+/* Category block */
+.categoryBlock {
+  text-align: right;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+}
+
+.categoryBlock h4 {
+  font-size: 14px;          /* smaller heading */
+  margin-bottom: 6px;
+  color: #023047;
+  font-weight: 600;
+}
+
+/* Subcategories list */
+.categoryBlock ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.categoryBlock li {
+  font-size: 13px;          /* smaller text */
+  margin: 3px 0;
+}
+
+.categoryBlock li a {
+  text-decoration: none;
+  color: #555;
+  transition: color 0.2s ease;
+}
+
+.categoryBlock li a:hover {
+  color: #e63946;
+}
+
+/* Fade animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .navMenu {
   border-top: 1px solid #eee;
   margin-top: 8px;
@@ -204,73 +277,4 @@
 .navMenu li a:hover,
 .navMenu li span:hover {
   color: #e63946;
-}
-
-/* ───────────────────────────────────────────────
-   Overlay Menu for Categories (mega menu)
-   ─────────────────────────────────────────────── */
-.dropdown {
-  position: relative;
-}
-
-.overlayMenu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  width: 100vw; /* full viewport width */
-  background: #fff;
-  border-top: 1px solid #eee;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-  padding: 40px 80px;
-  z-index: 200;
-  animation: fadeIn 0.25s ease;
-}
-
-.overlayContent {
-  max-width: 1400px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 40px 60px;
-}
-
-.categoryBlock {
-  text-align: right;
-}
-
-.categoryBlock h4 {
-  font-size: 16px;
-  margin-bottom: 10px;
-  color: #023047;
-  font-weight: 600;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 6px;
-}
-
-.categoryBlock ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.categoryBlock li {
-  font-size: 14px;
-  margin: 6px 0;
-}
-
-.categoryBlock li a {
-  text-decoration: none;
-  color: #555;
-  transition: color 0.2s ease;
-}
-
-.categoryBlock li a:hover {
-  color: #e63946;
-}
-
-/* Simple fade animation */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
 }

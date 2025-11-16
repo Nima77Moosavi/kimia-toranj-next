@@ -10,6 +10,7 @@ import { formatPrice } from "@/utils/formatPrice";
 import { API_URL } from "@/config/config";
 import { useCartStore } from "@/store/cartStore";
 import { useAuthStore } from "@/store/authStore";
+import axios from "axios";
 
 import styles from "./HeaderDesktop.module.css";
 
@@ -23,6 +24,7 @@ import { GoGift } from "react-icons/go";
 
 export default function HeaderDesktop() {
   const [categories, setCategories] = useState([]);
+  const [mainCategories, setMainCategories] = useState([]);
   const [hovered, setHovered] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -35,7 +37,9 @@ export default function HeaderDesktop() {
 
   // Zustand stores
   const cartCount = useCartStore((state) => state.cartCount());
-  const fetchCartFromBackend = useCartStore((state) => state.fetchCartFromBackend);
+  const fetchCartFromBackend = useCartStore(
+    (state) => state.fetchCartFromBackend
+  );
   const { isLoggedIn, checkAuth } = useAuthStore();
 
   // Fetch cart + auth on mount
@@ -48,8 +52,11 @@ export default function HeaderDesktop() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const { data } = await axiosInstanceNoRedirect.get(`${API_URL}api/store/collections/`);
-        setCategories(data);
+        const { data } = await axios.get(`${API_URL}api/store/collections/`);
+        console.log("Categories API response:", data);
+        setCategories(data.results || data); // adjust depending on shape
+        const mainCategories = data.filter((category) => category.parent === null);
+        setMainCategories(mainCategories)
       } catch (err) {
         console.error("Failed to fetch categories", err);
       }
@@ -60,7 +67,10 @@ export default function HeaderDesktop() {
   // Close suggestions on outside click
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (suggestionsRef.current && !suggestionsRef.current.contains(event.target)) {
+      if (
+        suggestionsRef.current &&
+        !suggestionsRef.current.contains(event.target)
+      ) {
         setShowSuggestions(false);
       }
     };
@@ -157,15 +167,31 @@ export default function HeaderDesktop() {
                     setSearchTerm("");
                   }}
                 >
-                  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "12px",
+                    }}
+                  >
                     {prod.images?.[0]?.image ? (
                       <img
                         src={prod.images[0].image}
                         alt={prod.title}
-                        style={{ width: "60px", height: "60px", objectFit: "cover" }}
+                        style={{
+                          width: "60px",
+                          height: "60px",
+                          objectFit: "cover",
+                        }}
                       />
                     ) : (
-                      <div style={{ width: "60px", height: "60px", background: "#eee" }}>
+                      <div
+                        style={{
+                          width: "60px",
+                          height: "60px",
+                          background: "#eee",
+                        }}
+                      >
                         بدون تصویر
                       </div>
                     )}
@@ -173,7 +199,10 @@ export default function HeaderDesktop() {
                       <div className={styles.suggestionTitle}>{prod.title}</div>
                       <div className={styles.suggestionMeta}>
                         {prod.collection?.title}{" "}
-                        {formatPrice(prod.variants?.[0]?.price?.toLocaleString() || "0")} تومان
+                        {formatPrice(
+                          prod.variants?.[0]?.price?.toLocaleString() || "0"
+                        )}{" "}
+                        تومان
                       </div>
                     </div>
                   </div>
@@ -202,14 +231,8 @@ export default function HeaderDesktop() {
       {/* Row 2: Horizontal Menu */}
       <nav className={styles.navMenu}>
         <ul>
-          <li>
-            <Link href="/">
-              <FiHome /> صفحه اصلی
-            </Link>
-          </li>
-
           {/* Categories with overlay */}
-          {/* <li
+          <li
             className={styles.dropdown}
             onMouseEnter={openMenu}
             onMouseLeave={closeMenu}
@@ -222,7 +245,7 @@ export default function HeaderDesktop() {
                 onMouseLeave={closeMenu}
               >
                 <div className={styles.overlayContent}>
-                  {categories.map((cat) => (
+                  {mainCategories.map((cat) => (
                     <div key={cat.id} className={styles.categoryBlock}>
                       <Link href={`/category/${cat.landing_page_url}`}>
                         <h4>{cat.title}</h4>
@@ -243,7 +266,12 @@ export default function HeaderDesktop() {
                 </div>
               </div>
             )}
-          </li> */}
+          </li>
+          <li>
+            <Link href="/">
+              <FiHome /> صفحه اصلی
+            </Link>
+          </li>
 
           <li>
             <Link href="/shop">
