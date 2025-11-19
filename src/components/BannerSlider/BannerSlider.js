@@ -5,15 +5,22 @@ import Image from "next/image";
 import styles from "./BannerSlider.module.css";
 
 export default function BannerSlider() {
-  // Paths to your images in /public
-  const bannerPaths = ["/banner11.webp", "/banner22.webp"];
-  // const bannerPaths = ["/banner11.webp", "/banner22.webp", "/banner33.jpg", "/banner44.jpg"];
-  // const patternPath = "/forground-banner.png";
+  // 👇 Each slide has both desktop and mobile paths
+  const bannerPaths = [
+    { desktop: "/banner-desktop-1.webp", mobile: "/banner-mobile-1.webp" },
+    { desktop: "/banner-desktop-2.webp", mobile: "/banner-mobile-2.webp" },
+    // add more if needed
+  ];
 
+  // Build slides with clones at start/end for infinite loop
   const realSlides = useMemo(() => bannerPaths, []);
   const slides = useMemo(() => {
     if (!realSlides.length) return [];
-    return [realSlides[realSlides.length - 1], ...realSlides, realSlides[0]];
+    return [
+      realSlides[realSlides.length - 1],
+      ...realSlides,
+      realSlides[0],
+    ];
   }, [realSlides]);
 
   const [idx, setIdx] = useState(1);
@@ -56,13 +63,6 @@ export default function BannerSlider() {
 
   return (
     <div className={styles.bannerWrapper}>
-      {/* Decorative foreground pattern */}
-      {/* <div
-        className={styles.patternContainer}
-        aria-hidden="true"
-        style={{ backgroundImage: `url(${patternPath})` }}
-      /> */}
-
       <div
         className={styles.sliderWindow}
         role="region"
@@ -78,21 +78,31 @@ export default function BannerSlider() {
             }}
             onTransitionEnd={onTransitionEnd}
           >
-            {slides.map((src, i) => {
+            {slides.map((slide, i) => {
               const isFirstRealSlide = i === 1;
               return (
                 <div key={i} className={styles.slide}>
-                  <Image
-                    src={src}
-                    alt={`بنر شماره ${i}`}
-                    className={styles.slideImage}
-                    loading={isFirstRealSlide ? "eager" : "lazy"}
-                    fetchPriority={isFirstRealSlide ? "high" : "auto"}
-                    decoding="async"
-                    width={1280}
-                    height={284}
-                    sizes="100vw"
-                  />
+                  <picture>
+                    <source
+                      media="(max-width: 768px)"
+                      srcSet={slide.mobile}
+                    />
+                    <source
+                      media="(min-width: 769px)"
+                      srcSet={slide.desktop}
+                    />
+                    <Image
+                      src={slide.desktop} // fallback
+                      alt={`بنر شماره ${i}`}
+                      className={styles.slideImage}
+                      loading={isFirstRealSlide ? "eager" : "lazy"}
+                      fetchPriority={isFirstRealSlide ? "high" : "auto"}
+                      decoding="async"
+                      width={1280}
+                      height={284}
+                      sizes="100vw"
+                    />
+                  </picture>
                 </div>
               );
             })}
