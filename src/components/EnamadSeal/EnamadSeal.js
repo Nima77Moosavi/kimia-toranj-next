@@ -8,7 +8,7 @@ export default function EnamadSeal() {
     >
       <img
         referrerPolicy="origin"
-        src="https://trustseal.enamad.ir/logo.aspx?id=217543&Code=i2vTFeNyO3PE4BZgvzxv"
+        src="enamad.png"
         alt=""
         style={{ cursor: "pointer" }} // ✅ fixed
         code="i2vTFeNyO3PE4BZgvzxv"

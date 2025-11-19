@@ -8,7 +8,7 @@ export default function EmallsSeal() {
       referrerPolicy="origin"
     >
       <img
-        src="https://service.emalls.ir/neshan?id=67408"
+        src="emalls.svg"
         alt="نشان اعتباری ایمالز"
         width={75}
         height={112}

@@ -141,8 +141,7 @@ export default function Footer() {
       <div className={styles.iconWrapper}>
         <div className={styles.enamadWrapper}>
           <EnamadSeal />
-        </div>
-        <div className={styles.enamadWrapper}>
+        
           <EmallsSeal />
         </div>
       </div>
