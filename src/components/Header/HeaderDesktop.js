@@ -21,6 +21,7 @@ import { FiHome } from "react-icons/fi";
 import { TbDeviceIpadHorizontalStar } from "react-icons/tb";
 import { PiArticleBold } from "react-icons/pi";
 import { GoGift } from "react-icons/go";
+import { TbCategory } from "react-icons/tb";
 
 export default function HeaderDesktop() {
   const [categories, setCategories] = useState([]);
@@ -55,8 +56,10 @@ export default function HeaderDesktop() {
         const { data } = await axios.get(`${API_URL}api/store/collections/`);
         console.log("Categories API response:", data);
         setCategories(data.results || data); // adjust depending on shape
-        const mainCategories = data.filter((category) => category.parent === null);
-        setMainCategories(mainCategories)
+        const mainCategories = data.filter(
+          (category) => category.parent === null
+        );
+        setMainCategories(mainCategories);
       } catch (err) {
         console.error("Failed to fetch categories", err);
       }
@@ -237,7 +240,10 @@ export default function HeaderDesktop() {
             onMouseEnter={openMenu}
             onMouseLeave={closeMenu}
           >
-            <span>دسته‌بندی محصولات</span>
+            <span>
+              <TbCategory />
+              دسته‌بندی محصولات
+            </span>
             {hovered && (
               <div
                 className={styles.overlayMenu}
