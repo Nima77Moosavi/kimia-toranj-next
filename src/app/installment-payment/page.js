@@ -3,7 +3,7 @@ import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import styles from "./InstallmentPayment.module.css";
 
-// ✅ Determine number of months based on price range
+// Determine number of months based on price range
 const getInstallmentMonths = (price) => {
   const priceMillion = price / 1_000_000;
   if (priceMillion >= 5 && priceMillion < 10) return 1;
@@ -41,15 +41,32 @@ export default function InstallmentPayment({ searchParams }) {
   const price = Number(searchParams.price) || 0;
   const months = getInstallmentMonths(price);
 
-  // ✅ Round only the upfront to next million
-  const rawUpfront = price * 0.3;
-  const upfront = Math.ceil(rawUpfront / 1_000_000) * 1_000_000;
-
-  // ✅ Calculate remaining and monthly normally
-  const remaining = price - upfront;
-  const monthly = months ? Math.round(remaining / months) : null;
-
+  // Less than min price
   const belowMinimum = price < 5_000_000;
+
+  // Round a number up to the next 100,000
+  const roundTo100k = (val) => Math.ceil(val / 100_000) * 100_000;
+
+  let monthly = null;
+  let remaining = null;
+  let upfront = null;
+
+  if (!belowMinimum && months) {
+    // 1) Calculate monthly based on price and months (30% assumed for initial)
+    const rawUpfront = price * 0.3;
+    const initialRemaining = price - rawUpfront;
+
+    let monthlyRaw = initialRemaining / months;
+
+    // 2) Round monthly UP to the next 100,000
+    monthly = roundTo100k(monthlyRaw);
+
+    // 3) Calculate remaining based on rounded monthly
+    remaining = monthly * months;
+
+    // 4) Calculate upfront so that total matches exactly
+    upfront = price - remaining;
+  }
 
   return (
     <>
@@ -80,24 +97,27 @@ export default function InstallmentPayment({ searchParams }) {
 
             <div className={styles.summaryBox}>
               <div className={styles.summaryRow}>
-                <span>مبلغ پیش‌پرداخت (۳۰٪):</span>
+                <span>پیش‌پرداخت نهایی:</span>
                 <strong className={styles.upfront}>
-                  {upfront.toLocaleString()} تومان
+                  {upfront?.toLocaleString()} تومان
                 </strong>
               </div>
+
               {months ? (
                 <>
                   <div className={styles.summaryRow}>
-                    <span>مبلغ باقی‌مانده (قسطی):</span>
-                    <strong>{remaining.toLocaleString()} تومان</strong>
+                    <span>مجموع مبلغ اقساط:</span>
+                    <strong>{remaining?.toLocaleString()} تومان</strong>
                   </div>
+
                   <div className={styles.summaryRow}>
                     <span>تعداد اقساط:</span>
                     <strong>{months} ماه</strong>
                   </div>
+
                   <div className={styles.summaryRow}>
                     <span>مبلغ هر قسط:</span>
-                    <strong>{monthly.toLocaleString()} تومان</strong>
+                    <strong>{monthly?.toLocaleString()} تومان</strong>
                   </div>
                 </>
               ) : (
@@ -111,13 +131,15 @@ export default function InstallmentPayment({ searchParams }) {
             <div className={styles.infoSection}>
               <h3>شرایط پرداخت اقساطی</h3>
               <ul>
-                <li>۳۰٪ مبلغ کل به عنوان پیش‌پرداخت دریافت می‌شود.</li>
+                <li>۳۰٪ مبلغ کل به عنوان پایه محاسبه در نظر گرفته می‌شود.</li>
                 <li>
-                  باقی‌مانده مبلغ طی {months || "—"} ماه به صورت اقساط پرداخت
-                  می‌شود.
+                  مبلغ هر قسط پس از گردکردن به ۱۰۰٬۰۰۰ تومان نهایی شده است.
                 </li>
                 <li>
-                  برای ثبت درخواست پرداخت اقساطی، وارد گفت‌وگوی واتساپ شوید
+                  پیش‌پرداخت نهایی بر اساس جمع اقساط و قیمت کل دقیق محاسبه می‌شود.
+                </li>
+                <li>
+                  برای ثبت درخواست پرداخت اقساطی، وارد گفت‌وگوی واتساپ شوید.
                 </li>
               </ul>
             </div>
