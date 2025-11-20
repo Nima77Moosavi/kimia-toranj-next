@@ -5,7 +5,7 @@ import { toPersianDigits } from "@/utils/faDigits";
 
 export default function SpecialOffer() {
   // numeric values
-  const price = 113000000;
+  const price = 129750000;
   const plateDiameter = 50;
   const bowlDiameter = 34;
   const bowlHeight = 23;
