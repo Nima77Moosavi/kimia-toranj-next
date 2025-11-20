@@ -1,6 +1,7 @@
 /* app/contact/Contact.module.css */
 
 .container {
+  direction: rtl;
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;

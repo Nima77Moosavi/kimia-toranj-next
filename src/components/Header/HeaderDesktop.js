@@ -300,6 +300,11 @@ export default function HeaderDesktop() {
             </Link>
           </li>
           <li>
+            <Link href="/contact">
+              <IoHelpCircleOutline /> درباره ما
+            </Link>
+          </li>
+          <li>
             <Link href="/faq">
               <IoHelpCircleOutline /> سوالات متداول
             </Link>
