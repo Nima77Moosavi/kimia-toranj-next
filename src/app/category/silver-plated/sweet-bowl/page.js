@@ -14,7 +14,7 @@ export const metadata = {
 
 export default async function SweetBowl() {
   const productsRes = await fetch(
-    `${API_URL}api/store/products/?collection=شیرینی خوری شبه نقره&page=1`,
+    `${API_URL}api/store/products/?collection=شیرینی‌خوری شبه نقره&page=1`,
     { next: { revalidate: 60 } }
   );
 
@@ -33,7 +33,7 @@ export default async function SweetBowl() {
         </h1>
 
         <CategoryClient
-          categoryName="شیرینی خوری شبه نقره"
+          categoryName="شیرینی‌خوری شبه نقره"
           initialProducts={productsData.results}
           initialHasMore={!!productsData.next}
         />
