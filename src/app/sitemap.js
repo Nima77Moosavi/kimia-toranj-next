@@ -69,6 +69,7 @@ export default async function sitemap() {
     "/post/handmade-mirror-and-candleholder",
     "/post/Calligraphy-and-enamel-paintings-walls-that-speak",
     "/post/Brass-Products-The-Shine-of-Authenticity-in-Iranian-Home",
+    "/post/guide-to-buying-silver-look-serveware-for-bridal-set-and-home-decor",
   ].map((path) => ({
     url: `${baseUrl}${path}`,
     lastModified: new Date(),
