@@ -12,8 +12,11 @@
   }
   
   .carouselWrapper {
-    position: relative;
-    margin: 0 30px;
+    /* max-width: 1080px;
+    margin: 40px auto;
+    padding: 0 20px; */
+    padding: 0 20px;
+    position: relative; /* anchors carousel arrows */
     direction: rtl;
   }
   
@@ -63,9 +66,8 @@
   }
   
   .postContainer p {
-    font-size: 1.05rem;
+    font-size: 1.3rem;
     margin-bottom: 14px;
-    text-align: justify;
     /* max-width: 100ch; */
   }
   
@@ -78,7 +80,7 @@
   .postContainer ul li,
   .postContainer ol li {
     margin-bottom: 7px;
-    font-size: 1rem;
+    font-size: 1.3rem;
   }
   
   .postImage {
