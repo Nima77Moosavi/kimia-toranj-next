@@ -8,20 +8,33 @@ import ProductCard from "@/components/ProductCard/ProductCard";
 import styles from "./SimilarProducts.module.css";
 import { API_URL } from "@/config/config";
 
-export default function SimilarProducts({ productId, title = "محصولات مشابه" }) {
+export default function SimilarProducts({
+  productId,
+  keyword,
+  title = "محصولات مشابه",
+}) {
   const [products, setProducts] = useState([]);
-  const [loading, setLoading]   = useState(true);
-  const [error, setError]       = useState(null);
-  const sliderRef               = useRef(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const sliderRef = useRef(null);
 
   useEffect(() => {
-    if (!productId) return;
-
     async function fetchSimilar() {
       try {
-        const res = await fetch(
-          `${API_URL}api/store/products/?similar_to=${productId}`
-        );
+        let url;
+        if (keyword) {
+          url = `${API_URL}api/store/products/?similar_keyword=${encodeURIComponent(
+            keyword
+          )}`;
+        } else if (productId) {
+          url = `${API_URL}api/store/products/?similar_to=${productId}`;
+        } else {
+          return;
+        }
+        console.log(url);
+        
+
+        const res = await fetch(url);
         if (!res.ok) throw new Error("Network error");
 
         const { results } = await res.json();
@@ -34,7 +47,7 @@ export default function SimilarProducts({ productId, title = "محصولات م�
     }
 
     fetchSimilar();
-  }, [productId]);
+  }, [productId, keyword]);
 
   const slide = (dir) => {
     const wrapper = sliderRef.current;
@@ -44,7 +57,7 @@ export default function SimilarProducts({ productId, title = "محصولات م�
     if (!first) return;
 
     const itemW = first.getBoundingClientRect().width;
-    const gap   = parseFloat(getComputedStyle(slider).gap) || 0;
+    const gap = parseFloat(getComputedStyle(slider).gap) || 0;
 
     wrapper.scrollBy({
       left: (itemW + gap) * dir,
@@ -53,7 +66,7 @@ export default function SimilarProducts({ productId, title = "محصولات م�
   };
 
   if (loading) return <div className={styles.loading}>در حال بارگذاری…</div>;
-  if (error)   return <div className={styles.error}>خطا: {error}</div>;
+  if (error) return <div className={styles.error}>خطا: {error}</div>;
   if (!products.length) return null;
 
   return (

@@ -31,6 +31,7 @@ export default function ProductDetailsClient({ initialProduct }) {
 
   const addToCart = useCartStore((state) => state.addToCart);
   const id = product.id;
+  const keyword = product.similar_products_keyword;
 
   // Load liked items
   useEffect(() => {
@@ -151,7 +152,7 @@ export default function ProductDetailsClient({ initialProduct }) {
           />
         </div>
 
-        <SimilarProducts productId={id} />
+        <SimilarProducts productId={id} keyword={keyword} />
         <ProductRating rating={product.average_rating || 0} />
         <ReviewForm productId={id} />
       </div>
