@@ -19,12 +19,6 @@ const statusColors = {
   cancelled: "#ef4444",
 };
 
-export const metadata = {
-  title: "فروشگاه کیمیا ترنج | صنایع دستی اصفهان ",
-  description:
-    "خرید صنایع دستی اصیل اصفهان و ایران؛ خاتم‌کاری، قلم‌زنی، مینیاتور، سماور برنجی، پک هدیه سازمانی و محصولات دست‌ساز با کیفیت.",
-};
-
 export default function UserOrdersPage() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
