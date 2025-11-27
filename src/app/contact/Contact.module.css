@@ -1,5 +1,3 @@
-/* app/contact/Contact.module.css */
-
 .container {
   direction: rtl;
   max-width: 1200px;
@@ -8,15 +6,18 @@
 }
 
 .title {
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   font-weight: bold;
   margin-bottom: 1rem;
+  text-align: center;
 }
 
 .description {
-  font-size: 1.2rem;
-  color: #555;
+  font-size: 1.1rem;
+  color: #444;
   margin-bottom: 2rem;
+  line-height: 1.8;
+  text-align: justify;
 }
 
 .shopGrid {
@@ -24,32 +25,50 @@
   gap: 2rem;
 }
 
+/* Each card */
 .shopCard {
   display: flex;
   flex-direction: column;
   border: 1px solid #ddd;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  background: #fff;
+  padding: 1rem;
 }
 
 .imageWrapper {
-  flex: 1;
+  width: 100%;
 }
 
 .shopImage {
   width: 100%;
   height: auto;
+  border-radius: 6px;
   object-fit: cover;
 }
 
+.mapWrapper {
+  width: 100%;
+  height: 200px;
+  margin-top: 1rem;
+}
+
 .infoWrapper {
-  padding: 1rem;
+  margin-top: 1rem;
 }
 
 .shopName {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   margin-bottom: 0.5rem;
+  color: #222;
+}
+
+.shopDescription {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 1rem;
+  line-height: 1.6;
 }
 
 .shopAddress,
@@ -58,8 +77,9 @@
   margin-bottom: 0.5rem;
 }
 
-.mapWrapper {
-  width: 100%;
-  height: 250px;
-  margin-top: 1rem;
+/* On desktop: show cards side by side */
+@media (min-width: 768px) {
+  .shopGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
