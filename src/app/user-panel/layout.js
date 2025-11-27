@@ -3,6 +3,10 @@ import Header from "@/components/Header/Header";
 import SidebarUserPanel from "@/components/SidebarUserPanel/SidebarUserPanel";
 import styles from "./UserPanel.module.css";
 
+export const metadata = {
+  title: "پنل کاربری، کیمیاترنج",
+};
+
 export default function UserPanelLayout({ children }) {
   return (
     <div className={styles.container}>
