@@ -70,6 +70,7 @@ export default async function sitemap() {
     "/post/Calligraphy-and-enamel-paintings-walls-that-speak",
     "/post/Brass-Products-The-Shine-of-Authenticity-in-Iranian-Home",
     "/post/guide-to-buying-silver-look-serveware-for-bridal-set-and-home-decor",
+    "/post/5-golden-tips-buying-faux-silver-dishes-for-yalda-night",
   ].map((path) => ({
     url: `${baseUrl}${path}`,
     lastModified: new Date(),

@@ -9,10 +9,9 @@ import Link from "next/link";
 import styles from "./Post.module.css";
 
 export const metadata = {
-  title:
-    "راهنمای خرید ظروف شبه‌نقره برای جهیزیه و دکور منزل | صنایع‌دستی کیمیا ترنج",
+  title: "راهنمای خرید ظروف شبه‌نقره برای شب یلدا | کیمیا ترنج",
   description:
-    "ظروف شبه‌نقره با طراحی لوکس و قیمت مناسب، گزینه‌ای ایده‌آل برای جهیزیه و دکور خانه هستند. راهنمای کامل انتخاب، نگهداری و ست کردن آن‌ها را در کیمیا ترنج بخوانید.",
+    "خرید بهترین ظروف شبه‌نقره برای سفره شب یلدا با کیفیت بالا، طرح‌های شیک و دوام عالی. ارسال سریع و تضمین اصالت کالا در کیمیا ترنج 09920784900",
 };
 
 export default function SilverPlatedPost() {
@@ -20,10 +19,7 @@ export default function SilverPlatedPost() {
     <>
       <Header />
       <article className={styles.postContainer}>
-        <h1>
-          5 نکته طلایی برای خرید <strong>ظروف شبه‌نقره</strong> شیک و بادوام در
-          شب یلدا
-        </h1>
+        <h1>5 نکته طلایی برای خرید ظروف شبه‌ نقره شیک و بادوام در شب یلدا</h1>
 
         <p>
           شب یلدا، شبی کهن و سرشار از زیبایی‌های فرهنگی، یکی از مهم‌ترین جشن‌های
@@ -51,16 +47,16 @@ export default function SilverPlatedPost() {
         </p>
         <div className={styles.sideBySideImages}>
           <Image
-            src="/images/handmade-mirror-and-candleholder/mirror-candle-holder-1.webp"
-            alt="آینه و شمعدان دست‌ساز کیمیا ترنج با نقوش ایرانی"
+            src="/images/5-golden-tips-buying-faux-silver-dishes-for-yalda-night/1.webp"
+            alt="خرید کشکول نقره هدیه شب یلدا"
             width={300}
             height={300}
             className={styles.postImage}
             unoptimized
           />
           <Image
-            src="/images/handmade-mirror-and-candleholder/mirror-candle-holder-2.webp"
-            alt="آینه و شمعدان نقره کیمیا ترنج "
+            src="/images/5-golden-tips-buying-faux-silver-dishes-for-yalda-night/2.webp"
+            alt="خرید آجیل خوری ویژه یلدا"
             width={300}
             height={300}
             className={styles.postImage}
@@ -70,10 +66,10 @@ export default function SilverPlatedPost() {
         <h2>۱. بررسی کیفیت ساخت و آلیاژ به‌کاررفته در ظروف شبه‌نقره</h2>
 
         <p>
-          کیفیت ساخت مهم‌ترین معیار در خرید هر ظرفی است؛ اما در شب یلدا این
-          اهمیت دوچندان می‌شود. زیرا ظروف در این شب زیاد جابه‌جا می‌شوند، روی
-          آن‌ها میوه و آجیل ریخته می‌شود و در نور شمع یا چراغ‌ها بیشترین توجه به
-          سمت آن‌هاست.
+          کیفیت ساخت مهم‌ترین معیار در خرید هر ظرفی است؛ اما در
+          <strong>شب یلدا</strong> این اهمیت دوچندان می‌شود. زیرا ظروف در این شب
+          زیاد جابه‌جا می‌شوند، روی آنها میوه و آجیل ریخته می‌شود و در نور شمع
+          یا چراغ‌ها بیشترین توجه به سمت آنهاست.
         </p>
 
         <h3>جنس بدنه و آلیاژ ظروف شبه‌نقره</h3>
@@ -99,17 +95,37 @@ export default function SilverPlatedPost() {
         <h2>نشانه‌های یک ظرف شبه‌نقره باکیفیت</h2>
 
         <ol>
-          <li>سطح صیقلی و یک‌دست بدون موج و لکه</li>
-          <li>عدم وجود خط و خش در زمان خرید</li>
-          <li>وزن استاندارد (نه خیلی سبک که بی‌کیفیت به نظر برسد.)</li>
-          <li>لبه‌های صاف بدون تیز بودن</li>
-          <li>پایه‌های محکم در مدل‌های پایه‌دار</li>
+          <li>
+            <strong>سطح صیقلی و یک‌دست</strong> بدون موج و لکه
+          </li>
+          <li>
+            <strong>عدم وجود خط و خش</strong> در زمان خرید
+          </li>
+          <li>
+            <strong>وزن استاندارد</strong> (نه خیلی سبک که بی‌کیفیت به نظر
+            برسد.)
+          </li>
+          <li>
+            <strong>لبه‌های صاف</strong> بدون تیز بودن
+          </li>
+          <li>
+            <strong>پایه‌های محکم</strong> در مدل‌های پایه‌دار
+          </li>
         </ol>
 
         <p>
           در شب یلدا معمولاً مهمان زیاد داریم و احتمال برخورد ظروف یا استفاده
           زیاد از آن‌ها وجود دارد، بنابراین انتخاب ظرف بادوام ضروری است.
         </p>
+      </article>
+      <div className={styles.carouselWrapper}>
+        <ProductCarousel collectionId={2} title="محصولات شبه نقره" />
+        <Link href="/category/silver-plated" className={styles.allProductsBtn}>
+          مشاهده همه محصولات
+        </Link>
+      </div>
+
+      <article className={styles.postContainer}>
         <h2>۲. انتخاب طرح، مدل و سبک مناسب برای سفره یلدا</h2>
 
         <p>
@@ -228,8 +244,17 @@ export default function SilverPlatedPost() {
           <li>برای خانواده‌های پرجمعیت: سایز بزرگ یا سه‌طبقه</li>
           <li>برای چیدمان مینیمال: آجیل‌خوری پایه‌کوتاه یا کوچک</li>
         </ul>
-        {/* <!-- فراخوانی محصولات مرتبط با این هدینگ در صورت موجود (آجیل‌خوری) --> */}
-
+      </article>
+      <div className={styles.carouselWrapper}>
+        <ProductCarousel collectionId={17} title="آجیل خوری شبه نقره" />
+        <Link
+          href="/category/silver-plated/nut-bowl"
+          className={styles.allProductsBtn}
+        >
+          مشاهده همه محصولات
+        </Link>
+      </div>
+      <article className={styles.postContainer}>
         <h3>میوه‌خوری</h3>
         <ul>
           <li>هندوانه: دیس بزرگ</li>
@@ -243,7 +268,18 @@ export default function SilverPlatedPost() {
           <li>مدل چندطبقه برای سفره‌های شلوغ</li>
           <li>مدل ساده برای سفره‌های مینیمال</li>
         </ul>
+      </article>
 
+      <div className={styles.carouselWrapper}>
+        <ProductCarousel collectionId={18} title="شیرینی خوری شبه نقره" />
+        <Link
+          href="/category/silver-plated/sweet-bowl"
+          className={styles.allProductsBtn}
+        >
+          مشاهده همه محصولات
+        </Link>
+      </div>
+      <article className={styles.postContainer}>
         <h3>سینی‌ها</h3>
         <p>برای سرو:</p>
         <ul>
@@ -319,16 +355,16 @@ export default function SilverPlatedPost() {
         </p>
         <div className={styles.sideBySideImages}>
           <Image
-            src="/images/handmade-mirror-and-candleholder/mirror-candle-holder-1.webp"
-            alt="آینه و شمعدان دست‌ساز کیمیا ترنج با نقوش ایرانی"
+            src="/images/5-golden-tips-buying-faux-silver-dishes-for-yalda-night/3.webp"
+            alt="خرید محصولات شبه نقره یلدایی"
             width={300}
             height={300}
             className={styles.postImage}
             unoptimized
           />
           <Image
-            src="/images/handmade-mirror-and-candleholder/mirror-candle-holder-2.webp"
-            alt="آینه و شمعدان نقره کیمیا ترنج "
+            src="/images/5-golden-tips-buying-faux-silver-dishes-for-yalda-night/4.webp"
+            alt="محصولات شبه نقره ویژه شب یلدا"
             width={300}
             height={300}
             className={styles.postImage}
@@ -356,6 +392,7 @@ export default function SilverPlatedPost() {
 
         <h3>۵. استفاده از رومیزی ساده</h3>
         <p>ظروف شبه‌نقره روی رومیزی ساده بهتر می‌درخشند.</p>
+
         <h2>نحوه نگهداری ظروف شبه‌نقره پس از شب یلدا</h2>
 
         <p>بعد از پایان جشن، برای اینکه ظروف شما در سال‌های بعد نیز بدرخشند:</p>
