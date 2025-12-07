@@ -71,6 +71,8 @@ export default async function sitemap() {
     "/post/Brass-Products-The-Shine-of-Authenticity-in-Iranian-Home",
     "/post/guide-to-buying-silver-look-serveware-for-bridal-set-and-home-decor",
     "/post/5-golden-tips-buying-faux-silver-dishes-for-yalda-night",
+    "/post/Iranian-silver-look-tableware-heritage-and-elegance-for-yalda",
+    "/post/Differences-Between-Silver-Silverplated-And-Steel-Decor",
   ].map((path) => ({
     url: `${baseUrl}${path}`,
     lastModified: new Date(),
