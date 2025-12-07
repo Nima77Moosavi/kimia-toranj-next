@@ -176,12 +176,15 @@
    ─────────────────────────────────────────────── */
 
 /* Mega menu overlay */
+.dropdown {
+  position: relative;
+}
 .overlayMenu {
   position: absolute;
   top: 100%;
   left: 0;
   right: 0;
-  width: 100%;              /* match header width instead of full viewport */
+  width: 50vw;              /* match header width instead of full viewport */
   background: #fff;
   border-top: 1px solid #eee;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
@@ -221,7 +224,7 @@
 }
 
 .categoryBlock li {
-  font-size: 13px;          /* smaller text */
+  font-size: 1px;          /* smaller text */
   margin: 3px 0;
 }
 

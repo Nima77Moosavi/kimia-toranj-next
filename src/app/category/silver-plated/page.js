@@ -70,9 +70,9 @@ export default async function SilverPlatedPage() {
                   </div>
                 </Link>
 
-                <Link href={href} className={styles.viewButton}>
+                {/* <Link href={href} className={styles.viewButton}>
                   مشاهده کنید
-                </Link>
+                </Link> */}
               </div>
             );
           })}

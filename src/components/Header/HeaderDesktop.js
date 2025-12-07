@@ -261,7 +261,10 @@ export default function HeaderDesktop() {
                           {cat.subcollections.map((sub) => (
                             <li key={sub.id}>
                               <Link href={`/category/${sub.landing_page_url}`}>
+                              <h4>
+
                                 {sub.title}
+                              </h4>
                               </Link>
                             </li>
                           ))}
