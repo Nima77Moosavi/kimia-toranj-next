@@ -13,14 +13,25 @@ export const metadata = {
 };
 
 export default async function BrassProductsPage() {
-  const productsRes = await fetch(
-    `${API_URL}api/store/products/?collection=محصولات برنجی&page=1`,
-    { next: { revalidate: 60 } }
-  );
+  const res = await fetch(`${API_URL}api/store/collections/`, {
+    cache: "force-cache",
+  });
+  const allCollections = res.ok ? await res.json() : [];
 
+  // Filter only subcollections of Khatamkari (parent = 8)
+  const subCollections = allCollections.filter((c) => c.parent === 3);
+
+  // ✅ Fetch initial products for collection_id=8
+  const productsRes = await fetch(
+    `${API_URL}api/store/products/?collection_id=3&page=1`,
+    { cache: "no-store" }
+  );
   const productsData = productsRes.ok
     ? await productsRes.json()
-    : { results: [], next: null };
+    : { results: [] };
+
+  const initialProducts = productsData.results || [];
+  const initialHasMore = !!productsData.next;
 
   return (
     <>
@@ -30,7 +41,7 @@ export default async function BrassProductsPage() {
         {/* Product Grid */}
         <h1 className={styles.title}>محصولات برنجی کیمیا ترنج</h1>
         <CategoryClient
-          categoryName="محصولات برنجی"
+          categoryId={3}
           initialProducts={productsData.results}
           initialHasMore={!!productsData.next}
         />

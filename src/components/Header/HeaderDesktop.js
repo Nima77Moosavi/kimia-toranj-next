@@ -256,7 +256,7 @@ export default function HeaderDesktop() {
                       <Link href={`/category/${cat.landing_page_url}`}>
                         <h4>{cat.title}</h4>
                       </Link>
-                      {cat.subcollections?.length > 0 && (
+                      {/* {cat.subcollections?.length > 0 && (
                         <ul>
                           {cat.subcollections.map((sub) => (
                             <li key={sub.id}>
@@ -269,7 +269,7 @@ export default function HeaderDesktop() {
                             </li>
                           ))}
                         </ul>
-                      )}
+                      )} */}
                     </div>
                   ))}
                 </div>
