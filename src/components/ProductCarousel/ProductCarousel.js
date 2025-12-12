@@ -7,7 +7,7 @@ import { GrFormPrevious, GrFormNext } from "react-icons/gr";
 import ProductCard from "../ProductCard/ProductCard";
 import styles from "./ProductCarousel.module.css";
 
-export default function ProductCarousel({ collectionId, title = "محصولات" }) {
+export default function ProductCarousel({ collectionId, title = "محصولات", href="/shop" }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading]   = useState(true);
   const [error, setError]       = useState(null);
@@ -63,7 +63,7 @@ export default function ProductCarousel({ collectionId, title = "محصولات"
           <h2 className={styles.title}>{title}</h2>
           <MdTrendingUp className={styles.icon} />
         </div>
-        <Link href="/shop" className={styles.shopLink}>
+        <Link href={href} className={styles.shopLink}>
           مشاهده همه محصولات
         </Link>
       </div>

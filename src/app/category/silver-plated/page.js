@@ -6,6 +6,7 @@ import FooterMenu from "@/components/FooterMenu/FooterMenu";
 
 import Link from "next/link";
 import Image from "next/image";
+import ProductCarousel from "@/components/ProductCarousel/ProductCarousel";
 
 const API_URL = "https://api.kimiatoranj.com/";
 
@@ -42,55 +43,51 @@ export default async function SilverPlatedPage() {
 
       <div className={styles.pageContainer}>
         <h1 className={styles.title}>محصولات شبه نقره کیمیاترنج</h1>
-        <p className={styles.subtitle}>
+        {/* <p className={styles.subtitle}>
           <strong>زیرمجموعه‌های شبه نقره</strong> در زیر نمایش داده شده‌اند.
           برای مشاهده محصولات هر دسته، کافیست روی کارت کلیک کنید.
-        </p>
-
-        <div className={styles.collectionsRow}>
-          {subCollections.map((collection) => {
-            const href = collection.landing_page_url
-              ? `/category/${collection.landing_page_url}`
-              : `/shop?collection=${encodeURIComponent(collection.title)}`;
-
-            return (
-              <div key={collection.id} className={styles.collectionCard}>
-                <Link href={href} className={styles.imageLink}>
-                  <div className={styles.imageWrapper}>
-                    <Image
-                      src={collection.image || "/placeholder.jpg"}
-                      alt={collection.title}
-                      fill
-                      className={styles.collectionImage}
-                      unoptimized
-                    />
-                    <div className={styles.overlay}>
-                      <h3 className={styles.description}>{collection.title}</h3>
-                    </div>
-                  </div>
-                </Link>
-
-                {/* <Link href={href} className={styles.viewButton}>
-                  مشاهده کنید
-                </Link> */}
-              </div>
-            );
-          })}
+        </p> */}
+        <div className={styles.carouselWrapper}>
+          <ProductCarousel collectionId={25} title="قو شبه نقره" href="/category/silver-plated/swan"/>
+        </div>
+        <div className={styles.carouselWrapper}>
+          <ProductCarousel collectionId={16} title="کشکول شبه نقره" href="/category/silver-plated/kashkul"/>
+        </div>
+        <div className={styles.carouselWrapper}>
+          <ProductCarousel collectionId={17} title="آجیل‌خوری شبه نقره" href="/category/silver-plated/nut-bowl"/>
+        </div>
+        <div className={styles.carouselWrapper}>
+          <ProductCarousel collectionId={19} title="سایر محصولات شبه نقره" href="/category/silver-plated/others"/>
+        </div>
+        <div className={styles.carouselWrapper}>
+          <ProductCarousel collectionId={18} title="شیرینی‌خوری شبه نقره" href="/category/silver-plated/sweet-bowl"/>
+        </div>
+        <div className={styles.carouselWrapper}>
+          <ProductCarousel collectionId={22} title="میوه‌خوری شبه نقره" href="/category/silver-plated/fruit-bowl"/>
+        </div>
+        <div className={styles.carouselWrapper}>
+          <ProductCarousel collectionId={21} title="شکلات‌خوری شبه نقره" href="/category/silver-plated/chocolate-bowl"/>
+        </div>
+        <div className={styles.carouselWrapper}>
+          <ProductCarousel collectionId={23} title="پیش دستی شبه نقره" href="/category/silver-plated/plate"/>
+        </div>
+        <div className={styles.carouselWrapper}>
+          <ProductCarousel collectionId={24} title="سماور شبه نقره" href="/category/silver-plated/samovar"/>
         </div>
 
         {/* ✅ Now pass the fetched products into CategoryClient */}
-        <CategoryClient
+        {/* <CategoryClient
           categoryId={2}
           initialProducts={initialProducts}
           initialHasMore={initialHasMore}
-        />
+        /> */}
         <section className={styles.seoSection}>
           {/* SECTION */}
           <h2>خرید محصولات شبه‌نقره برای شب یلدا</h2>
           <p>
-            شب یلدا، طولانی‌ترین شب سال، فرصتی است برای &nbsp; 
+            شب یلدا، طولانی‌ترین شب سال، فرصتی است برای &nbsp;
             <strong>
-              گردهمایی خانواده و دوستان دور سفره‌های پر از خوراکی‌های سنتی 
+              گردهمایی خانواده و دوستان دور سفره‌های پر از خوراکی‌های سنتی
             </strong>
             .<strong>محصولات شبه‌نقره دست‌ساز کیمیا ترنج</strong>، با درخشش لوکس
             و هنر قلمزنی ایرانی، می‌توانند
