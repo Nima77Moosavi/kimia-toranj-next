@@ -3,7 +3,7 @@
 ========================== */
 .pageContainer {
   direction: rtl;
-  padding: 20px;
+  /* padding: 20px; */
 }
 
 /* Page title */
@@ -28,72 +28,54 @@
 /* ==========================
    Subcollections Grid
 ========================== */
+.carouselWrapper {
+  /* max-width: 1080px;
+    margin: 40px auto;
+    padding: 0 20px; */
+  padding: 0 20px;
+  position: relative; /* anchors carousel arrows */
+  direction: rtl;
+}
+
 .collectionsRow {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 15px;
-  margin-bottom: 40px;
+  /* gap: 15px; */
+  /* margin-bottom: 40px; */
 }
 
 /* Card */
 .collectionCard {
   position: relative;
-  width: calc((100% - 5 * 15px) / 6); /* 6 per row desktop */
-  aspect-ratio: 0.8;
   border-radius: 8px;
   text-decoration: none;
   transition: transform 0.3s ease;
   overflow: hidden;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  padding-bottom: 50px; /* space for button */
+  justify-content: center;
+  padding: 20px;
   background: #fff;
-  min-height: 400px;
+  min-height: 120px; /* adjust as needed */
 }
 
 .collectionCard:hover {
   transform: scale(1.03);
 }
 
-/* Image Link */
-.imageLink {
+/* Text Link */
+.textLink {
   display: block;
-  position: relative;
   width: 100%;
-  flex: 1 0 auto;
-  min-height: 300px;
-}
-
-/* Image */
-.collectionImage {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 8px;
-  display: block;
-}
-
-/* Overlay Text */
-.overlay {
-  position: absolute;
-  inset: 0;
-  background: var(--primary-color-dark, rgba(0, 0, 0, 0.4));
-  border-radius: 8px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  pointer-events: none; /* allows clicks to pass through */
-  z-index: 1;
+  text-align: center;
 }
 
 .description {
-  color: #fff;
+  color: #333;
   font-size: 18px;
   font-weight: 600;
   padding: 10px;
-  text-align: center;
 }
 
 /* View Button */

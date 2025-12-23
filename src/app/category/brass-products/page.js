@@ -1,6 +1,6 @@
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
-import CategoryClient from "@/components/CategoryClient/CategoryClient";
+import ProductCarousel from "@/components/ProductCarousel/ProductCarousel";
 import styles from "./BrassProducts.module.css";
 import FooterMenu from "@/components/FooterMenu/FooterMenu";
 
@@ -40,11 +40,18 @@ export default async function BrassProductsPage() {
       <div className={styles.pageContainer}>
         {/* Product Grid */}
         <h1 className={styles.title}>محصولات برنجی کیمیا ترنج</h1>
-        <CategoryClient
-          categoryId={3}
-          initialProducts={productsData.results}
-          initialHasMore={!!productsData.next}
-        />
+        <div className={styles.carouselWrapper}>
+          <ProductCarousel collectionId={29} title="آجیل‌خوری برنجی" href="/category/brass-products/nut-bowl"/>
+        </div>
+        <div className={styles.carouselWrapper}>
+          <ProductCarousel collectionId={28} title="پسته‌خوری برنجی" href="/category/brass-products/pistachio-bowl"/>
+        </div>
+        <div className={styles.carouselWrapper}>
+          <ProductCarousel collectionId={26} title="پارچ برنجی" href="/category/brass-products/pitcher"/>
+        </div>
+        <div className={styles.carouselWrapper}>
+          <ProductCarousel collectionId={27} title="گالش استکان برنجی" href="/category/brass-products/tea-glass-holder"/>
+        </div>
         <div className={styles.seoSection}>
           <h2>خرید محصولات برنجی دست‌ساز | درخشش فلز اصیل در هنر ایرانی</h2>
 

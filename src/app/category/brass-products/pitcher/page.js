@@ -14,7 +14,7 @@ export const metadata = {
 
 export default async function KashkulPage() {
   const productsRes = await fetch(
-    `${API_URL}api/store/products/?collection_id=3`,
+    `${API_URL}api/store/products/?collection_id=26`,
     { next: { revalidate: 60 } }
   );
 
@@ -30,7 +30,7 @@ export default async function KashkulPage() {
         <h1 className={styles.title}>محصولات سماور شبه‌نقره کیمیا ترنج</h1>
 
         <CategoryClient
-          categoryId={3}
+          categoryId={26}
           initialProducts={productsData.results}
           initialHasMore={!!productsData.next}
         />
