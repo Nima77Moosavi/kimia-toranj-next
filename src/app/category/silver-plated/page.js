@@ -5,8 +5,6 @@ import styles from "./SilverPlated.module.css";
 import FooterMenu from "@/components/FooterMenu/FooterMenu";
 
 import Link from "next/link";
-import Image from "next/image";
-import ProductCarousel from "@/components/ProductCarousel/ProductCarousel";
 
 const API_URL = "https://api.kimiatoranj.com/";
 
@@ -23,7 +21,7 @@ export default async function SilverPlatedPage() {
   });
   const allCollections = res.ok ? await res.json() : [];
 
-  // Filter only subcollections of Khatamkari (parent = 8)
+  // Filter only subcollections of Silver Plated (parent = 2)
   const subCollections = allCollections.filter((c) => c.parent === 2);
 
   // ✅ Fetch initial products for collection_id=8
@@ -42,45 +40,41 @@ export default async function SilverPlatedPage() {
       <Header />
 
       <div className={styles.pageContainer}>
-        <h1 className={styles.title}>محصولات شبه نقره کیمیاترنج</h1>
-        {/* <p className={styles.subtitle}>
-          <strong>زیرمجموعه‌های شبه نقره</strong> در زیر نمایش داده شده‌اند.
-          برای مشاهده محصولات هر دسته، کافیست روی کارت کلیک کنید.
-        </p> */}
-        <div className={styles.carouselWrapper}>
-          <ProductCarousel collectionId={25} title="قو شبه نقره" href="/category/silver-plated/swan"/>
-        </div>
-        <div className={styles.carouselWrapper}>
-          <ProductCarousel collectionId={16} title="کشکول شبه نقره" href="/category/silver-plated/kashkul"/>
-        </div>
-        <div className={styles.carouselWrapper}>
-          <ProductCarousel collectionId={17} title="آجیل‌خوری شبه نقره" href="/category/silver-plated/nut-bowl"/>
-        </div>
-        <div className={styles.carouselWrapper}>
-          <ProductCarousel collectionId={19} title="سایر محصولات شبه نقره" href="/category/silver-plated/others"/>
-        </div>
-        <div className={styles.carouselWrapper}>
-          <ProductCarousel collectionId={18} title="شیرینی‌خوری شبه نقره" href="/category/silver-plated/sweet-bowl"/>
-        </div>
-        <div className={styles.carouselWrapper}>
-          <ProductCarousel collectionId={22} title="میوه‌خوری شبه نقره" href="/category/silver-plated/fruit-bowl"/>
-        </div>
-        <div className={styles.carouselWrapper}>
-          <ProductCarousel collectionId={21} title="شکلات‌خوری شبه نقره" href="/category/silver-plated/chocolate-bowl"/>
-        </div>
-        <div className={styles.carouselWrapper}>
-          <ProductCarousel collectionId={23} title="پیش دستی شبه نقره" href="/category/silver-plated/plate"/>
-        </div>
-        <div className={styles.carouselWrapper}>
-          <ProductCarousel collectionId={24} title="سماور شبه نقره" href="/category/silver-plated/samovar"/>
-        </div>
+        <section className={styles.heroSection}>
+          <div className={styles.heroContent}>
+            <h1 className={styles.title}>محصولات شبه نقره کیمیاترنج</h1>
+            <div className={styles.subcategoryRow}>
+              <span className={styles.subcategoryLabel}>زیر‌دسته‌ها:</span>
+              <div className={styles.subcategoryTags}>
+                {subCollections.map((collection) => {
+                  const href = collection.landing_page_url
+                    ? `/category/${collection.landing_page_url}`
+                    : `/shop?collection=${encodeURIComponent(collection.title)}`;
 
-        {/* ✅ Now pass the fetched products into CategoryClient */}
-        {/* <CategoryClient
-          categoryId={2}
-          initialProducts={initialProducts}
-          initialHasMore={initialHasMore}
-        /> */}
+                  return (
+                    <Link
+                      href={href}
+                      key={collection.id}
+                      className={styles.tagButton}
+                    >
+                      {collection.title}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+          <div className={styles.heroGlow} aria-hidden="true" />
+        </section>
+
+        <section className={styles.productsSection}>
+          <CategoryClient
+            categoryId={2}
+            initialProducts={initialProducts}
+            initialHasMore={initialHasMore}
+          />
+        </section>
+
         <section className={styles.seoSection}>
           {/* SECTION */}
           <h2>خرید محصولات شبه‌نقره برای شب یلدا</h2>

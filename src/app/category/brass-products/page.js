@@ -1,8 +1,9 @@
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
-import ProductCarousel from "@/components/ProductCarousel/ProductCarousel";
+import CategoryClient from "@/components/CategoryClient/CategoryClient";
 import styles from "./BrassProducts.module.css";
 import FooterMenu from "@/components/FooterMenu/FooterMenu";
+import Link from "next/link";
 
 const API_URL = "https://api.kimiatoranj.com/";
 
@@ -18,8 +19,8 @@ export default async function BrassProductsPage() {
   });
   const allCollections = res.ok ? await res.json() : [];
 
-  // Filter only subcollections of Khatamkari (parent = 8)
-  const subCollections = allCollections.filter((c) => c.parent === 3);
+  // Filter only subcollections of Brass Products (parent = 3)
+  const subCollections = allCollections.filter((c) => Number(c.parent) === 3);
 
   // ✅ Fetch initial products for collection_id=8
   const productsRes = await fetch(
@@ -38,20 +39,41 @@ export default async function BrassProductsPage() {
       <Header />
 
       <div className={styles.pageContainer}>
-        {/* Product Grid */}
-        <h1 className={styles.title}>محصولات برنجی کیمیا ترنج</h1>
-        <div className={styles.carouselWrapper}>
-          <ProductCarousel collectionId={29} title="آجیل‌خوری برنجی" href="/category/brass-products/nut-bowl"/>
-        </div>
-        <div className={styles.carouselWrapper}>
-          <ProductCarousel collectionId={28} title="پسته‌خوری برنجی" href="/category/brass-products/pistachio-bowl"/>
-        </div>
-        <div className={styles.carouselWrapper}>
-          <ProductCarousel collectionId={26} title="پارچ برنجی" href="/category/brass-products/pitcher"/>
-        </div>
-        <div className={styles.carouselWrapper}>
-          <ProductCarousel collectionId={27} title="گالش استکان برنجی" href="/category/brass-products/tea-glass-holder"/>
-        </div>
+        <section className={styles.heroSection}>
+          <div className={styles.heroContent}>
+            <h1 className={styles.title}>محصولات برنجی کیمیاترنج</h1>
+            <div className={styles.subcategoryRow}>
+              <span className={styles.subcategoryLabel}>زیر‌دسته‌ها:</span>
+              <div className={styles.subcategoryTags}>
+                {subCollections.map((collection) => {
+                  const href = collection.landing_page_url
+                    ? `/category/${collection.landing_page_url}`
+                    : `/shop?collection=${encodeURIComponent(collection.title)}`;
+
+                  return (
+                    <Link
+                      href={href}
+                      key={collection.id}
+                      className={styles.tagButton}
+                    >
+                      {collection.title}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+          <div className={styles.heroGlow} aria-hidden="true" />
+        </section>
+
+        <section className={styles.productsSection}>
+          <CategoryClient
+            categoryId={3}
+            initialProducts={initialProducts}
+            initialHasMore={initialHasMore}
+          />
+        </section>
+
         <div className={styles.seoSection}>
           <h2>خرید محصولات برنجی دست‌ساز | درخشش فلز اصیل در هنر ایرانی</h2>
 

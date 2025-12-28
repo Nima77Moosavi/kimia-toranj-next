@@ -4,7 +4,6 @@ import FooterMenu from "@/components/FooterMenu/FooterMenu";
 import CategoryClient from "@/components/CategoryClient/CategoryClient";
 import styles from "./Khatamkari.module.css";
 import Link from "next/link";
-import Image from "next/image";
 
 const API_URL = "https://api.kimiatoranj.com/";
 
@@ -41,48 +40,40 @@ export default async function KhatamkariPage() {
       <Header />
 
       <div className={styles.pageContainer}>
-        <h1 className={styles.title}>محصولات خاتم کاری کیمیاترنج</h1>
-        <p className={styles.subtitle}>
-          <strong>زیرمجموعه‌های خاتم‌کاری</strong> در زیر نمایش داده شده‌اند.
-          برای مشاهده محصولات هر دسته، کافیست روی کارت کلیک کنید.
-        </p>
+        <section className={styles.heroSection}>
+          <div className={styles.heroContent}>
+            <h1 className={styles.title}>محصولات خاتم کاری کیمیاترنج</h1>
+            <div className={styles.subcategoryRow}>
+              <span className={styles.subcategoryLabel}>زیر‌دسته‌ها:</span>
+              <div className={styles.subcategoryTags}>
+                {subCollections.map((collection) => {
+                  const href = collection.landing_page_url
+                    ? `/category/${collection.landing_page_url}`
+                    : `/shop?collection=${encodeURIComponent(collection.title)}`;
 
-        <div className={styles.collectionsRow}>
-          {subCollections.map((collection) => {
-            const href = collection.landing_page_url
-              ? `/category/${collection.landing_page_url}`
-              : `/shop?collection=${encodeURIComponent(collection.title)}`;
+                  return (
+                    <Link
+                      href={href}
+                      key={collection.id}
+                      className={styles.tagButton}
+                    >
+                      {collection.title}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+          <div className={styles.heroGlow} aria-hidden="true" />
+        </section>
 
-            return (
-              <Link
-                href={href}
-                key={collection.id}
-                className={styles.collectionCard}
-              >
-                <Image
-                  src={collection.image || "/placeholder.jpg"}
-                  alt={collection.title}
-                  width={400}
-                  height={300}
-                  className={styles.collectionImage}
-                  unoptimized
-                />
-                <div className={styles.overlay}>
-                  <h3 className={styles.description}>
-                    {collection.description || collection.title}
-                  </h3>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-
-        {/* ✅ Now pass the fetched products into CategoryClient */}
-        <CategoryClient
-          categoryId={8}
-          initialProducts={initialProducts}
-          initialHasMore={initialHasMore}
-        />
+        <section className={styles.productsSection}>
+          <CategoryClient
+            categoryId={8}
+            initialProducts={initialProducts}
+            initialHasMore={initialHasMore}
+          />
+        </section>
 
         <div className={styles.seoSection}>
           <h2>خرید محصولات خاتمکاری اصفهان | ترکیب هنر، ظرافت و اصالت</h2>
