@@ -6,7 +6,7 @@ import styles from "./SpecialProducts.module.css";
 
 export default async function SpecialProducts() {
   const res = await fetch(
-    "https://kimiatoranj-api.liara.run/api/store/products/",
+    "https://api.kimiatoranj.com/api/store/products/?is_special_product=true",
     { next: { revalidate: 300 } } // ISR: refresh every 5 min
   );
 
